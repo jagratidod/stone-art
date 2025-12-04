@@ -14,6 +14,9 @@ const HouseOfTilakModal = ({ isOpen, onClose }) => {
     { name: 'Our Clients', path: '#', id: 'our-clients' }
   ]
 
+  // Filter out visit store image
+  const displayImages = homeImages.filter(item => item.id !== 'visit-store')
+
   const handleImageClick = (imageItem) => {
     if (imageItem.id === 'careers') {
       // Careers is handled via Link
@@ -81,7 +84,7 @@ const HouseOfTilakModal = ({ isOpen, onClose }) => {
             {/* Right Side - Images Grid */}
             <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {homeImages.map((item) => {
+                {displayImages.map((item) => {
                   const ImageContent = (
                     <div className="group cursor-pointer">
                       <div className="relative overflow-hidden rounded-lg mb-3 bg-gray-100 aspect-[4/3] shadow-md hover:shadow-lg transition-shadow">

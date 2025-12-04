@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Header from '../components/layout/Header'
 import FloatingButtons from '../components/common/FloatingButtons'
 import LocationForm from '../components/location/LocationForm'
-import { formatLocationName } from '../data/locations'
+import { formatLocationName, indianLocations } from '../data/locations'
 import { getLocationFAQs } from '../data/faqs'
 import { dreamTemples } from '../data/dreamTemples'
 import ganeshaImg from '../assets/communal-project/wmremove-transformed.jpeg'
@@ -24,6 +24,11 @@ const LocationDetailPage = ({
   const [selectedProcessStep, setSelectedProcessStep] = useState(1)
   const [expandedFaq, setExpandedFaq] = useState(null)
 
+  // Check if location is Indian or International
+  const isIndianLocation = indianLocations.some(
+    loc => loc.name.toUpperCase() === location.toUpperCase()
+  )
+
   const faqs = getLocationFAQs(formatLocationName(location))
 
   return (
@@ -37,31 +42,34 @@ const LocationDetailPage = ({
         onShowHowItWorks={onShowHowItWorks}
       />
       
-      {/* Main Content Area with Image and Form */}
-      <div className="relative w-full min-h-[calc(100vh-200px)] flex flex-col md:flex-row">
-        {/* Left Side - Image Background with Text */}
-        <div className="relative flex-1 min-h-[50vh] md:min-h-[calc(100vh-200px)]">
-          <img 
-            src={ganeshaImg} 
-            alt="Pooja Room" 
-            className="w-full h-full object-cover"
-          />
-          
-          <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-          
-          <div className="absolute top-16 md:top-24 lg:top-32 left-4 md:left-6 lg:left-8 xl:left-12 z-10 max-w-xl md:max-w-2xl">
-            <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-white mb-2 leading-tight uppercase">
-              PREMIUM POOJA ROOMS AND MARBLE TEMPLE<br />
-              DESIGNERS IN {location.toUpperCase()}
-            </h1>
-            <p className="text-xs md:text-sm lg:text-base text-white font-light uppercase">
-              BREATHTAKING POOJA ROOM DESIGN AND CONSTRUCTION SERVICES IN {location.toUpperCase()}
-            </p>
-          </div>
+      {/* Background Image Container with Form Overlay */}
+      <div className="relative w-full overflow-hidden" style={{ height: '75vh', minHeight: '600px' }}>
+        {/* Background Image */}
+        <img 
+          src={ganeshaImg} 
+          alt="Pooja Room" 
+          className="w-full h-full object-cover"
+          style={{ objectFit: 'cover', objectPosition: 'top center' }}
+        />
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+
+        {/* Text Overlay - Left Side */}
+        <div className="absolute top-16 md:top-24 lg:top-32 left-4 md:left-6 lg:left-8 xl:left-12 z-10 max-w-xl md:max-w-2xl">
+          <h1 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-white mb-2 leading-tight uppercase">
+            PREMIUM POOJA ROOMS AND MARBLE TEMPLE<br />
+            DESIGNERS IN {location.toUpperCase()}
+          </h1>
+          <p className="text-xs md:text-sm lg:text-base text-white font-light uppercase">
+            BREATHTAKING POOJA ROOM DESIGN AND CONSTRUCTION SERVICES IN {location.toUpperCase()}
+          </p>
         </div>
 
-        {/* Right Side - Talk to Our Expert Form */}
-        <LocationForm />
+        {/* Form Container - Overlay on Right Side, Fits Image Height */}
+        <div className="absolute right-4 md:right-6 lg:right-8 top-20 md:top-24 bottom-4 md:bottom-4 w-[85%] sm:w-[320px] md:w-[340px] max-w-[calc(100%-32px)] bg-white rounded-xl md:rounded-2xl shadow-2xl z-20 flex flex-col">
+          <LocationForm />
+        </div>
       </div>
 
       {/* WE TAKE CARE OF EVERYTHING Section */}
@@ -178,57 +186,59 @@ const LocationDetailPage = ({
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-8 md:mb-12 uppercase">
-            FAQS ABOUT OUR PREMIUM MARBLE TEMPLES AND POOJA ROOMS IN {location.toUpperCase()}
-          </h2>
+      {/* FAQ Section - Only show for Indian locations */}
+      {isIndianLocation && (
+        <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-white">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-8 md:mb-12 uppercase">
+              FAQS ABOUT OUR PREMIUM MARBLE TEMPLES AND POOJA ROOMS IN {location.toUpperCase()}
+            </h2>
 
-          <div className="space-y-4">
-            {faqs.map((faq) => (
-              <div 
-                key={faq.id}
-                className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md"
-              >
-                <button
-                  onClick={() => setExpandedFaq(expandedFaq === faq.id ? null : faq.id)}
-                  className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <div 
+                  key={faq.id}
+                  className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md"
                 >
-                  <div className="flex items-center gap-3 flex-1">
-                    <span className="text-base md:text-lg font-semibold text-gray-800 flex-shrink-0">
-                      {faq.id}.
-                    </span>
-                    <span className={`text-sm md:text-base font-medium flex-1 ${expandedFaq === faq.id ? 'text-amber-600' : 'text-gray-800'}`}>
-                      {faq.question}
-                    </span>
-                  </div>
-                  <div className="flex-shrink-0 ml-4">
-                    {expandedFaq === faq.id ? (
-                      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                      </svg>
-                    ) : (
-                      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
-                    )}
-                  </div>
-                </button>
-                {expandedFaq === faq.id && faq.answer && (
-                  <div className="px-5 pb-4 pt-0">
-                    <div className="pl-8 border-l-2 border-gray-300">
-                      <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                        {faq.answer}
-                      </p>
+                  <button
+                    onClick={() => setExpandedFaq(expandedFaq === faq.id ? null : faq.id)}
+                    className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3 flex-1">
+                      <span className="text-base md:text-lg font-semibold text-gray-800 flex-shrink-0">
+                        {faq.id}.
+                      </span>
+                      <span className={`text-sm md:text-base font-medium flex-1 ${expandedFaq === faq.id ? 'text-amber-600' : 'text-gray-800'}`}>
+                        {faq.question}
+                      </span>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                    <div className="flex-shrink-0 ml-4">
+                      {expandedFaq === faq.id ? (
+                        <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                  {expandedFaq === faq.id && faq.answer && (
+                    <div className="px-5 pb-4 pt-0">
+                      <div className="pl-8 border-l-2 border-gray-300">
+                        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       
       <FloatingButtons />
     </div>

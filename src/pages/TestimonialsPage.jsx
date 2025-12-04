@@ -1,8 +1,7 @@
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
-import FloatingButtons from '../components/common/FloatingButtons'
 import { useNavigate } from 'react-router-dom'
-import voiceOfDevotionImg from '../assets/testimonials/voice of devotion.webp'
+import { testimonials } from '../data/testimonials'
 
 const TestimonialsPage = ({ 
   onShowSidebar, 
@@ -30,44 +29,67 @@ const TestimonialsPage = ({
 
       <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-8 md:mb-12 text-center">
-            TESTIMONIALS
-          </h1>
-          
-          <div className="text-center mb-8 md:mb-12">
-            <p className="text-xl md:text-2xl text-gray-600">
-              Read what our clients say about their experience with Tilak Stone Arts.
-            </p>
-          </div>
+          {/* Testimonials Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {testimonials.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+              >
+                {/* Avatar Section */}
+                <div className="relative h-48 md:h-56 bg-gradient-to-br from-[#8B7355] to-[#6B5A42] flex items-center justify-center">
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-white flex items-center justify-center text-3xl md:text-4xl font-bold text-[#8B7355] shadow-lg">
+                    {testimonial.name.charAt(0)}
+                  </div>
+                  {/* Decorative elements */}
+                  <div className="absolute top-4 right-4 w-16 h-16 border-2 border-white/20 rounded-full"></div>
+                  <div className="absolute bottom-4 left-4 w-12 h-12 border-2 border-white/20 rounded-full"></div>
+                </div>
 
-          {/* Testimonial Card */}
-          <div className="max-w-5xl mx-auto">
-            <div className="relative rounded-lg overflow-hidden shadow-2xl group">
-              {/* Image */}
-              <div className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
-                <img 
-                  src={voiceOfDevotionImg} 
-                  alt="Voices of Devotion" 
-                  className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                />
-                
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                
-                {/* Text Overlay - VOICES OF DEVOTION */}
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white uppercase tracking-wide text-center px-4">
-                    VOICES OF DEVOTION
-                  </h2>
+                {/* Content Section */}
+                <div className="p-6 md:p-8">
+                  {/* Rating Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: testimonial.rating }).map((_, index) => (
+                      <svg
+                        key={index}
+                        className="w-5 h-5 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Review Text */}
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-6 line-clamp-4 group-hover:line-clamp-none transition-all duration-300">
+                    "{testimonial.review}"
+                  </p>
+
+                  {/* Divider */}
+                  <div className="border-t border-gray-200 mb-4"></div>
+
+                  {/* Name and Location */}
+                  <div>
+                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
+                      {testimonial.name.toUpperCase()}
+                    </h3>
+                    {testimonial.designation && (
+                      <p className="text-sm text-gray-500 mb-1">{testimonial.designation}</p>
+                    )}
+                    <p className="text-sm md:text-base text-gray-600 font-medium">
+                      {testimonial.location.toUpperCase()}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       <Footer />
-      <FloatingButtons />
     </div>
   )
 }

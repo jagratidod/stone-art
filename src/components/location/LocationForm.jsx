@@ -36,186 +36,180 @@ const LocationForm = () => {
   }
 
   return (
-    <div className="w-full md:w-1/3 lg:w-2/5 bg-white shadow-2xl overflow-y-auto">
-      <div className="p-6 md:p-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-black">Talk to Our Expert</h2>
-          <span className="text-red-600 font-semibold text-base">{formStep}/2</span>
-        </div>
+    <>
+      {/* Header */}
+      <div className="flex items-center justify-between p-3 md:p-4 border-b border-gray-200 bg-white flex-shrink-0">
+        <h3 className="text-base md:text-lg font-bold" style={{ color: '#8B7355' }}>Talk to Our Expert</h3>
+        <span className="text-xs font-semibold" style={{ color: '#8B7355' }}>{formStep}/2</span>
+      </div>
+
+      <div className="px-3 pt-3 pb-1 md:px-4 md:pt-4 md:pb-1 bg-white overflow-y-auto flex-1">
 
         {formStep === 1 ? (
-          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setFormStep(2); }}>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-              <input
-                type="text"
-                placeholder="Full Name *"
-                value={formData.fullName}
-                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                required
-              />
-            </div>
+          <form className="space-y-2.5" onSubmit={(e) => { e.preventDefault(); setFormStep(2); }}>
+            <input
+              type="text"
+              placeholder="Full Name *"
+              value={formData.fullName}
+              onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+              className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+              required
+            />
+
+            <input
+              type="email"
+              placeholder="Email Address *"
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+              required
+            />
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-              <input
-                type="email"
-                placeholder="Email Address *"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Phone number</label>
+              <label className="block text-xs font-medium mb-1">Phone number</label>
               <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                <div className="flex items-center gap-2 px-3 bg-gray-50 border-r border-gray-300">
-                  <span className="text-xl">🇮🇳</span>
-                  <span className="text-sm">+91</span>
+                <div className="flex items-center gap-1 px-2 bg-gray-50 border-r">
+                  <span className="text-sm">🇮🇳</span>
+                  <span className="text-xs">+91</span>
                 </div>
                 <input
                   type="tel"
-                  placeholder="Phone number"
+                  placeholder="Phone number *"
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="flex-1 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="flex-1 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-600"
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
-              <input
-                type="text"
-                placeholder="City *"
-                value={formData.city}
-                onChange={(e) => setFormData({...formData, city: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                required
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="City *"
+              value={formData.city}
+              onChange={(e) => setFormData({...formData, city: e.target.value})}
+              className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+              required
+            />
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">Tell us about yourself *</label>
-              <div className="space-y-3">
-                <label className="flex items-start gap-3 cursor-pointer">
+              <label className="block text-xs font-medium mb-1.5">Tell us about yourself *</label>
+              <div className="space-y-1.5">
+                <label className="flex items-start gap-1.5 cursor-pointer">
                   <input
                     type="radio"
                     name="aboutYourself"
                     value="homeowner"
                     checked={formData.aboutYourself === 'homeowner'}
                     onChange={(e) => setFormData({...formData, aboutYourself: e.target.value})}
-                    className="mt-1 w-4 h-4"
+                    className="mt-0.5 w-3 h-3 accent-amber-600 flex-shrink-0"
                     required
                   />
-                  <span className="text-sm">I am a homeowner looking for a pooja unit or pooja room</span>
+                  <span className="text-xs leading-relaxed">I am a homeowner looking for a pooja unit or pooja room</span>
                 </label>
-                <label className="flex items-start gap-3 cursor-pointer">
+                <label className="flex items-start gap-1.5 cursor-pointer">
                   <input
                     type="radio"
                     name="aboutYourself"
                     value="designer"
                     checked={formData.aboutYourself === 'designer'}
                     onChange={(e) => setFormData({...formData, aboutYourself: e.target.value})}
-                    className="mt-1 w-4 h-4"
+                    className="mt-0.5 w-3 h-3 accent-amber-600 flex-shrink-0"
                     required
                   />
-                  <span className="text-sm">I am an interior designer/consultant seeking solutions for my client</span>
+                  <span className="text-xs leading-relaxed">I am an interior designer/consultant seeking solutions for my client</span>
                 </label>
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+              className="w-full text-white py-2.5 rounded-lg text-xs font-medium transition-colors shadow-md"
+              style={{ backgroundColor: '#8B7355' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
             >
               NEXT
             </button>
           </form>
         ) : (
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-2.5" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-3">What are you looking for? *</label>
-              <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
+              <label className="block text-xs font-bold mb-1.5">What are you looking for? *</label>
+              <div className="space-y-1.5">
+                <label className="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="radio"
                     name="lookingFor"
                     value="singular"
                     checked={formData.lookingFor === 'singular'}
                     onChange={(e) => setFormData({...formData, lookingFor: e.target.value})}
-                    className="w-4 h-4"
+                    className="w-3 h-3 accent-amber-600"
                     required
                   />
-                  <span className="text-sm">Singular Marble Mandir Unit</span>
+                  <span className="text-xs">Singular Marble Mandir Unit</span>
                 </label>
-                <label className="flex items-center gap-3 cursor-pointer">
+                <label className="flex items-center gap-1.5 cursor-pointer">
                   <input
                     type="radio"
                     name="lookingFor"
                     value="complete"
                     checked={formData.lookingFor === 'complete'}
                     onChange={(e) => setFormData({...formData, lookingFor: e.target.value})}
-                    className="w-4 h-4"
+                    className="w-3 h-3 accent-amber-600"
                     required
                   />
-                  <span className="text-sm">Complete Pooja Room Solution</span>
+                  <span className="text-xs">Complete Pooja Room Solution</span>
                 </label>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-3">What is your estimated budget? *</label>
-              <div className="space-y-3">
+              <label className="block text-xs font-bold mb-1.5">What is your estimated budget? *</label>
+              <div className="space-y-1.5">
                 {BUDGET_OPTIONS.map((budget) => (
-                  <label key={budget} className="flex items-center gap-3 cursor-pointer">
+                  <label key={budget} className="flex items-center gap-1.5 cursor-pointer">
                     <input
                       type="radio"
                       name="budget"
                       value={budget}
                       checked={formData.budget === budget}
                       onChange={(e) => setFormData({...formData, budget: e.target.value})}
-                      className="w-4 h-4"
+                      className="w-3 h-3 accent-amber-600"
                       required
                     />
-                    <span className="text-sm">{budget}</span>
+                    <span className="text-xs">{budget}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-3">What is your timeline for the project? *</label>
-              <div className="space-y-3">
+              <label className="block text-xs font-bold mb-1.5">What is your timeline for the project? *</label>
+              <div className="space-y-1.5">
                 {TIMELINE_OPTIONS.map((timeline) => (
-                  <label key={timeline} className="flex items-center gap-3 cursor-pointer">
+                  <label key={timeline} className="flex items-center gap-1.5 cursor-pointer">
                     <input
                       type="radio"
                       name="timeline"
                       value={timeline}
                       checked={formData.timeline === timeline}
                       onChange={(e) => setFormData({...formData, timeline: e.target.value})}
-                      className="w-4 h-4"
+                      className="w-3 h-3 accent-amber-600"
                       required
                     />
-                    <span className="text-sm">{timeline}</span>
+                    <span className="text-xs">{timeline}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            <div>
-              <textarea
-                placeholder="Please share a bit more about your needs"
-                value={formData.additionalInfo}
-                onChange={(e) => setFormData({...formData, additionalInfo: e.target.value})}
-                rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-none"
-              />
-            </div>
+            <textarea
+              placeholder="Please share a bit more about your needs"
+              value={formData.additionalInfo}
+              onChange={(e) => setFormData({...formData, additionalInfo: e.target.value})}
+              rows={3}
+              className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600 resize-none"
+            />
 
             <div>
               <input
@@ -228,28 +222,41 @@ const LocationForm = () => {
               />
               <label
                 htmlFor="designReferences"
-                className="block w-full bg-blue-600 text-white py-3 rounded-lg text-center font-medium cursor-pointer hover:bg-blue-700 transition-colors"
+                className="block w-full text-white py-2 rounded-lg text-xs text-center font-medium cursor-pointer transition-colors shadow-md"
+                style={{ backgroundColor: '#8B7355' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
               >
                 UPLOAD DESIGN REFERENCES
               </label>
               {formData.designReferences && formData.designReferences.length > 0 && (
-                <p className="text-sm text-gray-600 mt-2">
+                <p className="text-xs text-gray-600 mt-1">
                   {formData.designReferences.length} file(s) selected
                 </p>
               )}
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => setFormStep(1)}
-                className="flex-1 bg-white text-black border-2 border-black py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                className="flex-1 bg-white py-2 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors shadow-md border-2"
+                style={{ color: '#8B7355', borderColor: '#8B7355' }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = '#f9f9f9'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'white'
+                }}
               >
                 BACK
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+                className="flex-1 text-white py-2 rounded-lg text-xs font-medium transition-colors shadow-md"
+                style={{ backgroundColor: '#8B7355' }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
               >
                 SUBMIT
               </button>
@@ -257,7 +264,7 @@ const LocationForm = () => {
           </form>
         )}
       </div>
-    </div>
+    </>
   )
 }
 

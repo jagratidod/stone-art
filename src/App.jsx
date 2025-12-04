@@ -1,13 +1,15 @@
-import { useState } from 'react'
-import { Routes, Route, useNavigate, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import LocationPage from './pages/LocationPage'
 import LocationDetailPage from './pages/LocationDetailPage'
 import BlogPage from './pages/BlogPage'
+import BlogDetailPage from './pages/BlogDetailPage'
 import TestimonialsPage from './pages/TestimonialsPage'
 import BookAppointmentPage from './pages/BookAppointmentPage'
 import CareersPage from './pages/CareersPage'
 import HowItWorksPage from './pages/HowItWorksPage'
+import VisitStorePage from './pages/VisitStorePage'
 import ProjectsModal from './components/modals/ProjectsModal'
 import OurCreationsModal from './components/modals/OurCreationsModal'
 import OurServicesModal from './components/modals/OurServicesModal'
@@ -24,6 +26,31 @@ function App() {
   const [showProjectsModal, setShowProjectsModal] = useState(false)
   const [showOurCreations, setShowOurCreations] = useState(false)
   const [showOurServices, setShowOurServices] = useState(false)
+
+  const location = useLocation()
+
+  // Close all modals when route changes to prevent state leaks
+  useEffect(() => {
+    setShowModal(false)
+    setShowBookingModal(false)
+    setShowSidebar(false)
+    setShowProjectsModal(false)
+    setShowOurCreations(false)
+    setShowOurServices(false)
+  }, [location.pathname])
+
+  // Prevent body scroll when any modal is open
+  useEffect(() => {
+    const isAnyModalOpen = showModal || showSidebar || showProjectsModal || showOurCreations || showOurServices || showBookingModal
+    if (isAnyModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [showModal, showSidebar, showProjectsModal, showOurCreations, showOurServices, showBookingModal])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -64,6 +91,18 @@ function App() {
         
         <Route path="/blog" element={
           <BlogPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/blog/:id" element={
+          <BlogDetailPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
@@ -115,6 +154,16 @@ function App() {
             onShowServices={() => setShowOurServices(true)}
             onShowLocation={() => {}}
             onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/visit-store" element={
+          <VisitStorePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
           />
         } />
       </Routes>
