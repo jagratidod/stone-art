@@ -2,7 +2,7 @@ import { services } from '../../data/services'
 
 const OurServicesDropdown = () => {
   return (
-    <div className="w-full h-full flex items-center px-6 md:px-8 lg:px-12 gap-4 md:gap-6 lg:gap-8">
+    <div className="w-full h-full flex items-start py-4 px-6 md:px-8 lg:px-12 gap-4 md:gap-6 lg:gap-8">
       {/* Menu Items - Left Side */}
       <div className="flex-shrink-0 w-48 md:w-56 lg:w-64">
         <nav className="space-y-1">
@@ -21,7 +21,7 @@ const OurServicesDropdown = () => {
       <div className="flex-1 flex items-center gap-3 md:gap-4 lg:gap-6 overflow-x-auto">
         {services.map((service) => (
           <div key={service.id} className="group cursor-pointer flex-shrink-0">
-            <div className="relative overflow-hidden rounded-lg bg-gray-100 w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 shadow-md hover:shadow-lg transition-shadow">
+            <div className="relative overflow-hidden rounded-lg bg-gray-100 w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 shadow-md hover:shadow-lg transition-shadow">
               <img 
                 src={service.image} 
                 alt={service.name}

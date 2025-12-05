@@ -7,7 +7,7 @@ const HouseOfTilakDropdown = () => {
     { name: 'Experience Centre', path: '#', id: 'experience-centre' },
     { name: 'The Team', path: '#', id: 'the-team' },
     { name: 'Careers', path: '/careers', id: 'careers' },
-    { name: 'Artisans of Tilak', path: '#', id: 'artisans-of-tilak' },
+    { name: 'OUR ARTIST', path: '/artisans-of-tilak', id: 'artisans-of-tilak' },
     { name: 'Collaborations', path: '#', id: 'collaborations' },
     { name: 'Our Clients', path: '#', id: 'our-clients' }
   ]
@@ -15,7 +15,7 @@ const HouseOfTilakDropdown = () => {
   const displayImages = homeImages.filter(item => item.id !== 'visit-store')
 
   return (
-    <div className="w-full h-full flex items-center px-6 md:px-8 lg:px-12 gap-4 md:gap-6 lg:gap-8">
+    <div className="w-full h-full flex items-start py-4 px-6 md:px-8 lg:px-12 gap-4 md:gap-6 lg:gap-8">
       {/* Menu Items - Left Side */}
       <div className="flex-shrink-0 w-48 md:w-56 lg:w-64">
         <nav className="space-y-1">
@@ -43,7 +43,7 @@ const HouseOfTilakDropdown = () => {
         {displayImages.map((item) => {
           const ImageContent = (
             <div className="group cursor-pointer flex-shrink-0">
-              <div className="relative overflow-hidden rounded-lg bg-gray-100 w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 shadow-md hover:shadow-lg transition-shadow">
+              <div className="relative overflow-hidden rounded-lg bg-gray-100 w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 shadow-md hover:shadow-lg transition-shadow">
                 <img 
                   src={item.image} 
                   alt={item.name}
@@ -59,6 +59,14 @@ const HouseOfTilakDropdown = () => {
           if (item.id === 'careers') {
             return (
               <Link key={item.id} to="/careers">
+                {ImageContent}
+              </Link>
+            )
+          }
+
+          if (item.id === 'artisans-of-tilak') {
+            return (
+              <Link key={item.id} to="/artisans-of-tilak">
                 {ImageContent}
               </Link>
             )

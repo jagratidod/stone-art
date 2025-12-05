@@ -29,7 +29,7 @@ export const homeImages = [
   },
   {
     id: 'artisans-of-tilak',
-    name: 'Artisans of Tilak',
+    name: 'OUR ARTIST',
     image: artisansOfTilakImg
   },
   {

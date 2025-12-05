@@ -154,7 +154,7 @@
 
 import { Link } from "react-router-dom";
 import logoImage from "../../assets/logo/download.png";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import HouseOfTilakDropdown from "./HouseOfTilakDropdown";
 import ProjectsDropdown from "./ProjectsDropdown";
 import OurCreationsDropdown from "./OurCreationsDropdown";
@@ -169,6 +169,49 @@ const Header = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
+  const [isFading, setIsFading] = useState(false);
+  const [pendingDropdown, setPendingDropdown] = useState(null);
+  const timeoutRef = useRef(null);
+
+  // Handle dropdown change with fade animation
+  const handleDropdownChange = (newDropdown) => {
+    // Clear any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // If switching from one dropdown to another (different button)
+    if (hoveredDropdown && hoveredDropdown !== newDropdown) {
+      // First fade out the entire dropdown div
+      setIsFading(true);
+      
+      // After fade out, change content and fade in
+      timeoutRef.current = setTimeout(() => {
+        setHoveredDropdown(newDropdown);
+        
+        // Small delay before fade in to ensure content is rendered
+        setTimeout(() => {
+          setIsFading(false);
+          timeoutRef.current = null;
+        }, 50);
+      }, 300); // Wait for fade out animation (0.3s)
+    } else if (!hoveredDropdown) {
+      // Opening from closed state - direct open
+      setIsFading(false);
+      setHoveredDropdown(newDropdown);
+    }
+    // If same dropdown, do nothing
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const linkClass = `
     relative 
@@ -184,56 +227,64 @@ const Header = ({
       {/* slightly tight vertical padding */}
       <div className="w-full flex justify-center px-3 md:px-6 py-[2px] relative">
         <nav className="w-full max-w-[1500px] relative">
-          {/* Desktop Navbar (>= lg) */}
-          <ul className="hidden lg:flex items-center justify-center">
-            {/* LEFT LINKS */}
-            <li>
-              <div className="flex items-center gap-4">
-                {/* HOUSE OF TILAK */}
-                <div 
-                  onMouseEnter={() => setHoveredDropdown('house-of-tilak')}
-                  onMouseLeave={() => setHoveredDropdown(null)}
-                >
-                  <button className={linkClass}>
-                    HOUSE OF TILAK
-                    <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
-                  </button>
-                </div>
+          {/* Hover Wrapper - Wraps buttons and dropdown */}
+          <div
+            className="relative"
+            onMouseLeave={() => {
+              if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+                timeoutRef.current = null;
+              }
+              setHoveredDropdown(null);
+              setIsFading(false);
+            }}
+          >
+            {/* Desktop Navbar (>= lg) */}
+            <ul className="hidden lg:flex items-center justify-center">
+              {/* LEFT LINKS */}
+              <li>
+                <div className="flex items-center gap-4">
+                  {/* HOUSE OF TILAK */}
+                  <div 
+                    onMouseEnter={() => handleDropdownChange('house-of-tilak')}
+                  >
+                    <button className={linkClass}>
+                      HOUSE OF TILAK
+                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                  </div>
 
-                {/* PROJECTS */}
-                <div 
-                  onMouseEnter={() => setHoveredDropdown('projects')}
-                  onMouseLeave={() => setHoveredDropdown(null)}
-                >
-                  <button className={linkClass}>
-                    PROJECTS
-                    <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
-                  </button>
-                </div>
+                  {/* PROJECTS */}
+                  <div 
+                    onMouseEnter={() => handleDropdownChange('projects')}
+                  >
+                    <button className={linkClass}>
+                      PROJECTS
+                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                  </div>
 
-                {/* OUR CREATIONS */}
-                <div 
-                  onMouseEnter={() => setHoveredDropdown('our-creations')}
-                  onMouseLeave={() => setHoveredDropdown(null)}
-                >
-                  <button className={linkClass}>
-                    OUR CREATIONS
-                    <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
-                  </button>
-                </div>
+                  {/* OUR CREATIONS */}
+                  <div 
+                    onMouseEnter={() => handleDropdownChange('our-creations')}
+                  >
+                    <button className={linkClass}>
+                      OUR CREATIONS
+                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                  </div>
 
-                {/* OUR SERVICES */}
-                <div 
-                  onMouseEnter={() => setHoveredDropdown('our-services')}
-                  onMouseLeave={() => setHoveredDropdown(null)}
-                >
-                  <button className={linkClass}>
-                    OUR SERVICES
-                    <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
-                  </button>
+                  {/* OUR SERVICES */}
+                  <div 
+                    onMouseEnter={() => handleDropdownChange('our-services')}
+                  >
+                    <button className={linkClass}>
+                      OUR SERVICES
+                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
 
             {/* SPACE BETWEEN LEFT LINKS AND LOGO */}
             <li className="mx-8 xl:mx-10" />
@@ -283,29 +334,34 @@ const Header = ({
             </li>
           </ul>
 
-          {/* Shared Dropdown Container - Full Navbar Width - Outside UL */}
+          {/* Shared Dropdown Container - Full Screen Width - Inside Hover Wrapper */}
           <div
-            onMouseEnter={(e) => {
-              // Keep dropdown open when hovering over it
-              e.stopPropagation()
-            }}
-            onMouseLeave={() => setHoveredDropdown(null)}
-            className={`absolute left-0 w-full bg-white shadow-2xl transition-all duration-500 ease-in-out overflow-hidden z-50 ${
+            className={`absolute bg-white shadow-2xl transition-all duration-300 ease-in-out overflow-hidden z-50 ${
               hoveredDropdown
-                ? 'opacity-100 h-[200px] translate-y-0 pointer-events-auto'
-                : 'opacity-0 h-0 -translate-y-4 pointer-events-none'
+                ? 'h-[220px] translate-y-0 pointer-events-auto'
+                : 'h-0 -translate-y-4 pointer-events-none'
             }`}
             style={{
-              top: '100%',
-              marginTop: '-2px', // Overlap slightly to prevent gap
-              transform: hoveredDropdown ? 'translateY(0)' : 'translateY(-16px)',
-              transition: 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out, height 0.5s ease-in-out'
+              left: '50%',
+              transform: hoveredDropdown 
+                ? 'translateX(-50%) translateY(0)' 
+                : 'translateX(-50%) translateY(-16px)',
+              width: '100vw',
+              top: 'calc(100% - 2px)',
+              opacity: isFading ? 0 : (hoveredDropdown ? 1 : 0),
+              transition: 'opacity 0.3s ease-in-out, transform 0.5s ease-in-out, height 0.5s ease-in-out'
             }}
           >
-            {hoveredDropdown === 'house-of-tilak' && <HouseOfTilakDropdown />}
-            {hoveredDropdown === 'projects' && <ProjectsDropdown />}
-            {hoveredDropdown === 'our-creations' && <OurCreationsDropdown />}
-            {hoveredDropdown === 'our-services' && <OurServicesDropdown />}
+            {/* Dropdown Content */}
+            {hoveredDropdown && (
+              <>
+                {hoveredDropdown === 'house-of-tilak' && <HouseOfTilakDropdown />}
+                {hoveredDropdown === 'projects' && <ProjectsDropdown />}
+                {hoveredDropdown === 'our-creations' && <OurCreationsDropdown />}
+                {hoveredDropdown === 'our-services' && <OurServicesDropdown />}
+              </>
+            )}
+          </div>
           </div>
 
           {/* Mobile / Tablet Navbar (< lg) */}

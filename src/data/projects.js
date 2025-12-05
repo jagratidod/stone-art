@@ -6,7 +6,8 @@ export const projects = [
   {
     id: 'communal',
     name: 'Communal',
-    image: communalImage
+    image: communalImage,
+    path: '/communal-projects'
   },
   {
     id: 'residential',

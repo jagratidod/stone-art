@@ -38,12 +38,12 @@ const LocationForm = () => {
   return (
     <>
       {/* Header */}
-      <div className="flex items-center justify-between p-3 md:p-4 border-b border-gray-200 bg-white flex-shrink-0">
-        <h3 className="text-base md:text-lg font-bold" style={{ color: '#8B7355' }}>Talk to Our Expert</h3>
-        <span className="text-xs font-semibold" style={{ color: '#8B7355' }}>{formStep}/2</span>
+      <div className="flex items-center justify-between p-3 md:p-4 border-b-2 border-gray-200 bg-gradient-to-r from-[#8B7355]/10 to-transparent flex-shrink-0 rounded-t-xl md:rounded-t-2xl">
+        <h3 className="text-base md:text-lg font-bold uppercase tracking-wide" style={{ color: '#8B7355' }}>Talk to Our Expert</h3>
+        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-[#8B7355]/10" style={{ color: '#8B7355' }}>{formStep}/2</span>
       </div>
 
-      <div className="px-3 pt-3 pb-1 md:px-4 md:pt-4 md:pb-1 bg-white overflow-y-auto flex-1">
+      <div className="px-3 pt-3 pb-4 md:px-4 md:pt-4 md:pb-4 bg-white overflow-y-auto flex-1 rounded-b-xl md:rounded-b-2xl">
 
         {formStep === 1 ? (
           <form className="space-y-2.5" onSubmit={(e) => { e.preventDefault(); setFormStep(2); }}>

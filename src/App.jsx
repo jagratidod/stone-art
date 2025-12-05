@@ -10,6 +10,17 @@ import BookAppointmentPage from './pages/BookAppointmentPage'
 import CareersPage from './pages/CareersPage'
 import HowItWorksPage from './pages/HowItWorksPage'
 import VisitStorePage from './pages/VisitStorePage'
+import MurtiPage from './pages/MurtiPage'
+import DurgaCategoryPage from './pages/DurgaCategoryPage'
+import SaraswatiCategoryPage from './pages/SaraswatiCategoryPage'
+import ShivParvatiCategoryPage from './pages/ShivParvatiCategoryPage'
+import SaiBabaCategoryPage from './pages/SaiBabaCategoryPage'
+import VishnuLaxmiCategoryPage from './pages/VishnuLaxmiCategoryPage'
+import GaneshaCategoryPage from './pages/GaneshaCategoryPage'
+import DreamTemplePage from './pages/DreamTemplePage'
+import ArtisansOfTilakPage from './pages/ArtisansOfTilakPage'
+import ProductDetailPage from './pages/ProductDetailPage'
+import CommunalProjectsPage from './pages/CommunalProjectsPage'
 import ProjectsModal from './components/modals/ProjectsModal'
 import OurCreationsModal from './components/modals/OurCreationsModal'
 import OurServicesModal from './components/modals/OurServicesModal'
@@ -146,6 +157,15 @@ function App() {
           />
         } />
         
+        <Route path="/artisans-of-tilak" element={
+          <ArtisansOfTilakPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+          />
+        } />
+        
         <Route path="/how-it-works" element={
           <HowItWorksPage 
             onShowSidebar={() => setShowSidebar(true)}
@@ -164,6 +184,178 @@ function App() {
             onShowCreations={() => setShowOurCreations(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
+          />
+        } />
+        
+        <Route path="/dream-temple" element={
+          <DreamTemplePage />
+        } />
+        
+        <Route path="/communal-projects" element={
+          <CommunalProjectsPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti" element={
+          <MurtiPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/ganesha" element={
+          <GaneshaCategoryPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/ganesha/:productId" element={
+          <ProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/durga" element={
+          <DurgaCategoryPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/durga/:productId" element={
+          <ProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/saraswati" element={
+          <SaraswatiCategoryPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/saraswati/:productId" element={
+          <ProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/shiv-parvati" element={
+          <ShivParvatiCategoryPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/shiv-parvati/:productId" element={
+          <ProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/sai-baba" element={
+          <SaiBabaCategoryPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/sai-baba/:productId" element={
+          <ProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/vishnu-laxmi" element={
+          <VishnuLaxmiCategoryPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/murti/vishnu-laxmi/:productId" element={
+          <ProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
           />
         } />
       </Routes>
