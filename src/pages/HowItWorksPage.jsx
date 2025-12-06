@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
@@ -27,6 +27,49 @@ const HowItWorksPage = ({
   const navigate = useNavigate()
   const [expandedFaq, setExpandedFaq] = useState(null)
   const [formStep, setFormStep] = useState(1)
+  const [visibleSections, setVisibleSections] = useState({
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false,
+    step5: false
+  })
+  
+  const step1Ref = useRef(null)
+  const step2Ref = useRef(null)
+  const step3Ref = useRef(null)
+  const step4Ref = useRef(null)
+  const step5Ref = useRef(null)
+
+  useEffect(() => {
+    const observers = []
+    const sections = [
+      { ref: step1Ref, key: 'step1' },
+      { ref: step2Ref, key: 'step2' },
+      { ref: step3Ref, key: 'step3' },
+      { ref: step4Ref, key: 'step4' },
+      { ref: step5Ref, key: 'step5' }
+    ]
+
+    sections.forEach(({ ref, key }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setVisibleSections(prev => ({ ...prev, [key]: true }))
+            }
+          },
+          { threshold: 0.3 }
+        )
+        observer.observe(ref.current)
+        observers.push(observer)
+      }
+    })
+
+    return () => {
+      observers.forEach(observer => observer.disconnect())
+    }
+  }, [])
 
   const scrollToForm = () => {
     const formContainer = document.getElementById('expert-form-container')
@@ -353,7 +396,7 @@ const HowItWorksPage = ({
       </div>
 
       {/* 5 Steps Section */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
+      <div className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           {/* Heading */}
           <div className="text-center mb-4">
@@ -366,7 +409,7 @@ const HowItWorksPage = ({
           </div>
 
           {/* 5 Steps Icons */}
-          <div className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-5 mt-10 md:mt-12">
+          <div className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-5 mt-6 md:mt-8">
             {/* Step 1 */}
             <div className="flex flex-col items-center text-center flex-shrink-0 w-[100px] sm:w-[130px] md:w-[160px] lg:w-[180px]">
               <div className="relative mb-3 rounded-full">
@@ -467,7 +510,7 @@ const HowItWorksPage = ({
           </div>
 
           {/* Start Your Project Button */}
-          <div className="flex justify-center mt-8 md:mt-12 mb-12 md:mb-16">
+          <div className="flex justify-center mt-6 md:mt-8 mb-8 md:mb-10">
             <button
               onClick={scrollToForm}
               className="px-6 py-3 md:px-8 md:py-4 text-white text-sm md:text-base font-bold uppercase tracking-wide transition-colors shadow-lg"
@@ -482,9 +525,9 @@ const HowItWorksPage = ({
       </div>
 
       {/* Step 1: Let's Connect One on One */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
+      <div ref={step1Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8 md:mb-12">
+          <div className="text-center mb-6 md:mb-8">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
               GET STARTED WITH OUR 5 STEP EASY PROCESS
             </h2>
@@ -494,24 +537,31 @@ const HowItWorksPage = ({
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
-            {/* Left - GIF Image */}
+            {/* Left - GIF Image with Creative Frame */}
             <div className="order-2 lg:order-1">
-              <img 
-                src={gif1} 
-                alt="Let's Connect One on One" 
-                className="w-full h-auto rounded-lg"
-              />
+              <div className="relative w-full rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif1} 
+                  alt="Let's Connect One on One" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
             </div>
 
             {/* Right - Info Box */}
-            <div className="order-1 lg:order-2 bg-white p-6 md:p-8 rounded-xl md:rounded-2xl shadow-lg">
-              <div className="space-y-6">
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step1 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <div className="space-y-4">
                 {/* Step 1 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     It all Begins with a Form
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600 mb-4">
+                  <p className="text-xs md:text-sm text-gray-600 mb-3">
                     Let's get acquainted. The more we learn about you, the better we can design your home.
                   </p>
                   <button
@@ -526,11 +576,11 @@ const HowItWorksPage = ({
                 </div>
 
                 {/* Step 2 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Connect over a Meet
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Let's get acquainted. The more we learn about you, the better we can design your home.
                   </p>
                 </div>
@@ -541,44 +591,51 @@ const HowItWorksPage = ({
       </div>
 
       {/* Step 2: Start with Your Design */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
+      <div ref={step2Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
-            {/* Left - GIF Image with background */}
-            <div className="order-2 lg:order-1" style={{ backgroundColor: '#F5E6D3' }}>
-              <img 
-                src={gif2} 
-                alt="Start with Your Design" 
-                className="w-full h-auto rounded-lg"
-              />
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1">
+              <div className="relative w-full rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#F5E6D3' }}>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif2} 
+                  alt="Start with Your Design" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
             </div>
 
             {/* Right - Info Box */}
-            <div className="order-1 lg:order-2 bg-white p-6 md:p-8 rounded-xl md:rounded-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step2 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
                 START WITH YOUR DESIGN
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Step 1 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Pay the Design Fee
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600 mb-2">
+                  <p className="text-xs md:text-sm text-gray-600 mb-1.5">
                     Once we understand your requirements and we feel we can help you, and you are happy with the session, start with your design by choosing one of the design plans,
                   </p>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Don't Worry if you have wrong measurements we also take our own site measurements in one of the plans.
                   </p>
                 </div>
 
                 {/* Step 2 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Finalise your Design
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Once we agree on a Design we will finalise it to start the production.
                   </p>
                 </div>
@@ -589,41 +646,48 @@ const HowItWorksPage = ({
       </div>
 
       {/* Step 3: Place The Order */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
+      <div ref={step3Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
-            {/* Left - GIF Image */}
+            {/* Left - GIF Image with Creative Frame */}
             <div className="order-2 lg:order-1">
-              <img 
-                src={gif3} 
-                alt="Place The Order" 
-                className="w-full h-auto rounded-lg"
-              />
+              <div className="relative w-full rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif3} 
+                  alt="Place The Order" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
             </div>
 
             {/* Right - Info Box */}
-            <div className="order-1 lg:order-2 bg-white p-6 md:p-8 rounded-xl md:rounded-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step3 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
                 PLACE THE ORDER
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Step 1 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Start the Order Process
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Once you're happy with what we've proposed, pay 50% of the final quote.
                   </p>
                 </div>
 
                 {/* Step 2 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     The Work Commences
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Keep a tab on your project status on the portal provided.
                   </p>
                 </div>
@@ -646,41 +710,48 @@ const HowItWorksPage = ({
       </div>
 
       {/* Step 4: Approval */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
+      <div ref={step4Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
-            {/* Left - GIF Image with teal background */}
-            <div className="order-2 lg:order-1" style={{ backgroundColor: '#B2E0E0' }}>
-              <img 
-                src={gif4} 
-                alt="Approval" 
-                className="w-full h-auto rounded-lg"
-              />
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1">
+              <div className="relative w-full rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#B2E0E0' }}>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif4} 
+                  alt="Approval" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
             </div>
 
             {/* Right - Info Box */}
-            <div className="order-1 lg:order-2 bg-white p-6 md:p-8 rounded-xl md:rounded-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step4 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
                 APPROVAL
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Step 1 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Give your Approval
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Once the Order reaches the approval stage, you will be asked to provide your feedback and approve
                   </p>
                 </div>
 
                 {/* Step 2 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Pay 100% at Execution Milestone
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Once the Order is fully set according to your requirements pay the 100% and the next stage begins.
                   </p>
                 </div>
@@ -703,41 +774,48 @@ const HowItWorksPage = ({
       </div>
 
       {/* Step 5: Delivery and Installation */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
+      <div ref={step5Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
-            {/* Left - GIF Image */}
+            {/* Left - GIF Image with Creative Frame */}
             <div className="order-2 lg:order-1">
-              <img 
-                src={gif5} 
-                alt="Delivery and Installation" 
-                className="w-full h-auto rounded-lg"
-              />
+              <div className="relative w-full rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif5} 
+                  alt="Delivery and Installation" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
             </div>
 
             {/* Right - Info Box */}
-            <div className="order-1 lg:order-2 bg-white p-6 md:p-8 rounded-xl md:rounded-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step5 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
                 DELIVERY AND INSTALLATION
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Step 1 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Prepare for Delivery
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Once the 100% of the order value is received we prepare for the Delivery and Installation of the Order
                   </p>
                 </div>
 
                 {/* Step 2 */}
-                <div className="relative pl-6 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-lg md:text-xl font-bold text-gray-800 mb-2">
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
                     Installation
                   </h4>
-                  <p className="text-sm md:text-base text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600">
                     Our Team reaches your Home and Install it at your space
                   </p>
                 </div>
@@ -748,99 +826,99 @@ const HowItWorksPage = ({
       </div>
 
       {/* Order Type Table */}
-      <div className="w-full bg-white py-12 md:py-16 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-8 md:mb-12 text-center">
+      <div className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
             UNDERSTAND YOUR ORDER TYPE
           </h2>
           
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-lg">
+            <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-lg text-xs md:text-sm">
               <thead>
                 <tr style={{ backgroundColor: '#8B7355' }}>
-                  <th className="px-4 py-3 md:px-6 md:py-4 text-left text-xs md:text-sm font-bold text-white uppercase border border-white/20">
+                  <th className="px-3 py-2 md:px-4 md:py-3 text-left text-xs font-bold text-white uppercase border border-white/20">
                     Order Type
                   </th>
-                  <th className="px-4 py-3 md:px-6 md:py-4 text-left text-xs md:text-sm font-bold text-white uppercase border border-white/20">
+                  <th className="px-3 py-2 md:px-4 md:py-3 text-left text-xs font-bold text-white uppercase border border-white/20">
                     Category
                   </th>
-                  <th className="px-4 py-3 md:px-6 md:py-4 text-left text-xs md:text-sm font-bold text-white uppercase border border-white/20">
+                  <th className="px-3 py-2 md:px-4 md:py-3 text-left text-xs font-bold text-white uppercase border border-white/20">
                     Work Involved
                   </th>
-                  <th className="px-4 py-3 md:px-6 md:py-4 text-left text-xs md:text-sm font-bold text-white uppercase border border-white/20">
+                  <th className="px-3 py-2 md:px-4 md:py-3 text-left text-xs font-bold text-white uppercase border border-white/20">
                     Execution Milestone<br />(Make 100% payment)
                   </th>
-                  <th className="px-4 py-3 md:px-6 md:py-4 text-left text-xs md:text-sm font-bold text-white uppercase border border-white/20">
+                  <th className="px-3 py-2 md:px-4 md:py-3 text-left text-xs font-bold text-white uppercase border border-white/20">
                     Handover
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-800 border border-gray-200 font-medium">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-800 border border-gray-200 font-medium">
                     Order Type 1
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Domestic Dream Temples
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Dream Temple Production, Delivery and Installation
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Post Production Temple Approval
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Delivery and Installation
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50 transition-colors" style={{ backgroundColor: '#f9f9f9' }}>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-800 border border-gray-200 font-medium">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-800 border border-gray-200 font-medium">
                     Order Type 2
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Domestic Pooja Rooms
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Custom Pooja Room Production
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     During Fitting and Installation
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Delivery, Installation and Handover
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-800 border border-gray-200 font-medium">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-800 border border-gray-200 font-medium">
                     Order Type 3
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     International Dream Temples
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Custom Dream Temple
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Post Production Temple Approval
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Delivery
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50 transition-colors" style={{ backgroundColor: '#f9f9f9' }}>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-800 border border-gray-200 font-medium">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-800 border border-gray-200 font-medium">
                     Order Type 4
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Catalogue Products
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     NA
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     NA
                   </td>
-                  <td className="px-4 py-3 md:px-6 md:py-4 text-xs md:text-sm text-gray-700 border border-gray-200">
+                  <td className="px-3 py-2 md:px-4 md:py-3 text-xs text-gray-700 border border-gray-200">
                     Make 100% Payment for Door Delivery & Installation
                   </td>
                 </tr>
@@ -851,22 +929,22 @@ const HowItWorksPage = ({
       </div>
 
       {/* FAQ Section */}
-      <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 bg-white">
+      <section className="w-full py-8 md:py-10 px-4 md:px-6 bg-white">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-8 md:mb-12 text-center">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-6 md:mb-8 text-center">
             FREQUENTLY ASKED QUESTIONS
           </h2>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* FAQ 1 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 1 ? null : 1)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
               >
                 <div className="flex items-center gap-3 flex-1">
                   <span className="text-base md:text-lg font-semibold text-gray-800 flex-shrink-0">1.</span>
-                  <span className={`text-sm md:text-base font-medium flex-1 ${expandedFaq === 1 ? 'text-amber-600' : 'text-gray-800'}`}>
+                  <span className={`text-sm md:text-base font-medium flex-1 ${expandedFaq === 1 ? 'text-[#8B7355]' : 'text-gray-800'}`}>
                     How much is your design fee?
                   </span>
                 </div>
@@ -898,7 +976,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 2 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 2 ? null : 2)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -933,7 +1011,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 3 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 3 ? null : 3)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -970,7 +1048,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 4 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 4 ? null : 4)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1005,7 +1083,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 5 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 5 ? null : 5)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1040,7 +1118,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 6 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 6 ? null : 6)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1075,7 +1153,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 7 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 7 ? null : 7)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1110,7 +1188,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 8 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 8 ? null : 8)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1145,7 +1223,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 9 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 9 ? null : 9)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1180,7 +1258,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 10 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 10 ? null : 10)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
@@ -1215,7 +1293,7 @@ const HowItWorksPage = ({
             </div>
 
             {/* FAQ 11 */}
-            <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-[#8B7355]">
               <button
                 onClick={() => setExpandedFaq(expandedFaq === 11 ? null : 11)}
                 className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"

@@ -87,14 +87,14 @@ const VisitStorePage = ({
 
       {/* Hero Image Section with Button */}
       <section className="w-full relative">
-        <div className="relative w-full">
+        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/1', height: '65vh', maxHeight: '700px' }}>
           <img
             src={visitStoreImg}
             alt="Visit Store"
-            className="w-full h-[40vh] md:h-[50vh] lg:h-[60vh] object-cover"
+            className="w-full h-full object-cover object-center"
+            style={{ objectPosition: 'center center' }}
           />
-          <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-          <button className="absolute top-4 md:top-8 left-1/2 transform -translate-x-1/2 bg-[#8B7355] text-white px-6 py-3 md:px-8 md:py-4 text-sm md:text-base lg:text-lg font-semibold uppercase tracking-wide rounded hover:bg-[#6B5A42] transition-all duration-300 shadow-lg hover:shadow-xl">
+          <button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#8B7355] text-white px-6 py-3 md:px-8 md:py-4 text-sm md:text-base lg:text-lg font-semibold uppercase tracking-wide rounded hover:bg-[#6B5A42] transition-all duration-300 shadow-lg hover:shadow-xl z-10">
             Visit Store
           </button>
         </div>

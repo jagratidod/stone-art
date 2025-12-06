@@ -213,16 +213,33 @@ const Header = ({
     };
   }, []);
 
+  const isVideoOverlay = variant === "video-overlay";
+  const isDropdownActive = hoveredDropdown !== null;
+  
+  // For video overlay: transparent initially, white when dropdown active
+  const headerBg = isVideoOverlay 
+    ? (isDropdownActive ? 'bg-white shadow' : 'bg-transparent shadow-none')
+    : 'bg-white shadow';
+  
+  // Text color: white initially on video overlay, black when dropdown active or normal
+  const textColor = isVideoOverlay && !isDropdownActive
+    ? 'text-white hover:text-gray-300'
+    : 'text-black hover:text-[#8B8B5C]';
+  
+  const underlineColor = isVideoOverlay && !isDropdownActive 
+    ? 'bg-white' 
+    : 'bg-[#8B8B5C]';
+  
   const linkClass = `
     relative 
     text-[12px] md:text-[13px] lg:text-[14px] 
-    tracking-wide uppercase text-black 
-    hover:text-[#8B8B5C] transition group
+    tracking-wide uppercase transition group
+    ${textColor}
   `;
 
   return (
     <header
-      className="sticky top-0 z-[200] w-full bg-white shadow"
+      className={`sticky top-0 z-[200] w-full transition-all duration-300 ${headerBg}`}
     >
       {/* slightly tight vertical padding */}
       <div className="w-full flex justify-center px-3 md:px-6 py-[2px] relative">
@@ -250,7 +267,7 @@ const Header = ({
                   >
                     <button className={linkClass}>
                       HOUSE OF TILAK
-                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                     </button>
                   </div>
 
@@ -260,7 +277,7 @@ const Header = ({
                   >
                     <button className={linkClass}>
                       PROJECTS
-                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                     </button>
                   </div>
 
@@ -270,7 +287,7 @@ const Header = ({
                   >
                     <button className={linkClass}>
                       OUR CREATIONS
-                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                     </button>
                   </div>
 
@@ -280,7 +297,7 @@ const Header = ({
                   >
                     <button className={linkClass}>
                       OUR SERVICES
-                      <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                     </button>
                   </div>
                 </div>
@@ -308,27 +325,27 @@ const Header = ({
               <div className="flex items-center gap-4">
                 <Link to="/how-it-works" className={linkClass}>
                   HOW IT WORKS
-                  <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
                 <Link to="/location" className={linkClass}>
                   LOCATION
-                  <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
                 <Link to="/blog" className={linkClass}>
                   BLOG
-                  <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
                 <Link to="/book-appointment" className={linkClass}>
                   BOOK APPOINTMENT
-                  <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
                 <Link to="/testimonials" className={linkClass}>
                   TESTIMONIALS
-                  <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-[#8B8B5C] transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
               </div>
             </li>
@@ -381,7 +398,7 @@ const Header = ({
 
               <button
                 onClick={() => setOpen(!open)}
-                className="text-3xl ml-2 flex-shrink-0"
+                className={`text-3xl ml-2 flex-shrink-0 transition-colors duration-300 ${isVideoOverlay && !isDropdownActive ? 'text-white' : 'text-black'}`}
               >
                 ☰
               </button>
