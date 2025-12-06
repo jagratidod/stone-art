@@ -158,6 +158,7 @@ import { useState, useRef, useEffect } from "react";
 import HouseOfTilakDropdown from "./HouseOfTilakDropdown";
 import ProjectsDropdown from "./ProjectsDropdown";
 import OurCreationsDropdown from "./OurCreationsDropdown";
+import OurProductsDropdown from "./OurProductsDropdown";
 import OurServicesDropdown from "./OurServicesDropdown";
 
 const Header = ({
@@ -166,6 +167,7 @@ const Header = ({
   onShowProjects,
   onShowCreations,
   onShowServices,
+  onShowProducts,
 }) => {
   const [open, setOpen] = useState(false);
   const [hoveredDropdown, setHoveredDropdown] = useState(null);
@@ -291,6 +293,16 @@ const Header = ({
                     </button>
                   </div>
 
+                  {/* OUR PRODUCTS */}
+                  <div 
+                    onMouseEnter={() => handleDropdownChange('our-products')}
+                  >
+                    <button className={linkClass}>
+                      OUR PRODUCTS
+                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
+                    </button>
+                  </div>
+
                   {/* OUR SERVICES */}
                   <div 
                     onMouseEnter={() => handleDropdownChange('our-services')}
@@ -353,10 +365,10 @@ const Header = ({
 
           {/* Shared Dropdown Container - Full Screen Width - Inside Hover Wrapper */}
           <div
-            className={`absolute bg-white shadow-2xl transition-all duration-300 ease-in-out overflow-hidden z-50 ${
+            className={`absolute bg-white shadow-2xl transition-all duration-300 ease-in-out z-50 ${
               hoveredDropdown
-                ? 'h-[220px] translate-y-0 pointer-events-auto'
-                : 'h-0 -translate-y-4 pointer-events-none'
+                ? 'h-[350px] translate-y-0 pointer-events-auto overflow-hidden'
+                : 'h-0 -translate-y-4 pointer-events-none overflow-hidden'
             }`}
             style={{
               left: '50%',
@@ -375,6 +387,7 @@ const Header = ({
                 {hoveredDropdown === 'house-of-tilak' && <HouseOfTilakDropdown />}
                 {hoveredDropdown === 'projects' && <ProjectsDropdown />}
                 {hoveredDropdown === 'our-creations' && <OurCreationsDropdown />}
+                {hoveredDropdown === 'our-products' && <OurProductsDropdown />}
                 {hoveredDropdown === 'our-services' && <OurServicesDropdown />}
               </>
             )}
@@ -424,6 +437,12 @@ const Header = ({
                   className={`${linkClass} text-center`}
                 >
                   OUR CREATIONS
+                </button>
+                <button
+                  onClick={onShowProducts}
+                  className={`${linkClass} text-center`}
+                >
+                  OUR PRODUCTS
                 </button>
                 <button
                   onClick={onShowServices}

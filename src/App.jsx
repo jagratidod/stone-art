@@ -21,8 +21,12 @@ import DreamTemplePage from './pages/DreamTemplePage'
 import ArtisansOfTilakPage from './pages/ArtisansOfTilakPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import CommunalProjectsPage from './pages/CommunalProjectsPage'
+import SandstonePage from './pages/SandstonePage'
+import LimestonePage from './pages/LimestonePage'
+import MarblePage from './pages/MarblePage'
 import ProjectsModal from './components/modals/ProjectsModal'
 import OurCreationsModal from './components/modals/OurCreationsModal'
+import OurProductsModal from './components/modals/OurProductsModal'
 import OurServicesModal from './components/modals/OurServicesModal'
 import Sidebar from './components/modals/Sidebar'
 import HouseOfTilakModal from './components/modals/HouseOfTilakModal'
@@ -36,6 +40,7 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false)
   const [showProjectsModal, setShowProjectsModal] = useState(false)
   const [showOurCreations, setShowOurCreations] = useState(false)
+  const [showOurProducts, setShowOurProducts] = useState(false)
   const [showOurServices, setShowOurServices] = useState(false)
 
   const location = useLocation()
@@ -47,12 +52,13 @@ function App() {
     setShowSidebar(false)
     setShowProjectsModal(false)
     setShowOurCreations(false)
+    setShowOurProducts(false)
     setShowOurServices(false)
   }, [location.pathname])
 
   // Prevent body scroll when any modal is open
   useEffect(() => {
-    const isAnyModalOpen = showModal || showSidebar || showProjectsModal || showOurCreations || showOurServices || showBookingModal
+    const isAnyModalOpen = showModal || showSidebar || showProjectsModal || showOurCreations || showOurProducts || showOurServices || showBookingModal
     if (isAnyModalOpen) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -61,7 +67,7 @@ function App() {
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [showModal, showSidebar, showProjectsModal, showOurCreations, showOurServices, showBookingModal])
+  }, [showModal, showSidebar, showProjectsModal, showOurCreations, showOurProducts, showOurServices, showBookingModal])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -71,6 +77,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -83,6 +90,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowBooking={() => {}}
@@ -94,6 +102,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowBooking={() => {}}
@@ -105,6 +114,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -117,6 +127,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -129,6 +140,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -141,6 +153,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -152,6 +165,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
           />
@@ -162,6 +176,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
           />
         } />
@@ -171,6 +186,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowLocation={() => {}}
             onShowBooking={() => {}}
@@ -182,6 +198,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
           />
@@ -196,6 +213,46 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/sandstone" element={
+          <SandstonePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/limestone" element={
+          <LimestonePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/marble" element={
+          <MarblePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -208,6 +265,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -220,6 +278,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -232,6 +291,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -244,6 +304,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -256,6 +317,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -268,6 +330,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -280,6 +343,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -292,6 +356,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -304,6 +369,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -316,6 +382,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -328,6 +395,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -340,6 +408,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -352,6 +421,7 @@ function App() {
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
@@ -380,6 +450,10 @@ function App() {
       <OurServicesModal 
         isOpen={showOurServices} 
         onClose={() => setShowOurServices(false)} 
+      />
+      <OurProductsModal 
+        isOpen={showOurProducts} 
+        onClose={() => setShowOurProducts(false)} 
       />
     </div>
   )

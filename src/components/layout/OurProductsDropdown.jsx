@@ -1,0 +1,111 @@
+import { Link } from 'react-router-dom'
+import { products } from '../../data/products'
+
+const OurProductsDropdown = () => {
+  return (
+    <div className="w-full h-full flex items-start py-3 px-4 md:px-5 lg:px-6 gap-3 md:gap-4">
+      {/* Menu Items - Left Side with Scroll */}
+      <div className="flex-shrink-0 w-40 md:w-48 lg:w-56 h-full overflow-y-auto pr-2">
+        <nav className="space-y-0.5">
+          {products.map((product) => {
+            const getRoute = (id) => {
+              if (id === 'sandstone') return '/products/sandstone'
+              if (id === 'limestone') return '/products/limestone'
+              if (id === 'marble') return '/products/marble'
+              return null
+            }
+
+            const route = getRoute(product.id)
+            
+            return route ? (
+              <Link
+                key={product.id}
+                to={route}
+                className="block w-full text-left px-2 py-1.5 text-xs md:text-sm text-gray-700 hover:text-[#8B7355] hover:bg-gray-50 rounded transition-all duration-200 font-medium uppercase"
+              >
+                {product.name}
+              </Link>
+            ) : (
+              <button
+                key={product.id}
+                className="w-full text-left px-2 py-1.5 text-xs md:text-sm text-gray-700 hover:text-[#8B7355] hover:bg-gray-50 rounded transition-all duration-200 font-medium uppercase"
+              >
+                {product.name}
+              </button>
+            )
+          })}
+        </nav>
+      </div>
+
+      {/* Images - Right Side Fixed (Stays in Place) */}
+      <div className="flex-1 flex items-center gap-2 md:gap-3 overflow-x-auto h-full">
+        {products.map((product) => {
+          const getRoute = (id) => {
+            if (id === 'sandstone') return '/products/sandstone'
+            if (id === 'limestone') return '/products/limestone'
+            if (id === 'marble') return '/products/marble'
+            return null
+          }
+
+          const route = getRoute(product.id)
+          const ImageContent = (
+            <>
+              <div className="relative overflow-hidden rounded-lg bg-gray-100 w-28 h-[260px] md:w-32 md:h-[260px] lg:w-36 lg:h-[260px] shadow-lg hover:shadow-2xl transition-all duration-300 ring-2 ring-gray-200/50 hover:ring-[#8B7355]/40">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"></div>
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  loading="eager"
+                  decoding="async"
+                  className="w-full h-full object-cover object-center transition-all duration-300 ease-in-out group-hover:scale-110"
+                  style={{
+                    imageRendering: '-webkit-optimize-contrast',
+                    WebkitFontSmoothing: 'antialiased',
+                    MozOsxFontSmoothing: 'grayscale',
+                    textRendering: 'optimizeLegibility',
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    perspective: '1000px',
+                    transform: 'translateZ(0) scale(1)',
+                    willChange: 'transform, filter',
+                    filter: 'contrast(1.25) saturate(1.1) brightness(1.02)',
+                    WebkitFilter: 'contrast(1.25) saturate(1.1) brightness(1.02)',
+                    mixBlendMode: 'normal',
+                    isolation: 'isolate',
+                    opacity: '1',
+                    WebkitTransform: 'translateZ(0)',
+                    msTransform: 'translateZ(0)',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/30 rounded-lg transition-all duration-300 pointer-events-none"></div>
+              </div>
+              <h3 className="text-xs font-semibold text-black text-center mt-1.5 group-hover:text-[#8B7355] transition-colors whitespace-nowrap uppercase">
+                {product.name}
+              </h3>
+            </>
+          )
+
+          return route ? (
+            <Link
+              key={product.id}
+              to={route}
+              className="group cursor-pointer flex-shrink-0 flex flex-col"
+            >
+              {ImageContent}
+            </Link>
+          ) : (
+            <div key={product.id} className="group cursor-pointer flex-shrink-0 flex flex-col">
+              {ImageContent}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+export default OurProductsDropdown
+

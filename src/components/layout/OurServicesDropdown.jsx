@@ -18,17 +18,17 @@ const OurServicesDropdown = () => {
       </div>
 
       {/* Images - Right Side in Horizontal Line */}
-      <div className="flex-1 flex items-center gap-3 md:gap-4 lg:gap-6 overflow-x-auto">
+      <div className="flex-1 flex items-center gap-3 md:gap-4 overflow-x-auto h-full">
         {services.map((service) => (
-          <div key={service.id} className="group cursor-pointer flex-shrink-0">
-            <div className="relative overflow-hidden rounded-lg bg-gray-100 w-32 h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 shadow-md hover:shadow-lg transition-shadow">
+          <div key={service.id} className="group cursor-pointer flex-shrink-0 flex flex-col">
+            <div className="relative overflow-hidden rounded-lg bg-gray-100 w-28 h-[260px] md:w-32 md:h-[260px] lg:w-36 lg:h-[260px] shadow-md hover:shadow-lg transition-shadow">
               <img 
                 src={service.image} 
                 alt={service.name}
                 className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
               />
             </div>
-            <h3 className="text-xs md:text-sm font-semibold text-black text-center mt-2 group-hover:text-[#8B7355] transition-colors whitespace-nowrap">
+            <h3 className="text-xs md:text-sm font-semibold text-black text-center mt-1.5 group-hover:text-[#8B7355] transition-colors whitespace-nowrap">
               {service.name}
             </h3>
           </div>
