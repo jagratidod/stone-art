@@ -3,10 +3,10 @@ export const BUDGET_OPTIONS = ['₹0–2 Lakhs', '₹2.5–5 Lakhs', '₹5–10 
 export const TIMELINE_OPTIONS = ['Within 1 month', '1–3 months', '3–6 months', 'More than 6 months']
 
 export const COMPANY_INFO = {
-  name: 'HOUSE OF TILAK',
-  address: 'First & Second Floor, TSA India, Mall 21, Mirza Ismail Road, Opposite Rajmandir Cinema, 5 Batti, C Scheme, Jaipur, Rajasthan 302001',
-  phone: '+91 93193 74633',
-  email: 'info@tilakstonearts.com'
+  name: 'ASLAM MARBLE SUPPLIERS',
+  address: 'Borawar Byepass Road Makrana',
+  phone: '+917877639699',
+  email: 'aslammarble40@gmail.com'
 }
 
 export const FOOTER_LINKS = {

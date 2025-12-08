@@ -32,6 +32,7 @@ import PebbleStonesPage from './pages/PebbleStonesPage'
 import CobbleStonesPage from './pages/CobbleStonesPage'
 import StoneChipsPage from './pages/StoneChipsPage'
 import GranitePage from './pages/GranitePage'
+import TSADesignHubPage from './pages/TSADesignHubPage'
 import ProjectsModal from './components/modals/ProjectsModal'
 import OurCreationsModal from './components/modals/OurCreationsModal'
 import OurProductsModal from './components/modals/OurProductsModal'
@@ -361,6 +362,19 @@ function App() {
         
         <Route path="/products/granite" element={
           <GranitePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/services/tsa-design-hub" element={
+          <TSADesignHubPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}

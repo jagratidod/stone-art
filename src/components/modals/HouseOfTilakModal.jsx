@@ -45,7 +45,7 @@ const HouseOfTilakModal = ({ isOpen, onClose }) => {
           style={{ animation: 'slideUp 0.5s ease-out' }}
         >
           <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-black">HOUSE OF TILAK</h2>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-black">ASLAM MARBLE SUPPLIERS</h2>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-800 text-3xl font-bold transition-colors w-8 h-8 flex items-center justify-center"

@@ -263,12 +263,12 @@ const Header = ({
               {/* LEFT LINKS */}
               <li>
                 <div className="flex items-center gap-4">
-                  {/* HOUSE OF TILAK */}
+                  {/* ASLAM MARBLE SUPPLIERS */}
                   <div 
                     onMouseEnter={() => handleDropdownChange('house-of-tilak')}
                   >
                     <button className={linkClass}>
-                      HOUSE OF TILAK
+                      ASLAM MARBLE SUPPLIERS
                       <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                     </button>
                   </div>
@@ -424,7 +424,7 @@ const Header = ({
                   onClick={onShowSidebar}
                   className={`${linkClass} text-center`}
                 >
-                  HOUSE OF TILAK
+                  ASLAM MARBLE SUPPLIERS
                 </button>
                 <button
                   onClick={onShowProjects}

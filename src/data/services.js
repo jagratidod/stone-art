@@ -10,7 +10,8 @@ export const services = [
   {
     id: 'tsa-design-hub',
     name: 'TSA Design Hub',
-    image: tsaDesignHubImg
+    image: tsaDesignHubImg,
+    path: '/services/tsa-design-hub'
   }
 ]
 
