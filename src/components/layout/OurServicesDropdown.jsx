@@ -2,9 +2,8 @@ import { Link } from 'react-router-dom'
 import { services } from '../../data/services'
 
 const OurServicesDropdown = () => {
-  const getRoute = (id) => {
-    if (id === 'tsa-design-hub') return '/services/tsa-design-hub'
-    return null
+  const getRoute = (service) => {
+    return service.path || null
   }
 
   return (
@@ -13,7 +12,7 @@ const OurServicesDropdown = () => {
       <div className="flex-shrink-0 w-48 md:w-56 lg:w-64">
         <nav className="space-y-1">
           {services.map((service) => {
-            const route = getRoute(service.id)
+            const route = getRoute(service)
             return route ? (
               <Link
                 key={service.id}
@@ -37,7 +36,7 @@ const OurServicesDropdown = () => {
       {/* Images - Right Side in Horizontal Line */}
       <div className="flex-1 flex items-center gap-3 md:gap-4 overflow-x-auto h-full">
         {services.map((service) => {
-          const route = getRoute(service.id)
+          const route = getRoute(service)
           const ImageContent = (
             <>
               <div className="relative overflow-hidden rounded-lg bg-gray-100 w-28 h-[260px] md:w-32 md:h-[260px] lg:w-36 lg:h-[260px] shadow-md hover:shadow-lg transition-shadow">

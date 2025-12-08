@@ -5,7 +5,8 @@ export const services = [
   {
     id: 'tsa-international',
     name: 'TSA International',
-    image: tsaInternationalImg
+    image: tsaInternationalImg,
+    path: '/services/tsa-international'
   },
   {
     id: 'tsa-design-hub',
