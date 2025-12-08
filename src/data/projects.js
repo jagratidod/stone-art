@@ -12,12 +12,14 @@ export const projects = [
   {
     id: 'residential',
     name: 'Residential',
-    image: residentialImage
+    image: residentialImage,
+    path: '/residential-projects'
   },
   {
     id: 'international',
     name: 'International',
-    image: internationalImage
+    image: internationalImage,
+    path: '/international-projects'
   }
 ]
 

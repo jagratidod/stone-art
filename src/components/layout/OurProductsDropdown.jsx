@@ -11,7 +11,13 @@ const OurProductsDropdown = () => {
             const getRoute = (id) => {
               if (id === 'sandstone') return '/products/sandstone'
               if (id === 'limestone') return '/products/limestone'
+              if (id === 'slate') return '/products/slate'
               if (id === 'marble') return '/products/marble'
+              if (id === 'quartzite') return '/products/quartzite'
+              if (id === 'pebble-stones') return '/products/pebble-stones'
+              if (id === 'cobble-stones') return '/products/cobble-stones'
+              if (id === 'stone-chips') return '/products/stone-chips'
+              if (id === 'granite') return '/products/granite'
               return null
             }
 
@@ -43,7 +49,13 @@ const OurProductsDropdown = () => {
           const getRoute = (id) => {
             if (id === 'sandstone') return '/products/sandstone'
             if (id === 'limestone') return '/products/limestone'
+            if (id === 'slate') return '/products/slate'
             if (id === 'marble') return '/products/marble'
+            if (id === 'quartzite') return '/products/quartzite'
+            if (id === 'pebble-stones') return '/products/pebble-stones'
+            if (id === 'cobble-stones') return '/products/cobble-stones'
+            if (id === 'stone-chips') return '/products/stone-chips'
+            if (id === 'granite') return '/products/granite'
             return null
           }
 
