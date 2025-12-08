@@ -1,5 +1,3 @@
-import ExpertFormOverlay from './ExpertFormOverlay'
-
 const HeroSectionWithForm = ({ 
   heroImage, 
   title, 
@@ -33,9 +31,6 @@ const HeroSectionWithForm = ({
           </p>
         )}
       </div>
-
-      {/* Form Overlay */}
-      <ExpertFormOverlay />
     </div>
   )
 }
