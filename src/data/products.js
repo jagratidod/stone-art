@@ -10,6 +10,9 @@ import stoneChipsImg from '../assets/our products/stone chips.jpg'
 import basaltImg from '../assets/our products/basalt.jpg'
 import soapStoneImg from '../assets/our products/soap stone .jpg'
 import travertineImg from '../assets/our products/travertine.jpg'
+import murtiImg from '../assets/ourcreation/Murti.jpeg'
+import homedecorImg from '../assets/ourcreation/homedecor.jpeg'
+import poojaImg from '../assets/ourcreation/Pooja.jpeg'
 
 export const products = [
   {
@@ -71,5 +74,20 @@ export const products = [
     id: 'travertine-stones',
     name: 'Travertine',
     image: travertineImg
+  },
+  {
+    id: 'modern-art',
+    name: 'Modern Art',
+    image: murtiImg
+  },
+  {
+    id: 'imported',
+    name: 'Imported',
+    image: homedecorImg
+  },
+  {
+    id: 'packaging',
+    name: 'Packaging',
+    image: poojaImg
   }
 ]

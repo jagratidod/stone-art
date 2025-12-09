@@ -234,8 +234,8 @@ const Header = ({
   
   const linkClass = `
     relative 
-    text-[12px] md:text-[13px] lg:text-[14px] 
-    tracking-wide uppercase transition group
+    text-[9px] md:text-[10px] lg:text-[11px] xl:text-[12px]
+    tracking-wide uppercase transition group whitespace-nowrap
     ${textColor}
   `;
 
@@ -262,7 +262,7 @@ const Header = ({
             <ul className="hidden lg:flex items-center justify-center">
               {/* LEFT LINKS */}
               <li>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
                   {/* ASLAM MARBLE SUPPLIERS */}
                   <div 
                     onMouseEnter={() => handleDropdownChange('house-of-tilak')}
@@ -316,7 +316,7 @@ const Header = ({
               </li>
 
             {/* SPACE BETWEEN LEFT LINKS AND LOGO */}
-            <li className="mx-8 xl:mx-10" />
+            <li className="mx-4 xl:mx-6" />
 
             {/* LOGO */}
             <li className="flex-shrink-0">
@@ -330,11 +330,11 @@ const Header = ({
             </li>
 
             {/* SPACE BETWEEN LOGO AND RIGHT LINKS */}
-            <li className="mx-8 xl:mx-10" />
+            <li className="mx-4 xl:mx-6" />
 
             {/* RIGHT LINKS */}
             <li>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 md:gap-3 lg:gap-3.5">
                 <Link to="/how-it-works" className={linkClass}>
                   HOW IT WORKS
                   <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>

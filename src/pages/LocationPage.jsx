@@ -1,4 +1,5 @@
 import Header from '../components/layout/Header'
+import Footer from '../components/layout/Footer'
 import { indianLocations, internationalLocations } from '../data/locations'
 import FloatingButtons from '../components/common/FloatingButtons'
 
@@ -7,6 +8,7 @@ const LocationPage = ({
   onShowSidebar, 
   onShowProjects, 
   onShowCreations, 
+  onShowProducts,
   onShowServices, 
   onShowHowItWorks, 
   onShowLocation, 
@@ -19,6 +21,7 @@ const LocationPage = ({
         onShowSidebar={onShowSidebar}
         onShowProjects={onShowProjects}
         onShowCreations={onShowCreations}
+        onShowProducts={onShowProducts}
         onShowServices={onShowServices}
         onShowHowItWorks={onShowHowItWorks}
       />
@@ -75,6 +78,7 @@ const LocationPage = ({
         </div>
       </section>
       <FloatingButtons />
+      <Footer />
     </div>
   )
 }
