@@ -32,6 +32,12 @@ const MurtiPage = ({
   const handleCategoryClick = (category) => {
     if (category === 'Ganesha') {
       navigate('/murti/ganesha')
+    } else if (category === 'Hanuman Ji') {
+      navigate('/murti/hanuman')
+    } else if (category === 'Radha Krishna') {
+      navigate('/murti/radha-krishna')
+    } else if (category === 'Ram Darbar') {
+      navigate('/murti/ram-darbar')
     } else if (category === 'Durga') {
       navigate('/murti/durga')
     } else if (category === 'Saraswati') {
@@ -82,29 +88,27 @@ const MurtiPage = ({
           {/* Divider Line */}
           <div className="w-full h-[1px] bg-gray-300 mb-8"></div>
 
-          {/* Circular Image Cards Grid */}
-          <div className="flex flex-wrap justify-center items-start gap-6 md:gap-8 lg:gap-10">
-            {murtiCollections.map((collection) => (
-              <div
-                key={collection.id}
-                onClick={() => handleCollectionClick(collection.id)}
-                className="flex flex-col items-center group cursor-pointer"
-              >
-                {/* Circular Image Card */}
-                <div className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105 mb-3 md:mb-4">
-                  <img
-                    src={collection.image}
-                    alt={collection.name}
-                    className="w-full h-full object-cover object-center"
-                  />
+          {/* Circular Image Cards - Auto Scrolling */}
+          <div className="relative w-full overflow-hidden">
+            <div className="flex gap-6 md:gap-8 lg:gap-10 animate-scroll-right-to-left">
+              {/* Duplicate items for seamless loop */}
+              {[...murtiCollections, ...murtiCollections].map((collection, index) => (
+                <div
+                  key={`${collection.id}-${index}`}
+                  onClick={() => handleCollectionClick(collection.id)}
+                  className="flex-shrink-0 group cursor-pointer"
+                >
+                  {/* Circular Image Card */}
+                  <div className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img
+                      src={collection.image}
+                      alt={collection.name}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
                 </div>
-
-                {/* Label */}
-                <h3 className="text-sm md:text-base lg:text-lg font-semibold text-gray-800 text-center group-hover:text-[#8B7355] transition-colors">
-                  {collection.name}
-                </h3>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -27,3 +27,19 @@ body {
   transform: translateZ(0);
   will-change: transform, filter;
 }
+
+/* Smooth Right to Left Animation */
+@keyframes scroll-right-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-right-to-left {
+  animation: scroll-right-to-left 40s linear infinite;
+  display: flex;
+  width: fit-content;
+}

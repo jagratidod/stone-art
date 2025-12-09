@@ -9,6 +9,14 @@ import { shivParvatiProducts } from '../data/shivParvatiProducts'
 import { saiBabaProducts } from '../data/saiBabaProducts'
 import { vishnuLaxmiProducts } from '../data/vishnuLaxmiProducts'
 import { ganeshaProducts } from '../data/ganeshaProducts'
+import { hanumanProducts } from '../data/hanumanProducts'
+import { radhaKrishnaProducts } from '../data/radhaKrishnaProducts'
+import { ramDarbarProducts } from '../data/ramDarbarProducts'
+import { krishnaProducts } from '../data/krishnaProducts'
+import { shivProducts } from '../data/shivProducts'
+import { jainMurtiProducts } from '../data/jainMurtiProducts'
+import { nandiProducts } from '../data/nandiProducts'
+import { balajiProducts } from '../data/balajiProducts'
 
 const ProductDetailPage = ({
   onShowSidebar,
@@ -59,6 +67,22 @@ const ProductDetailPage = ({
   let allProducts = []
   if (categoryType === 'ganesha') {
     allProducts = ganeshaProducts
+  } else if (categoryType === 'hanuman') {
+    allProducts = hanumanProducts
+  } else if (categoryType === 'krishna-ji' || categoryType === 'krishna') {
+    allProducts = krishnaProducts
+  } else if (categoryType === 'shiva' || categoryType === 'shiv') {
+    allProducts = shivProducts
+  } else if (categoryType === 'jain-gods' || categoryType === 'jain-murti') {
+    allProducts = jainMurtiProducts
+  } else if (categoryType === 'nandi') {
+    allProducts = nandiProducts
+  } else if (categoryType === 'balaji') {
+    allProducts = balajiProducts
+  } else if (categoryType === 'radha-krishna') {
+    allProducts = radhaKrishnaProducts
+  } else if (categoryType === 'ram-darbar') {
+    allProducts = ramDarbarProducts
   } else if (categoryType === 'durga') {
     allProducts = durgaProducts
   } else if (categoryType === 'saraswati') {

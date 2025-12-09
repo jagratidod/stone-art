@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
 const DreamMurtisDropdown = () => {
+  // Gods list matching the image order
   const gods = [
     'Krishna ji',
     'Natraja',
@@ -15,6 +16,25 @@ const DreamMurtisDropdown = () => {
     'Jain Gods',
     'Laddu Gopal'
   ]
+
+  // Helper function to get route for each god
+  const getGodRoute = (godName) => {
+    const routeMap = {
+      'Krishna ji': '/murti/krishna-ji',
+      'Natraja': '/murti/natraja',
+      'Shiva': '/murti/shiva',
+      'Ganesha': '/murti/ganesha',
+      'Buddha': '/murti/buddha',
+      'Sai Baba': '/murti/sai-baba',
+      'Balaji': '/murti/balaji',
+      'Hanuman ji': '/murti/hanuman',
+      'Vishnu ji': '/murti/vishnu-ji',
+      'Nandi': '/murti/nandi',
+      'Jain Gods': '/murti/jain-gods',
+      'Laddu Gopal': '/murti/laddu-gopal'
+    }
+    return routeMap[godName] || `/murti/${godName.toLowerCase().replace(/\s+/g, '-')}`
+  }
 
   const goddesses = [
     'Durga',
@@ -49,7 +69,7 @@ const DreamMurtisDropdown = () => {
               {gods.map((god, index) => (
                 <li key={index}>
                   <Link
-                    to={`/murti/${god.toLowerCase().replace(/\s+/g, '-')}`}
+                    to={getGodRoute(god)}
                     className="text-gray-700 hover:text-[#8B7355] transition-colors text-xs md:text-sm"
                   >
                     {god}

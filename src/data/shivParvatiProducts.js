@@ -10,6 +10,7 @@ import shivParvati8 from '../assets/ourcreation/murti/shiv parvati/r1aqek74a9rma
 import shivParvati9 from '../assets/ourcreation/murti/shiv parvati/swf47rptvsrmc0ctx4xvq5fh5c.png'
 import shivParvati10 from '../assets/ourcreation/murti/shiv parvati/wexe5r0sn5rma0ctx4xa68v324.png'
 import shivParvati11 from '../assets/ourcreation/murti/shiv parvati/yd5vk0qb9drm80ctx4v8hnjrwr.png'
+import shivParvati12 from '../assets/ourcreation/murti/shiv parvati/878ed2b5-6de6-40da-96ce-e6c081a925ab.png'
 
 export const shivParvatiProducts = [
   {
@@ -52,7 +53,7 @@ export const shivParvatiProducts = [
     price: 54500,
     material: 'Swiss White',
     size: '12 Inches',
-    images: [shivParvati10, shivParvati11, shivParvati1],
+    images: [shivParvati10, shivParvati11, shivParvati12],
     isPreOrder: false,
     description: 'Elegant Shiv Parvati statue with Lord Shiva and Goddess Parvati, crafted in Swiss White marble.'
   }

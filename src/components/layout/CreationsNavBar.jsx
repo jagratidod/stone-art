@@ -152,6 +152,8 @@ const CreationsNavBar = () => {
                       ? 'h-[450px] translate-y-0 pointer-events-auto'
                       : hoveredDropdown === 'learn-more'
                       ? 'h-[150px] translate-y-0 pointer-events-auto'
+                      : hoveredDropdown === 'dream-murtis'
+                      ? 'h-[500px] translate-y-0 pointer-events-auto'
                       : 'h-[220px] translate-y-0 pointer-events-auto')
                   : 'h-0 -translate-y-4 pointer-events-none'
               }`}
@@ -163,7 +165,9 @@ const CreationsNavBar = () => {
                 width: '100vw',
                 top: 'calc(100% - 2px)',
                 opacity: isFading ? 0 : (hoveredDropdown ? 1 : 0),
-                transition: 'opacity 0.3s ease-in-out, transform 0.5s ease-in-out, height 0.5s ease-in-out'
+                transition: hoveredDropdown === 'dream-murtis'
+                  ? 'opacity 0.5s ease-in-out, transform 0.9s ease-in-out, height 0.9s ease-in-out'
+                  : 'opacity 0.3s ease-in-out, transform 0.5s ease-in-out, height 0.5s ease-in-out'
               }}
             >
               {/* Dropdown Content */}
