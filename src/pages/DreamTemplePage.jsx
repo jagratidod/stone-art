@@ -9,7 +9,7 @@ import dreamTemple4 from '../assets/locationicons/templecardimages/dreams4.jpeg'
 import templeHeroImage from '../assets/house of marble/temple/1733300646054.jpeg'
 import { BUDGET_OPTIONS, TIMELINE_OPTIONS } from '../utils/constants'
 
-const DreamTemplePage = () => {
+const DreamTemplePage = ({ onShowCart, onShowLikes }) => {
   const [formStep, setFormStep] = useState(1)
   const [selectedProcessStep, setSelectedProcessStep] = useState(1)
   const [formData, setFormData] = useState({
@@ -82,7 +82,7 @@ const DreamTemplePage = () => {
 
   return (
     <div className="w-full min-h-screen bg-white">
-      <CreationsNavBar />
+      <CreationsNavBar onShowCart={onShowCart} onShowLikes={onShowLikes} />
 
       {/* Hero Image Container with Form Overlay */}
       <div className="relative w-full overflow-hidden" style={{ height: '75vh', minHeight: '600px' }}>

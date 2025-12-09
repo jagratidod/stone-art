@@ -18,6 +18,7 @@ const OurProductsDropdown = () => {
               if (id === 'cobble-stones') return '/products/cobble-stones'
               if (id === 'stone-chips') return '/products/stone-chips'
               if (id === 'granite') return '/products/granite'
+              if (id === 'natural-indian-stones') return '/products/natural-indian-stones'
               if (id === 'modern-art') return '/art/modern-art'
               if (id === 'imported') return '/art/imported'
               if (id === 'packaging') return '/art/packaging'
@@ -59,6 +60,7 @@ const OurProductsDropdown = () => {
             if (id === 'cobble-stones') return '/products/cobble-stones'
             if (id === 'stone-chips') return '/products/stone-chips'
             if (id === 'granite') return '/products/granite'
+            if (id === 'natural-indian-stones') return '/products/natural-indian-stones'
             return null
           }
 

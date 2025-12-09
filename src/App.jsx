@@ -34,6 +34,7 @@ import InternationalProjectsPage from './pages/InternationalProjectsPage'
 import SandstonePage from './pages/SandstonePage'
 import LimestonePage from './pages/LimestonePage'
 import SlatePage from './pages/SlatePage'
+import NaturalIndianStonesPage from './pages/NaturalIndianStonesPage'
 import MarblePage from './pages/MarblePage'
 import QuartzitePage from './pages/QuartzitePage'
 import PebbleStonesPage from './pages/PebbleStonesPage'
@@ -59,6 +60,8 @@ import OurProductsModal from './components/modals/OurProductsModal'
 import OurServicesModal from './components/modals/OurServicesModal'
 import Sidebar from './components/modals/Sidebar'
 import HouseOfTilakModal from './components/modals/HouseOfTilakModal'
+import CartModal from './components/modals/CartModal'
+import LikesModal from './components/modals/LikesModal'
 import TalkToExpertModal from './components/modals/TalkToExpertModal'
 import BookingModal from './components/modals/BookingModal'
 
@@ -67,6 +70,8 @@ function App() {
   const [showModal, setShowModal] = useState(false)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [showSidebar, setShowSidebar] = useState(false)
+  const [showCart, setShowCart] = useState(false)
+  const [showLikes, setShowLikes] = useState(false)
   const [showProjectsModal, setShowProjectsModal] = useState(false)
   const [showOurCreations, setShowOurCreations] = useState(false)
   const [showOurProducts, setShowOurProducts] = useState(false)
@@ -83,11 +88,13 @@ function App() {
     setShowOurCreations(false)
     setShowOurProducts(false)
     setShowOurServices(false)
+    setShowCart(false)
+    setShowLikes(false)
   }, [location.pathname])
 
   // Prevent body scroll when any modal is open
   useEffect(() => {
-    const isAnyModalOpen = showModal || showSidebar || showProjectsModal || showOurCreations || showOurProducts || showOurServices || showBookingModal
+    const isAnyModalOpen = showModal || showSidebar || showProjectsModal || showOurCreations || showOurProducts || showOurServices || showBookingModal || showCart || showLikes
     if (isAnyModalOpen) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -96,7 +103,7 @@ function App() {
     return () => {
       document.body.style.overflow = 'unset'
     }
-  }, [showModal, showSidebar, showProjectsModal, showOurCreations, showOurProducts, showOurServices, showBookingModal])
+  }, [showModal, showSidebar, showProjectsModal, showOurCreations, showOurProducts, showOurServices, showBookingModal, showCart, showLikes])
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -234,7 +241,10 @@ function App() {
         } />
         
         <Route path="/dream-temple" element={
-          <DreamTemplePage />
+          <DreamTemplePage 
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
+          />
         } />
         
         <Route path="/communal-projects" element={
@@ -304,6 +314,19 @@ function App() {
         
         <Route path="/products/slate" element={
           <SlatePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/natural-indian-stones" element={
+          <NaturalIndianStonesPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
@@ -429,6 +452,8 @@ function App() {
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
             onShowBooking={() => {}}
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
           />
         } />
         
@@ -507,6 +532,8 @@ function App() {
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
             onShowBooking={() => {}}
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
           />
         } />
         
@@ -853,6 +880,14 @@ function App() {
       <HouseOfTilakModal 
         isOpen={showSidebar} 
         onClose={() => setShowSidebar(false)} 
+      />
+      <CartModal 
+        isOpen={showCart} 
+        onClose={() => setShowCart(false)} 
+      />
+      <LikesModal 
+        isOpen={showLikes} 
+        onClose={() => setShowLikes(false)} 
       />
       <ProjectsModal 
         isOpen={showProjectsModal} 

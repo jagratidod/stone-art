@@ -25,7 +25,9 @@ const ProductDetailPage = ({
   onShowServices,
   onShowHowItWorks,
   onShowLocation,
-  onShowBooking
+  onShowBooking,
+  onShowCart,
+  onShowLikes
 }) => {
   const { productId, category } = useParams()
   const navigate = useNavigate()
@@ -171,7 +173,7 @@ const ProductDetailPage = ({
 
   return (
     <div className="w-full min-h-screen bg-white">
-      <CreationsNavBar />
+      <CreationsNavBar onShowCart={onShowCart} onShowLikes={onShowLikes} />
 
       {/* Product Detail Section */}
       <div className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8">

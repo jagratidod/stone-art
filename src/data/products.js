@@ -10,6 +10,7 @@ import stoneChipsImg from '../assets/our products/stone chips.jpg'
 import basaltImg from '../assets/our products/basalt.jpg'
 import soapStoneImg from '../assets/our products/soap stone .jpg'
 import travertineImg from '../assets/our products/travertine.jpg'
+import naturalIndianStoneImg from '../assets/our products/Natural Indian Stones/heading/Natural Stone Carving.jpg'
 import murtiImg from '../assets/ourcreation/Murti.jpeg'
 import homedecorImg from '../assets/ourcreation/homedecor.jpeg'
 import poojaImg from '../assets/ourcreation/Pooja.jpeg'
@@ -74,6 +75,11 @@ export const products = [
     id: 'travertine-stones',
     name: 'Travertine',
     image: travertineImg
+  },
+  {
+    id: 'natural-indian-stones',
+    name: 'Natural Indian Stone',
+    image: naturalIndianStoneImg
   },
   {
     id: 'modern-art',

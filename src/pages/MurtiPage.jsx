@@ -12,7 +12,9 @@ const MurtiPage = ({
   onShowServices,
   onShowHowItWorks,
   onShowLocation,
-  onShowBooking
+  onShowBooking,
+  onShowCart,
+  onShowLikes
 }) => {
   // Category state
   const [selectedCategory, setSelectedCategory] = useState('Ganesha')
@@ -55,7 +57,7 @@ const MurtiPage = ({
 
   return (
     <div className="w-full min-h-screen bg-white">
-      <CreationsNavBar />
+      <CreationsNavBar onShowCart={onShowCart} onShowLikes={onShowLikes} />
 
       {/* Shop Murtis Section */}
       <div className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8">
