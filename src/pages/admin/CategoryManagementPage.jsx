@@ -5,13 +5,52 @@ import AdminLayout from '../../components/admin/AdminLayout'
 const CategoryManagementPage = () => {
   const { type } = useParams()
   const [categories, setCategories] = useState([])
+  const [mainCategories, setMainCategories] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [showAddModal, setShowAddModal] = useState(false)
+  const [showAddMainCategoryModal, setShowAddMainCategoryModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categoryToDelete, setCategoryToDelete] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
+  const [showMainCategoryDropdown, setShowMainCategoryDropdown] = useState(false)
+
+  // Main category options from image and stone products
+  const mainCategoryOptions = [
+    'DREAM TEMPLE',
+    'DREAM MURTIS',
+    'HOME DECOR',
+    'SHOP BY',
+    'LIMITED EDITION',
+    'ON SALE',
+    'GUIDES',
+    'Sandstone',
+    'Limestone',
+    'Slate',
+    'Marble',
+    'Quartzite',
+    'Pebble Stones',
+    'Cobble Stones',
+    'Stone Chips',
+    'Granite',
+    'Natural Indian Stones'
+  ]
+
+  // Load main categories from localStorage
+  useEffect(() => {
+    const storedMainCategories = localStorage.getItem('main_categories')
+    if (storedMainCategories) {
+      setMainCategories(JSON.parse(storedMainCategories))
+    }
+  }, [])
+
+  // Save main categories to localStorage
+  useEffect(() => {
+    if (mainCategories.length > 0) {
+      localStorage.setItem('main_categories', JSON.stringify(mainCategories))
+    }
+  }, [mainCategories])
 
   // Load categories from localStorage on mount
   useEffect(() => {
@@ -34,11 +73,37 @@ const CategoryManagementPage = () => {
     category.description?.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  // Get parent categories for dropdown (excluding self if editing)
-  const getParentCategories = () => {
-    return categories.filter(cat => 
-      !selectedCategory || cat.id !== selectedCategory.id
-    )
+  // Get all main categories for dropdown (saved + default options)
+  const getAllMainCategories = () => {
+    const savedMainCats = mainCategories.map(cat => ({ id: cat.id, name: cat.name, isSaved: true }))
+    const defaultCats = mainCategoryOptions
+      .filter(opt => !mainCategories.some(mc => mc.name === opt))
+      .map((name, index) => ({ id: `default_${index}`, name, isSaved: false }))
+    return [...savedMainCats, ...defaultCats]
+  }
+
+  const handleAddMainCategory = (newMainCategory) => {
+    const newId = Math.max(...mainCategories.map(c => c.id || 0), 0) + 1
+    const categoryWithId = { ...newMainCategory, id: newId }
+    setMainCategories([...mainCategories, categoryWithId])
+    setShowAddMainCategoryModal(false)
+    setShowMainCategoryDropdown(false)
+  }
+
+  const handleQuickAddMainCategory = (categoryName) => {
+    // Check if category already exists
+    const exists = mainCategories.some(cat => cat.name === categoryName)
+    if (!exists) {
+      const newId = Math.max(...mainCategories.map(c => c.id || 0), 0) + 1
+      const newCategory = {
+        id: newId,
+        name: categoryName,
+        description: '',
+        image: ''
+      }
+      setMainCategories([...mainCategories, newCategory])
+    }
+    setShowMainCategoryDropdown(false)
   }
 
   const handleAddCategory = (newCategory) => {
@@ -85,13 +150,85 @@ const CategoryManagementPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-800">{getPageTitle()}</h1>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
-            style={{ backgroundColor: '#8B7355' }}
-          >
-            + Add Category
-          </button>
+          <div className="flex gap-3">
+            {/* Add Main Category Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowMainCategoryDropdown(!showMainCategoryDropdown)}
+                className="px-4 py-2 border-2 border-[#8B7355] text-[#8B7355] rounded-lg font-medium transition-colors hover:bg-[#8B7355] hover:text-white flex items-center gap-2"
+              >
+                + Add Main Category
+                <svg
+                  className={`w-4 h-4 transition-transform ${showMainCategoryDropdown ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {showMainCategoryDropdown && (
+                <>
+                  {/* Backdrop to close dropdown */}
+                  <div
+                    className="fixed inset-0 z-10"
+                    onClick={() => setShowMainCategoryDropdown(false)}
+                  ></div>
+                  
+                  {/* Dropdown Menu */}
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border-2 border-gray-200 z-20 max-h-96 overflow-y-auto">
+                    <div className="p-2">
+                      {/* Quick Add Options */}
+                      <div className="mb-2">
+                        <p className="text-xs font-semibold text-gray-500 uppercase px-2 py-1 mb-1">Quick Add</p>
+                        {mainCategoryOptions.map((option) => {
+                          const exists = mainCategories.some(cat => cat.name === option)
+                          return (
+                            <button
+                              key={option}
+                              onClick={() => handleQuickAddMainCategory(option)}
+                              disabled={exists}
+                              className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
+                                exists
+                                  ? 'text-gray-400 cursor-not-allowed bg-gray-50'
+                                  : 'text-gray-700 hover:bg-[#8B7355] hover:text-white'
+                              }`}
+                            >
+                              {option}
+                              {exists && <span className="ml-2 text-xs">(Added)</span>}
+                            </button>
+                          )
+                        })}
+                      </div>
+                      
+                      {/* Divider */}
+                      <div className="border-t border-gray-200 my-2"></div>
+                      
+                      {/* Add New Option */}
+                      <button
+                        onClick={() => {
+                          setShowMainCategoryDropdown(false)
+                          setShowAddMainCategoryModal(true)
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm text-[#8B7355] hover:bg-[#8B7355] hover:text-white rounded-lg transition-colors font-medium"
+                      >
+                        + Add Custom Main Category
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+              style={{ backgroundColor: '#8B7355' }}
+            >
+              + Add Category
+            </button>
+          </div>
         </div>
 
         {/* Search Bar */}
@@ -131,7 +268,7 @@ const CategoryManagementPage = () => {
                     <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Image</th>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Name</th>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Description</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Parent Category</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Main Category</th>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Price</th>
                     <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Actions</th>
                   </tr>
@@ -161,8 +298,8 @@ const CategoryManagementPage = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
-                          {category.parentCategory || 'None'}
+                        <div className="text-sm font-medium text-gray-700">
+                          {category.mainCategory || 'N/A'}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -206,7 +343,7 @@ const CategoryManagementPage = () => {
               setShowAddModal(false)
               setImagePreview(null)
             }}
-            parentCategories={getParentCategories()}
+            mainCategories={getAllMainCategories()}
             imagePreview={imagePreview}
             setImagePreview={setImagePreview}
           />
@@ -222,7 +359,7 @@ const CategoryManagementPage = () => {
               setSelectedCategory(null)
               setImagePreview(null)
             }}
-            parentCategories={getParentCategories()}
+            mainCategories={getAllMainCategories()}
             imagePreview={imagePreview}
             setImagePreview={setImagePreview}
           />
@@ -230,7 +367,7 @@ const CategoryManagementPage = () => {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && categoryToDelete && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
               <div className="p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Confirm Delete</h2>
@@ -264,11 +401,11 @@ const CategoryManagementPage = () => {
 }
 
 // Category Form Modal Component
-const CategoryFormModal = ({ category, onSave, onClose, parentCategories, imagePreview, setImagePreview }) => {
+const CategoryFormModal = ({ category, onSave, onClose, mainCategories = [], imagePreview, setImagePreview }) => {
   const [formData, setFormData] = useState(category || {
     name: '',
     description: '',
-    parentCategory: '',
+    mainCategory: '',
     price: '',
     image: ''
   })
@@ -296,7 +433,7 @@ const CategoryFormModal = ({ category, onSave, onClose, parentCategories, imageP
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -334,19 +471,21 @@ const CategoryFormModal = ({ category, onSave, onClose, parentCategories, imageP
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Parent Category</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Main Category *</label>
               <select
-                value={formData.parentCategory || ''}
-                onChange={(e) => setFormData({ ...formData, parentCategory: e.target.value })}
+                value={formData.mainCategory || ''}
+                onChange={(e) => setFormData({ ...formData, mainCategory: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                required
               >
-                <option value="">None (Top Level Category)</option>
-                {parentCategories.map((parent) => (
-                  <option key={parent.id} value={parent.name}>
-                    {parent.name}
+                <option value="">Select Main Category</option>
+                {mainCategories.map((mainCat) => (
+                  <option key={mainCat.id} value={mainCat.name}>
+                    {mainCat.name}
                   </option>
                 ))}
               </select>
+              <p className="text-xs text-gray-500 mt-1">Select the main category under which this category will be added</p>
             </div>
 
             <div>
@@ -397,6 +536,121 @@ const CategoryFormModal = ({ category, onSave, onClose, parentCategories, imageP
                 style={{ backgroundColor: '#8B7355' }}
               >
                 {category ? 'Update Category' : 'Add Category'}
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Main Category Form Modal Component
+const MainCategoryFormModal = ({ onSave, onClose, imagePreview, setImagePreview }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    image: ''
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSave(formData)
+  }
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const imageDataUrl = reader.result
+        setFormData({ ...formData, image: imageDataUrl })
+        setImagePreview(imageDataUrl)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-800">
+              Add New Main Category
+            </h2>
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Main Category Name *</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+              <textarea
+                value={formData.description || ''}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                rows="4"
+                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                placeholder="Enter main category description..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Category Image</label>
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <p className="mb-2 text-sm text-gray-500">
+                    <span className="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                </div>
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              </label>
+              {(imagePreview || formData.image) && (
+                <img
+                  src={imagePreview || formData.image}
+                  alt="Preview"
+                  className="mt-2 w-full h-48 object-cover rounded"
+                />
+              )}
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <button
+                type="submit"
+                className="flex-1 px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+                style={{ backgroundColor: '#8B7355' }}
+              >
+                Add Main Category
               </button>
               <button
                 type="button"

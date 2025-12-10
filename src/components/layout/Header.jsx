@@ -259,109 +259,99 @@ const Header = ({
             }}
           >
             {/* Desktop Navbar (>= lg) */}
-            <ul className="hidden lg:flex items-center justify-center">
+            <div className="hidden lg:grid lg:grid-cols-3 items-center w-full">
               {/* LEFT LINKS */}
-              <li>
-                <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
-                  {/* ASLAM MARBLE SUPPLIERS */}
-                  <div 
-                    onMouseEnter={() => handleDropdownChange('house-of-tilak')}
-                  >
-                    <button className={linkClass}>
-                      ASLAM MARBLE SUPPLIERS
-                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
-                    </button>
-                  </div>
-
-                  {/* PROJECTS */}
-                  <div 
-                    onMouseEnter={() => handleDropdownChange('projects')}
-                  >
-                    <button className={linkClass}>
-                      PROJECTS
-                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
-                    </button>
-                  </div>
-
-                  {/* OUR CREATIONS */}
-                  <div 
-                    onMouseEnter={() => handleDropdownChange('our-creations')}
-                  >
-                    <button className={linkClass}>
-                      OUR CREATIONS
-                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
-                    </button>
-                  </div>
-
-                  {/* OUR PRODUCTS */}
-                  <div 
-                    onMouseEnter={() => handleDropdownChange('our-products')}
-                  >
-                    <button className={linkClass}>
-                      OUR PRODUCTS
-                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
-                    </button>
-                  </div>
-
-                  {/* OUR SERVICES */}
-                  <div 
-                    onMouseEnter={() => handleDropdownChange('our-services')}
-                  >
-                    <button className={linkClass}>
-                      OUR SERVICES
-                      <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
-                    </button>
-                  </div>
+              <div className="flex items-center gap-3 md:gap-4 lg:gap-5 justify-start">
+                {/* ASLAM MARBLE SUPPLIERS */}
+                <div 
+                  onMouseEnter={() => handleDropdownChange('house-of-tilak')}
+                >
+                  <button className={`${linkClass} py-2`}>
+                    ASLAM MARBLE SUPPLIERS
+                    <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
+                  </button>
                 </div>
-              </li>
 
-            {/* SPACE BETWEEN LEFT LINKS AND LOGO */}
-            <li className="mx-4 xl:mx-6" />
+                {/* PROJECTS */}
+                <div 
+                  onMouseEnter={() => handleDropdownChange('projects')}
+                >
+                  <button className={`${linkClass} py-2`}>
+                    PROJECTS
+                    <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
+                  </button>
+                </div>
 
-            {/* LOGO */}
-            <li className="flex-shrink-0">
-              <Link to="/" className="block hover:opacity-80">
-                <img
-                  src={logoImage}
-                  alt="Logo"
-                  className="h-20 md:h-24 lg:h-28 xl:h-32 object-contain"
-                />
-              </Link>
-            </li>
+                {/* OUR CREATIONS */}
+                <div 
+                  onMouseEnter={() => handleDropdownChange('our-creations')}
+                >
+                  <button className={`${linkClass} py-2`}>
+                    OUR CREATIONS
+                    <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
+                  </button>
+                </div>
 
-            {/* SPACE BETWEEN LOGO AND RIGHT LINKS */}
-            <li className="mx-4 xl:mx-6" />
+                {/* OUR PRODUCTS */}
+                <div 
+                  onMouseEnter={() => handleDropdownChange('our-products')}
+                >
+                  <button className={`${linkClass} py-2`}>
+                    OUR PRODUCTS
+                    <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
+                  </button>
+                </div>
 
-            {/* RIGHT LINKS */}
-            <li>
-              <div className="flex items-center gap-2 md:gap-3 lg:gap-3.5">
-                <Link to="/how-it-works" className={linkClass}>
+                {/* OUR SERVICES */}
+                <div 
+                  onMouseEnter={() => handleDropdownChange('our-services')}
+                >
+                  <button className={`${linkClass} py-2`}>
+                    OUR SERVICES
+                    <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
+                  </button>
+                </div>
+              </div>
+
+              {/* LOGO - Centered */}
+              <div className="flex-shrink-0 flex justify-center px-4 xl:px-6">
+                <Link to="/" className="block hover:opacity-80">
+                  <img
+                    src={logoImage}
+                    alt="Logo"
+                    className="h-20 md:h-24 lg:h-28 xl:h-32 object-contain mx-auto"
+                  />
+                </Link>
+              </div>
+
+              {/* RIGHT LINKS */}
+              <div className="flex items-center gap-4 md:gap-5 lg:gap-6 xl:gap-7 justify-end pl-4 xl:pl-6">
+                <Link to="/how-it-works" className={`${linkClass} py-2`}>
                   HOW IT WORKS
                   <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
-                <Link to="/location" className={linkClass}>
+                <Link to="/location" className={`${linkClass} py-2`}>
                   LOCATION
                   <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
-                <Link to="/blog" className={linkClass}>
+                <Link to="/blog" className={`${linkClass} py-2`}>
                   BLOG
                   <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
-                <Link to="/book-appointment" className={linkClass}>
+                <Link to="/book-appointment" className={`${linkClass} py-2`}>
                   BOOK APPOINTMENT
                   <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
 
-                <Link to="/testimonials" className={linkClass}>
+                <Link to="/testimonials" className={`${linkClass} py-2`}>
                   TESTIMONIALS
                   <span className={`absolute left-0 bottom-0 h-[2px] w-0 ${underlineColor} transition-all duration-300 group-hover:w-full`}></span>
                 </Link>
               </div>
-            </li>
-          </ul>
+            </div>
 
           {/* Shared Dropdown Container - Full Screen Width - Inside Hover Wrapper */}
           <div

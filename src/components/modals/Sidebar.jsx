@@ -9,7 +9,6 @@ const Sidebar = ({ isOpen, onClose }) => {
     { name: 'The Team', path: '#' },
     { name: 'Careers', path: '/careers' },
     { name: 'Artisans of Tilak', path: '#' },
-    { name: 'Collaborations', path: '#' },
     { name: 'Our Clients', path: '#' }
   ]
 

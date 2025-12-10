@@ -113,7 +113,7 @@ const ProjectsManagementPage = () => {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && projectToDelete && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
               <div className="p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Confirm Delete</h2>
@@ -162,7 +162,7 @@ const ProjectFormModal = ({ project, onSave, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -188,13 +188,22 @@ const ProjectFormModal = ({ project, onSave, onClose }) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Image URL *</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Image *</label>
               <input
-                type="url"
-                value={formData.image}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0]
+                  if (file) {
+                    const reader = new FileReader()
+                    reader.onloadend = () => {
+                      setFormData({ ...formData, image: reader.result })
+                    }
+                    reader.readAsDataURL(file)
+                  }
+                }}
                 className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
-                required
+                required={!formData.image}
               />
               {formData.image && (
                 <img src={formData.image} alt="Preview" className="mt-2 w-full h-48 object-cover rounded" />

@@ -46,77 +46,77 @@ const JoinTheTeamForm = () => {
   }
 
   return (
-    <div id="join-the-team" className="max-w-6xl mx-auto scroll-mt-20">
+    <div id="join-the-team" className="max-w-4xl mx-auto scroll-mt-20">
       {/* Title */}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4" style={{ color: '#8B7355' }}>
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-3" style={{ color: '#8B7355' }}>
         JOIN THE TEAM
       </h2>
       
       {/* Subtitle */}
-      <p className="text-center text-gray-600 mb-8 md:mb-12 text-base md:text-lg">
+      <p className="text-center text-gray-600 mb-6 md:mb-8 text-sm md:text-base">
         Join the Tilak Stone Arts team and help shape the future of craftsmanship and sacred art.
       </p>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-6 md:p-8 lg:p-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-4 md:p-6 lg:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {/* Left Column */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Full Name *</label>
               <input
                 type="text"
                 placeholder="Full Name"
                 value={formData.fullName}
                 onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]"
                 required
               />
             </div>
 
             {/* Current City */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Current City *</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Current City *</label>
               <input
                 type="text"
                 placeholder="Current City"
                 value={formData.currentCity}
                 onChange={(e) => setFormData({...formData, currentCity: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]"
                 required
               />
             </div>
 
             {/* Current Position */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Current Position</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Current Position</label>
               <input
                 type="text"
                 placeholder="Current Position"
                 value={formData.currentPosition}
                 onChange={(e) => setFormData({...formData, currentPosition: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Email *</label>
               <input
                 type="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]"
                 required
               />
             </div>
 
             {/* File Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Resume/CV *</label>
-              <div className="flex items-center gap-3">
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Resume/CV *</label>
+              <div className="flex items-center gap-2">
                 <input
                   type="file"
                   id="resume"
@@ -126,11 +126,11 @@ const JoinTheTeamForm = () => {
                 />
                 <label
                   htmlFor="resume"
-                  className="px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors text-sm md:text-base"
+                  className="px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
                 >
                   Choose File
                 </label>
-                <span className="text-sm text-gray-500">
+                <span className="text-xs text-gray-500 truncate">
                   {formData.resume ? formData.resume.name : 'No file chosen'}
                 </span>
               </div>
@@ -138,14 +138,14 @@ const JoinTheTeamForm = () => {
           </div>
 
           {/* Right Column */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Department */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Department *</label>
               <select
                 value={formData.department}
                 onChange={(e) => setFormData({...formData, department: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600 appearance-none bg-white"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355] appearance-none bg-white"
                 required
               >
                 <option value="">Select Department</option>
@@ -157,11 +157,11 @@ const JoinTheTeamForm = () => {
 
             {/* Applying For */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Applying for *</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Applying for *</label>
               <select
                 value={formData.applyingFor}
                 onChange={(e) => setFormData({...formData, applyingFor: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600 appearance-none bg-white"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355] appearance-none bg-white"
                 required
               >
                 <option value="">Select Position</option>
@@ -175,13 +175,13 @@ const JoinTheTeamForm = () => {
 
             {/* Phone No */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Phone No. *</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1.5">Phone No. *</label>
               <input
                 type="tel"
                 placeholder="Phone No."
                 value={formData.phoneNo}
                 onChange={(e) => setFormData({...formData, phoneNo: e.target.value})}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]"
                 required
               />
             </div>
@@ -189,10 +189,10 @@ const JoinTheTeamForm = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="mt-8 md:mt-10 text-center">
+        <div className="mt-6 text-center">
           <button
             type="submit"
-            className="px-8 md:px-12 py-3 md:py-4 rounded-lg text-white font-semibold text-base md:text-lg transition-colors hover:opacity-90"
+            className="px-6 md:px-8 py-2.5 md:py-3 rounded-lg text-white font-semibold text-sm md:text-base transition-colors hover:opacity-90"
             style={{ backgroundColor: '#8B7355' }}
           >
             Submit Enquiry

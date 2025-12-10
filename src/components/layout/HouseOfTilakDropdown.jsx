@@ -3,16 +3,21 @@ import { homeImages } from '../../data/homeImages'
 
 const HouseOfTilakDropdown = () => {
   const menuItems = [
-    { name: 'About Us', path: '#', id: 'about-us' },
-    { name: 'Experience Centre', path: '#', id: 'experience-centre' },
-    { name: 'The Team', path: '#', id: 'the-team' },
+    { name: 'About Us', path: '/about-us', id: 'about-us' },
+    { name: 'Experience Centre', path: '/experience-centre', id: 'experience-centre' },
+    { name: 'The Team', path: '/the-team', id: 'the-team' },
     { name: 'Careers', path: '/careers', id: 'careers' },
     { name: 'OUR ARTIST', path: '/artisans-of-tilak', id: 'artisans-of-tilak' },
-    { name: 'Collaborations', path: '#', id: 'collaborations' },
-    { name: 'Our Clients', path: '#', id: 'our-clients' }
+    { name: 'Our Clients', path: '/our-clients', id: 'our-clients' }
   ]
 
   const displayImages = homeImages.filter(item => item.id !== 'visit-store')
+
+  // Function to get route path for image ID
+  const getImageRoute = (imageId) => {
+    const menuItem = menuItems.find(item => item.id === imageId)
+    return menuItem && menuItem.path !== '#' ? menuItem.path : null
+  }
 
   return (
     <div className="w-full h-full flex items-start py-4 px-6 md:px-8 lg:px-12 gap-4 md:gap-6 lg:gap-8">
@@ -56,22 +61,19 @@ const HouseOfTilakDropdown = () => {
             </div>
           )
 
-          if (item.id === 'careers') {
+          // Get route for this image
+          const route = getImageRoute(item.id)
+
+          // If route exists and is not '#', wrap in Link
+          if (route) {
             return (
-              <Link key={item.id} to="/careers">
+              <Link key={item.id} to={route}>
                 {ImageContent}
               </Link>
             )
           }
 
-          if (item.id === 'artisans-of-tilak') {
-            return (
-              <Link key={item.id} to="/artisans-of-tilak">
-                {ImageContent}
-              </Link>
-            )
-          }
-
+          // Otherwise, render as div (for items without routes)
           return (
             <div key={item.id}>
               {ImageContent}

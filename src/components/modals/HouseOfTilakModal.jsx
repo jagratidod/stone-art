@@ -10,7 +10,6 @@ const HouseOfTilakModal = ({ isOpen, onClose }) => {
     { name: 'The Team', path: '#', id: 'the-team' },
     { name: 'Careers', path: '/careers', id: 'careers' },
     { name: 'Artisans of Tilak', path: '#', id: 'artisans-of-tilak' },
-    { name: 'Collaborations', path: '#', id: 'collaborations' },
     { name: 'Our Clients', path: '#', id: 'our-clients' }
   ]
 

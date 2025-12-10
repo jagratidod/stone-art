@@ -75,15 +75,10 @@ const AdminSidebar = () => {
       key: 'category',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5.5c.582 0 1.13.214 1.55.582l4.5 4.5c.368.42.582.968.582 1.55V19a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
         </svg>
       ),
-      submenu: [
-        { title: 'Murti', path: '/admin/category/murti' },
-        { title: 'Home Decor', path: '/admin/category/home-decor' },
-        { title: 'Stones', path: '/admin/category/stones' },
-        { title: 'Live Inventory', path: '/admin/category/live' }
-      ]
+      path: '/admin/category/murti'
     },
     {
       title: 'Settings',

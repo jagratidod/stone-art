@@ -167,7 +167,7 @@ const CareersPage = ({
       </section>
 
       {/* Join the Team Section */}
-      <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-8 bg-gradient-to-b from-gray-50 to-white">
+      <section className="w-full py-8 md:py-10 lg:py-12 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
         <JoinTheTeamForm />
       </section>
 

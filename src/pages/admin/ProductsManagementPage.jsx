@@ -203,7 +203,7 @@ const ProductsManagementPage = () => {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && productToDelete && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
               <div className="p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Confirm Delete</h2>
@@ -250,29 +250,30 @@ const ProductFormModal = ({ product, category, onSave, onClose }) => {
     weight: '',
     inStock: true
   })
-  const [imageUrl, setImageUrl] = useState('')
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          images: [...formData.images, reader.result]
+        })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const productData = {
       ...formData,
-      price: parseFloat(formData.price) || 0,
-      images: formData.images.length > 0 ? formData.images : [imageUrl].filter(Boolean)
+      price: parseFloat(formData.price) || 0
     }
     if (product) {
       productData.id = product.id
     }
     onSave(productData)
-  }
-
-  const addImage = () => {
-    if (imageUrl.trim()) {
-      setFormData({
-        ...formData,
-        images: [...formData.images, imageUrl.trim()]
-      })
-      setImageUrl('')
-    }
   }
 
   const removeImage = (index) => {
@@ -283,7 +284,7 @@ const ProductFormModal = ({ product, category, onSave, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
@@ -370,22 +371,13 @@ const ProductFormModal = ({ product, category, onSave, onClose }) => {
               </div>
               <div className="col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Product Images</label>
-                <div className="flex gap-2 mb-2">
+                <div className="mb-2">
                   <input
-                    type="url"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    placeholder="Enter image URL"
-                    className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
                   />
-                  <button
-                    type="button"
-                    onClick={addImage}
-                    className="px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
-                    style={{ backgroundColor: '#8B7355' }}
-                  >
-                    Add Image
-                  </button>
                 </div>
                 {formData.images.length > 0 && (
                   <div className="grid grid-cols-3 gap-2 mt-2">

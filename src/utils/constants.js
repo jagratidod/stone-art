@@ -14,7 +14,6 @@ export const FOOTER_LINKS = {
     { label: 'About Us', href: '#' },
     { label: 'Experience Centre', href: '#' },
     { label: 'The Team', href: '#' },
-    { label: 'Collaborations', href: '#' },
     { label: 'Our Clients', href: '#' },
     { label: 'Careers', href: '#' },
     { label: 'Shop', href: '#' }

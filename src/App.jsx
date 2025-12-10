@@ -27,6 +27,10 @@ import NandiCategoryPage from './pages/NandiCategoryPage'
 import BalajiCategoryPage from './pages/BalajiCategoryPage'
 import DreamTemplePage from './pages/DreamTemplePage'
 import ArtisansOfTilakPage from './pages/ArtisansOfTilakPage'
+import TheTeamPage from './pages/TheTeamPage'
+import AboutUsPage from './pages/AboutUsPage'
+import OurClientsPage from './pages/OurClientsPage'
+import ExperienceCentrePage from './pages/ExperienceCentrePage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import CommunalProjectsPage from './pages/CommunalProjectsPage'
 import ResidentialProjectsPage from './pages/ResidentialProjectsPage'
@@ -216,6 +220,58 @@ function App() {
             onShowCreations={() => setShowOurCreations(true)}
             onShowProducts={() => setShowOurProducts(true)}
             onShowServices={() => setShowOurServices(true)}
+          />
+        } />
+        
+        <Route path="/the-team" element={
+          <TheTeamPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/about-us" element={
+          <AboutUsPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/our-clients" element={
+          <OurClientsPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/experience-centre" element={
+          <ExperienceCentrePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
           />
         } />
         
