@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/common/FloatingButtons'
@@ -38,6 +39,8 @@ const SandstonePage = ({
   onShowLocation, 
   onShowBooking 
 }) => {
+  const navigate = useNavigate()
+  
   const sandstoneImages = [
     { id: 1, name: 'Agra Red Sandstone', image: agraRedSandstone },
     { id: 2, name: 'Autumn Brown Sandstone', image: automnBrownSandstone },
@@ -121,6 +124,7 @@ const SandstonePage = ({
             {sandstoneImages.map((item) => (
               <div
                 key={item.id}
+                onClick={() => navigate(`/products/sandstone/${item.id}`)}
                 className="group cursor-pointer bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-[#8B7355] transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2"
               >
                 <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden bg-gray-100">

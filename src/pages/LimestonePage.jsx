@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/common/FloatingButtons'
@@ -28,6 +29,7 @@ const LimestonePage = ({
   onShowLocation, 
   onShowBooking 
 }) => {
+  const navigate = useNavigate()
 
   const limestoneImages = [
     { id: 1, name: 'Asian Gold Marble', image: asianGoldMarble },
@@ -69,6 +71,7 @@ const LimestonePage = ({
         title="OUR LIMESTONE COLLECTION"
         description="Discover our stunning range of limestone varieties, perfect for creating elegant and sophisticated spaces."
         images={limestoneImages}
+        stoneType="limestone"
       />
 
       <Footer />

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/admin/AdminLayout'
 
 const SettingsPage = () => {
@@ -23,10 +23,60 @@ const SettingsPage = () => {
     { id: 'admin', label: 'Admin Management' }
   ]
 
+  const [seoSettings, setSeoSettings] = useState({
+    metaTitle: '',
+    metaDescription: '',
+    googleAnalytics: ''
+  })
+  const [emailSettings, setEmailSettings] = useState({
+    leadNotificationEmail: 'admin@tilakstone.com',
+    notifyOnNewLeads: true,
+    notifyOnAppointments: true
+  })
+  const [saveStatus, setSaveStatus] = useState({ type: '', message: '' })
+
   const handleSave = () => {
-    // Save settings logic
-    alert('Settings saved successfully!')
+    // Validate required fields
+    if (!settings.websiteName || !settings.contactEmail || !settings.contactPhone) {
+      setSaveStatus({ type: 'error', message: 'Please fill in all required fields' })
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000)
+      return
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(settings.contactEmail)) {
+      setSaveStatus({ type: 'error', message: 'Please enter a valid email address' })
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000)
+      return
+    }
+
+    // In production, save to API
+    // For now, save to localStorage
+    localStorage.setItem('adminSettings', JSON.stringify({
+      general: settings,
+      seo: seoSettings,
+      email: emailSettings
+    }))
+
+    setSaveStatus({ type: 'success', message: 'Settings saved successfully!' })
+    setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000)
   }
+
+  useEffect(() => {
+    // Load settings from localStorage on mount
+    const savedSettings = localStorage.getItem('adminSettings')
+    if (savedSettings) {
+      try {
+        const parsed = JSON.parse(savedSettings)
+        if (parsed.general) setSettings(parsed.general)
+        if (parsed.seo) setSeoSettings(parsed.seo)
+        if (parsed.email) setEmailSettings(parsed.email)
+      } catch (e) {
+        console.error('Error loading settings:', e)
+      }
+    }
+  }, [])
 
   return (
     <AdminLayout>
@@ -163,6 +213,8 @@ const SettingsPage = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Meta Title</label>
                   <input
                     type="text"
+                    value={seoSettings.metaTitle}
+                    onChange={(e) => setSeoSettings({ ...seoSettings, metaTitle: e.target.value })}
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
                     placeholder="Enter meta title"
                   />
@@ -171,6 +223,8 @@ const SettingsPage = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Meta Description</label>
                   <textarea
                     rows="4"
+                    value={seoSettings.metaDescription}
+                    onChange={(e) => setSeoSettings({ ...seoSettings, metaDescription: e.target.value })}
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
                     placeholder="Enter meta description"
                   />
@@ -179,6 +233,8 @@ const SettingsPage = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Google Analytics Code</label>
                   <textarea
                     rows="3"
+                    value={seoSettings.googleAnalytics}
+                    onChange={(e) => setSeoSettings({ ...seoSettings, googleAnalytics: e.target.value })}
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355] font-mono text-sm"
                     placeholder="Paste Google Analytics code here"
                   />
@@ -192,6 +248,8 @@ const SettingsPage = () => {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Lead Notification Email</label>
                   <input
                     type="email"
+                    value={emailSettings.leadNotificationEmail}
+                    onChange={(e) => setEmailSettings({ ...emailSettings, leadNotificationEmail: e.target.value })}
                     className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
                     placeholder="admin@tilakstone.com"
                   />
@@ -199,13 +257,23 @@ const SettingsPage = () => {
                 </div>
                 <div>
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="w-4 h-4" defaultChecked />
+                    <input
+                      type="checkbox"
+                      checked={emailSettings.notifyOnNewLeads}
+                      onChange={(e) => setEmailSettings({ ...emailSettings, notifyOnNewLeads: e.target.checked })}
+                      className="w-4 h-4"
+                    />
                     <span className="text-sm text-gray-700">Send email notification for new leads</span>
                   </label>
                 </div>
                 <div>
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" className="w-4 h-4" defaultChecked />
+                    <input
+                      type="checkbox"
+                      checked={emailSettings.notifyOnAppointments}
+                      onChange={(e) => setEmailSettings({ ...emailSettings, notifyOnAppointments: e.target.checked })}
+                      className="w-4 h-4"
+                    />
                     <span className="text-sm text-gray-700">Send email notification for appointments</span>
                   </label>
                 </div>
@@ -235,10 +303,17 @@ const SettingsPage = () => {
               </div>
             )}
 
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex items-center justify-between">
+              {saveStatus.message && (
+                <div className={`px-4 py-2 rounded-lg ${
+                  saveStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                }`}>
+                  {saveStatus.message}
+                </div>
+              )}
               <button
                 onClick={handleSave}
-                className="px-6 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+                className="px-6 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90 ml-auto"
                 style={{ backgroundColor: '#8B7355' }}
               >
                 Save Settings

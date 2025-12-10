@@ -6,7 +6,8 @@ const AdminSidebar = () => {
   const [expandedMenus, setExpandedMenus] = useState({
     leads: location.pathname.startsWith('/admin/leads'),
     products: location.pathname.startsWith('/admin/products'),
-    content: location.pathname.startsWith('/admin/content')
+    content: location.pathname.startsWith('/admin/content'),
+    category: location.pathname.startsWith('/admin/category')
   })
 
   const menuItems = [
@@ -70,6 +71,21 @@ const AdminSidebar = () => {
       ]
     },
     {
+      title: 'Category',
+      key: 'category',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      ),
+      submenu: [
+        { title: 'Murti', path: '/admin/category/murti' },
+        { title: 'Home Decor', path: '/admin/category/home-decor' },
+        { title: 'Stones', path: '/admin/category/stones' },
+        { title: 'Live Inventory', path: '/admin/category/live' }
+      ]
+    },
+    {
       title: 'Settings',
       key: 'settings',
       icon: (
@@ -94,10 +110,10 @@ const AdminSidebar = () => {
   }
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 h-full flex flex-col">
-      {/* Logo */}
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-bold" style={{ color: '#8B7355' }}>
+    <div className="w-64 h-screen flex flex-col" style={{ backgroundColor: '#8B7355', borderRight: '1px solid rgba(255, 255, 255, 0.1)' }}>
+      {/* Header */}
+      <div className="p-6 border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+        <h2 className="text-xl font-bold text-white">
           Admin Panel
         </h2>
       </div>
@@ -111,7 +127,21 @@ const AdminSidebar = () => {
                 <div>
                   <button
                     onClick={() => toggleMenu(item.key)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-gray-700 uppercase tracking-wider hover:bg-gray-50 rounded-lg transition-colors"
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-white uppercase tracking-wider rounded-lg transition-colors"
+                    style={{ 
+                      backgroundColor: expandedMenus[item.key] ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
+                      ':hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!expandedMenus[item.key]) {
+                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!expandedMenus[item.key]) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }
+                    }}
                   >
                     <div className="flex items-center gap-3">
                       {item.icon}
@@ -137,9 +167,19 @@ const AdminSidebar = () => {
                             className={`flex items-center gap-3 px-4 py-2 text-sm rounded-lg transition-colors ${
                               isActive(subItem.path)
                                 ? 'text-white font-medium'
-                                : 'text-gray-600 hover:bg-gray-100'
+                                : 'text-white hover:bg-white/10'
                             }`}
-                            style={isActive(subItem.path) ? { backgroundColor: '#8B7355' } : {}}
+                            style={isActive(subItem.path) ? { backgroundColor: 'rgba(255, 255, 255, 0.2)' } : { opacity: 0.9 }}
+                            onMouseEnter={(e) => {
+                              if (!isActive(subItem.path)) {
+                                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (!isActive(subItem.path)) {
+                                e.currentTarget.style.backgroundColor = 'transparent'
+                              }
+                            }}
                           >
                             {subItem.title}
                           </Link>
@@ -154,9 +194,19 @@ const AdminSidebar = () => {
                   className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                     isActive(item.path)
                       ? 'text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      : 'text-white hover:bg-white/10'
                   }`}
-                  style={isActive(item.path) ? { backgroundColor: '#8B7355' } : {}}
+                  style={isActive(item.path) ? { backgroundColor: 'rgba(255, 255, 255, 0.2)' } : { opacity: 0.9 }}
+                  onMouseEnter={(e) => {
+                    if (!isActive(item.path)) {
+                      e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive(item.path)) {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                    }
+                  }}
                 >
                   {item.icon}
                   <span>{item.title}</span>
@@ -168,10 +218,11 @@ const AdminSidebar = () => {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-gray-200">
+      <div className="p-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
         <Link
           to="/"
-          className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#8B7355] transition-colors"
+          className="flex items-center gap-2 text-sm text-white hover:opacity-80 transition-opacity"
+          style={{ opacity: 0.9 }}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

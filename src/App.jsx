@@ -32,6 +32,7 @@ import CommunalProjectsPage from './pages/CommunalProjectsPage'
 import ResidentialProjectsPage from './pages/ResidentialProjectsPage'
 import InternationalProjectsPage from './pages/InternationalProjectsPage'
 import SandstonePage from './pages/SandstonePage'
+import StoneProductDetailPage from './pages/StoneProductDetailPage'
 import LimestonePage from './pages/LimestonePage'
 import SlatePage from './pages/SlatePage'
 import NaturalIndianStonesPage from './pages/NaturalIndianStonesPage'
@@ -53,6 +54,7 @@ import ProjectsManagementPage from './pages/admin/ProjectsManagementPage'
 import FAQsManagementPage from './pages/admin/FAQsManagementPage'
 import ContentPagesManagementPage from './pages/admin/ContentPagesManagementPage'
 import SettingsPage from './pages/admin/SettingsPage'
+import CategoryManagementPage from './pages/admin/CategoryManagementPage'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import ProjectsModal from './components/modals/ProjectsModal'
 import OurCreationsModal from './components/modals/OurCreationsModal'
@@ -299,8 +301,47 @@ function App() {
           />
         } />
         
+        <Route path="/products/sandstone/:productId" element={
+          <StoneProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/limestone/:productId" element={
+          <StoneProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
         <Route path="/products/limestone" element={
           <LimestonePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/slate/:productId" element={
+          <StoneProductDetailPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
@@ -325,6 +366,19 @@ function App() {
           />
         } />
         
+        <Route path="/products/natural-indian-stones/:productId" element={
+          <StoneProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
         <Route path="/products/natural-indian-stones" element={
           <NaturalIndianStonesPage 
             onShowSidebar={() => setShowSidebar(true)}
@@ -338,8 +392,34 @@ function App() {
           />
         } />
         
+        <Route path="/products/marble/:productId" element={
+          <StoneProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
         <Route path="/products/marble" element={
           <MarblePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/quartzite/:productId" element={
+          <StoneProductDetailPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
@@ -377,6 +457,19 @@ function App() {
           />
         } />
         
+        <Route path="/products/cobble-stones/:productId" element={
+          <StoneProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
         <Route path="/products/cobble-stones" element={
           <CobbleStonesPage 
             onShowSidebar={() => setShowSidebar(true)}
@@ -390,8 +483,34 @@ function App() {
           />
         } />
         
+        <Route path="/products/stone-chips/:productId" element={
+          <StoneProductDetailPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
         <Route path="/products/stone-chips" element={
           <StoneChipsPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/products/granite/:productId" element={
+          <StoneProductDetailPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}
@@ -868,6 +987,11 @@ function App() {
         <Route path="/admin/settings" element={
           <ProtectedRoute>
             <SettingsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/category/:type" element={
+          <ProtectedRoute>
+            <CategoryManagementPage />
           </ProtectedRoute>
         } />
       </Routes>

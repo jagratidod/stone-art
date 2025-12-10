@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdminLayout from '../../components/admin/AdminLayout'
 import { useParams } from 'react-router-dom'
 
@@ -7,6 +7,11 @@ const LeadsManagementPage = () => {
   const [leads, setLeads] = useState([])
   const [filter, setFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedLead, setSelectedLead] = useState(null)
+  const [showDetailsModal, setShowDetailsModal] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [leadToDelete, setLeadToDelete] = useState(null)
 
   // Dummy data - in production, fetch from API
   const dummyLeads = [
@@ -33,8 +38,58 @@ const LeadsManagementPage = () => {
       date: '2024-01-14',
       budget: '10-20 Lakhs',
       lookingFor: 'Dream Temple'
+    },
+    {
+      id: 3,
+      name: 'Amit Patel',
+      email: 'amit@example.com',
+      phone: '+91 9876543212',
+      city: 'Ahmedabad',
+      type: 'DOMESTIC',
+      status: 'quotation_sent',
+      date: '2024-01-13',
+      budget: '3-5 Lakhs',
+      lookingFor: 'Murti Collection',
+      address: '123, Main Street, Ahmedabad',
+      pincode: '380001',
+      message: 'Looking for premium quality murtis for home temple.'
+    },
+    {
+      id: 4,
+      name: 'Sunita Reddy',
+      email: 'sunita@example.com',
+      phone: '+91 9876543213',
+      city: 'Hyderabad',
+      type: 'DOMESTIC',
+      status: 'closed',
+      date: '2024-01-12',
+      budget: '15-20 Lakhs',
+      lookingFor: 'Complete Dream Temple',
+      address: '456, Park Avenue, Hyderabad',
+      pincode: '500001',
+      message: 'Interested in complete dream temple package.'
+    },
+    {
+      id: 5,
+      name: 'Vikram Singh',
+      email: 'vikram@example.com',
+      phone: '+91 9876543214',
+      city: 'Pune',
+      type: 'DOMESTIC',
+      status: 'new',
+      date: '2024-01-16',
+      budget: '8-12 Lakhs',
+      lookingFor: 'Pooja Room Setup',
+      address: '789, MG Road, Pune',
+      pincode: '411001',
+      message: 'Need complete pooja room design and installation.'
     }
   ]
+
+  useEffect(() => {
+    // Initialize with dummy data
+    setLeads(dummyLeads)
+  }, [type])
 
   const getPageTitle = () => {
     switch(type) {
@@ -73,9 +128,78 @@ const LeadsManagementPage = () => {
     const matchesSearch = searchTerm === '' || 
       lead.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       lead.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lead.city.toLowerCase().includes(searchTerm.toLowerCase())
+      lead.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lead.phone.includes(searchTerm)
     return matchesFilter && matchesSearch
   })
+
+  const handleViewDetails = (lead) => {
+    setSelectedLead(lead)
+    setShowDetailsModal(true)
+  }
+
+  const handleEdit = (lead) => {
+    setSelectedLead(lead)
+    setShowEditModal(true)
+  }
+
+  const handleDelete = (lead) => {
+    setLeadToDelete(lead)
+    setShowDeleteConfirm(true)
+  }
+
+  const confirmDelete = () => {
+    if (leadToDelete) {
+      setLeads(leads.filter(lead => lead.id !== leadToDelete.id))
+      setShowDeleteConfirm(false)
+      setLeadToDelete(null)
+    }
+  }
+
+  const handleStatusUpdate = (leadId, newStatus) => {
+    setLeads(leads.map(lead => 
+      lead.id === leadId ? { ...lead, status: newStatus } : lead
+    ))
+    if (selectedLead && selectedLead.id === leadId) {
+      setSelectedLead({ ...selectedLead, status: newStatus })
+    }
+  }
+
+  const handleSaveEdit = (updatedLead) => {
+    setLeads(leads.map(lead => 
+      lead.id === updatedLead.id ? updatedLead : lead
+    ))
+    setShowEditModal(false)
+    setSelectedLead(null)
+  }
+
+  const exportToCSV = () => {
+    const headers = ['ID', 'Name', 'Email', 'Phone', 'City', 'Status', 'Date', 'Budget', 'Looking For']
+    const csvContent = [
+      headers.join(','),
+      ...filteredLeads.map(lead => [
+        lead.id,
+        `"${lead.name}"`,
+        lead.email,
+        lead.phone,
+        lead.city,
+        lead.status,
+        lead.date,
+        lead.budget || '',
+        `"${lead.lookingFor || ''}"`
+      ].join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `${getPageTitle().replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   return (
     <AdminLayout>
@@ -84,6 +208,7 @@ const LeadsManagementPage = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-800">{getPageTitle()}</h1>
           <button
+            onClick={exportToCSV}
             className="px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
             style={{ backgroundColor: '#8B7355' }}
           >
@@ -156,11 +281,26 @@ const LeadsManagementPage = () => {
                       <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(lead.status)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.date}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <button
-                          className="text-[#8B7355] hover:underline font-medium"
-                        >
-                          View Details
-                        </button>
+                        <div className="flex gap-3">
+                          <button
+                            onClick={() => handleViewDetails(lead)}
+                            className="text-[#8B7355] hover:underline font-medium"
+                          >
+                            View
+                          </button>
+                          <button
+                            onClick={() => handleEdit(lead)}
+                            className="text-blue-600 hover:underline font-medium"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(lead)}
+                            className="text-red-600 hover:underline font-medium"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -170,7 +310,308 @@ const LeadsManagementPage = () => {
           </div>
         </div>
       </div>
+
+      {/* View Details Modal */}
+      {showDetailsModal && selectedLead && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">Lead Details</h2>
+                <button
+                  onClick={() => {
+                    setShowDetailsModal(false)
+                    setSelectedLead(null)
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">ID</label>
+                    <p className="text-gray-800">#{selectedLead.id}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Status</label>
+                    <div className="mt-1">{getStatusBadge(selectedLead.status)}</div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Name</label>
+                    <p className="text-gray-800">{selectedLead.name}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Email</label>
+                    <p className="text-gray-800">{selectedLead.email}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Phone</label>
+                    <p className="text-gray-800">{selectedLead.phone}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">City</label>
+                    <p className="text-gray-800">{selectedLead.city}</p>
+                  </div>
+                  {selectedLead.address && (
+                    <div className="col-span-2">
+                      <label className="text-sm font-semibold text-gray-600">Address</label>
+                      <p className="text-gray-800">{selectedLead.address}</p>
+                    </div>
+                  )}
+                  {selectedLead.pincode && (
+                    <div>
+                      <label className="text-sm font-semibold text-gray-600">Pincode</label>
+                      <p className="text-gray-800">{selectedLead.pincode}</p>
+                    </div>
+                  )}
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Date</label>
+                    <p className="text-gray-800">{selectedLead.date}</p>
+                  </div>
+                  {selectedLead.budget && (
+                    <div>
+                      <label className="text-sm font-semibold text-gray-600">Budget</label>
+                      <p className="text-gray-800">{selectedLead.budget}</p>
+                    </div>
+                  )}
+                  {selectedLead.lookingFor && (
+                    <div>
+                      <label className="text-sm font-semibold text-gray-600">Looking For</label>
+                      <p className="text-gray-800">{selectedLead.lookingFor}</p>
+                    </div>
+                  )}
+                  {selectedLead.message && (
+                    <div className="col-span-2">
+                      <label className="text-sm font-semibold text-gray-600">Message</label>
+                      <p className="text-gray-800">{selectedLead.message}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-4 border-t border-gray-200">
+                  <label className="text-sm font-semibold text-gray-600 mb-2 block">Update Status</label>
+                  <div className="flex gap-2">
+                    {statusOptions.filter(opt => opt.value !== 'all').map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => handleStatusUpdate(selectedLead.id, option.value)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                          selectedLead.status === option.value
+                            ? 'text-white'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                        style={selectedLead.status === option.value ? { backgroundColor: '#8B7355' } : {}}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={() => {
+                      setShowDetailsModal(false)
+                      handleEdit(selectedLead)
+                    }}
+                    className="flex-1 px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+                    style={{ backgroundColor: '#8B7355' }}
+                  >
+                    Edit Lead
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowDetailsModal(false)
+                      setSelectedLead(null)
+                    }}
+                    className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {showEditModal && selectedLead && (
+        <EditLeadModal
+          lead={selectedLead}
+          onSave={handleSaveEdit}
+          onClose={() => {
+            setShowEditModal(false)
+            setSelectedLead(null)
+          }}
+        />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && leadToDelete && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div className="p-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Confirm Delete</h2>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to delete lead <strong>#{leadToDelete.id} - {leadToDelete.name}</strong>? This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => {
+                    setShowDeleteConfirm(false)
+                    setLeadToDelete(null)
+                  }}
+                  className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
+  )
+}
+
+// Edit Lead Modal Component
+const EditLeadModal = ({ lead, onSave, onClose }) => {
+  const [formData, setFormData] = useState(lead)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSave(formData)
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-800">Edit Lead</h2>
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">City</label>
+                <input
+                  type="text"
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                <select
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                >
+                  <option value="new">New</option>
+                  <option value="in_discussion">In Discussion</option>
+                  <option value="quotation_sent">Quotation Sent</option>
+                  <option value="closed">Closed</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Budget</label>
+                <input
+                  type="text"
+                  value={formData.budget || ''}
+                  onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                />
+              </div>
+              <div className="col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Looking For</label>
+                <input
+                  type="text"
+                  value={formData.lookingFor || ''}
+                  onChange={(e) => setFormData({ ...formData, lookingFor: e.target.value })}
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                />
+              </div>
+              <div className="col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                <textarea
+                  value={formData.message || ''}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  rows="3"
+                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#8B7355]"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <button
+                type="submit"
+                className="flex-1 px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+                style={{ backgroundColor: '#8B7355' }}
+              >
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }
 

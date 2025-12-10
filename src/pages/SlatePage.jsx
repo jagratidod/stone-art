@@ -114,6 +114,7 @@ const SlatePage = ({
         title="OUR SLATE COLLECTION"
         description="Discover our stunning range of slate varieties, perfect for creating elegant and sophisticated spaces with natural beauty."
         images={slateImages}
+        stoneType="slate"
       />
 
       <Footer />

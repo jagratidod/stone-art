@@ -1,8 +1,34 @@
+import { useNavigate } from 'react-router-dom'
+
 const ImageGallery = ({ 
   title, 
   description, 
-  images 
+  images,
+  stoneType 
 }) => {
+  const navigate = useNavigate()
+
+  const handleImageClick = (item) => {
+    if (stoneType && item.id) {
+      // Store product data in sessionStorage
+      const productData = {
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        specifications: {
+          'Origin': 'North India',
+          'Color': 'Various',
+          'Finish': 'Honed, Brushed, Natural, Tumbled',
+          'Offered In': 'Tiles, Pavers, Crazy, Mosaic',
+          'Tiles Size': '30 X 30, 30 X 60, 60 X 60 CM',
+          'Price': '₹45 - ₹65 per sq.ft'
+        }
+      }
+      sessionStorage.setItem(`stoneProduct_${stoneType}_${item.id}`, JSON.stringify(productData))
+      navigate(`/products/${stoneType}/${item.id}`)
+    }
+  }
+
   return (
     <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -24,6 +50,7 @@ const ImageGallery = ({
           {images.map((item, index) => (
             <div
               key={item.id || index}
+              onClick={() => handleImageClick(item)}
               className="group cursor-pointer bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-[#8B7355] transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2"
             >
               <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden bg-gray-100">

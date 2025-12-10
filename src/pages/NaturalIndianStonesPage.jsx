@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/common/FloatingButtons'
@@ -31,6 +32,7 @@ const NaturalIndianStonesPage = ({
   onShowLocation,
   onShowBooking
 }) => {
+  const navigate = useNavigate()
   const [selectedImage, setSelectedImage] = useState(null)
 
   const stoneImages = [
@@ -150,7 +152,23 @@ const NaturalIndianStonesPage = ({
             {stoneImages.map((item) => (
               <div
                 key={item.id}
-                onClick={() => setSelectedImage(item)}
+                onClick={() => {
+                  const productData = {
+                    id: item.id,
+                    name: item.name,
+                    image: item.image,
+                    specifications: {
+                      'Origin': 'North India',
+                      'Color': 'Various',
+                      'Finish': 'Honed, Brushed, Natural, Tumbled',
+                      'Offered In': 'Tiles, Pavers, Crazy, Mosaic',
+                      'Tiles Size': '30 X 30, 30 X 60, 60 X 60 CM',
+                      'Price': '₹45 - ₹65 per sq.ft'
+                    }
+                  }
+                  sessionStorage.setItem(`stoneProduct_natural-indian-stones_${item.id}`, JSON.stringify(productData))
+                  navigate(`/products/natural-indian-stones/${item.id}`)
+                }}
                 className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
               >
                 {/* Image Container */}
