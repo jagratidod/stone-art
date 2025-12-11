@@ -34,6 +34,58 @@ const OurCreationsDropdown = () => {
                 </Link>
               )
             }
+
+            // Make "Pooja Rooms" clickable and navigate to /pooja-room
+            if (category === 'Pooja Rooms') {
+              return (
+                <Link
+                  key={category}
+                  to="/pooja-room"
+                  className="block w-full text-left px-3 py-2 text-xs md:text-sm text-gray-700 hover:text-[#8B7355] hover:bg-gray-50 rounded transition-all duration-200 font-medium"
+                >
+                  {category}
+                </Link>
+              )
+            }
+
+            // Make "Home Decor" clickable and navigate to /home-decor
+            if (category === 'Home Decor') {
+              return (
+                <Link
+                  key={category}
+                  to="/home-decor"
+                  className="block w-full text-left px-3 py-2 text-xs md:text-sm text-gray-700 hover:text-[#8B7355] hover:bg-gray-50 rounded transition-all duration-200 font-medium"
+                >
+                  {category}
+                </Link>
+              )
+            }
+
+            // Make "Communal Temples" clickable and navigate to /communal-temples
+            if (category === 'Communal Temples') {
+              return (
+                <Link
+                  key={category}
+                  to="/communal-temples"
+                  className="block w-full text-left px-3 py-2 text-xs md:text-sm text-gray-700 hover:text-[#8B7355] hover:bg-gray-50 rounded transition-all duration-200 font-medium"
+                >
+                  {category}
+                </Link>
+              )
+            }
+
+            // Make "Jain Temples" clickable and navigate to /jain-temples
+            if (category === 'Jain Temples') {
+              return (
+                <Link
+                  key={category}
+                  to="/jain-temples"
+                  className="block w-full text-left px-3 py-2 text-xs md:text-sm text-gray-700 hover:text-[#8B7355] hover:bg-gray-50 rounded transition-all duration-200 font-medium"
+                >
+                  {category}
+                </Link>
+              )
+            }
             
             return (
               <button
@@ -77,6 +129,38 @@ const OurCreationsDropdown = () => {
           if (item.id === 'dream-temples') {
             return (
               <Link key={item.id} to="/dream-temple">
+                {ImageContent}
+              </Link>
+            )
+          }
+
+          if (item.id === 'pooja-rooms') {
+            return (
+              <Link key={item.id} to="/pooja-room">
+                {ImageContent}
+              </Link>
+            )
+          }
+
+          if (item.id === 'home-decor') {
+            return (
+              <Link key={item.id} to="/home-decor">
+                {ImageContent}
+              </Link>
+            )
+          }
+
+          if (item.id === 'communal-temples') {
+            return (
+              <Link key={item.id} to="/communal-temples">
+                {ImageContent}
+              </Link>
+            )
+          }
+
+          if (item.id === 'jain-temples') {
+            return (
+              <Link key={item.id} to="/jain-temples">
                 {ImageContent}
               </Link>
             )

@@ -46,6 +46,76 @@ const OurCreationsModal = ({ isOpen, onClose }) => {
                       </Link>
                     )
                   }
+
+                  // Make "Dream Temples" clickable and navigate to /dream-temple
+                  if (category === 'Dream Temples') {
+                    return (
+                      <Link
+                        key={category}
+                        to="/dream-temple"
+                        onClick={onClose}
+                        className="block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-gray-200 hover:text-[#8B7355] font-medium"
+                      >
+                        {category}
+                      </Link>
+                    )
+                  }
+
+                  // Make "Pooja Rooms" clickable and navigate to /pooja-room
+                  if (category === 'Pooja Rooms') {
+                    return (
+                      <Link
+                        key={category}
+                        to="/pooja-room"
+                        onClick={onClose}
+                        className="block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-gray-200 hover:text-[#8B7355] font-medium"
+                      >
+                        {category}
+                      </Link>
+                    )
+                  }
+
+                  // Make "Home Decor" clickable and navigate to /home-decor
+                  if (category === 'Home Decor') {
+                    return (
+                      <Link
+                        key={category}
+                        to="/home-decor"
+                        onClick={onClose}
+                        className="block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-gray-200 hover:text-[#8B7355] font-medium"
+                      >
+                        {category}
+                      </Link>
+                    )
+                  }
+
+                  // Make "Communal Temples" clickable and navigate to /communal-temples
+                  if (category === 'Communal Temples') {
+                    return (
+                      <Link
+                        key={category}
+                        to="/communal-temples"
+                        onClick={onClose}
+                        className="block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-gray-200 hover:text-[#8B7355] font-medium"
+                      >
+                        {category}
+                      </Link>
+                    )
+                  }
+
+                  // Make "Jain Temples" clickable and navigate to /jain-temples
+                  if (category === 'Jain Temples') {
+                    return (
+                      <Link
+                        key={category}
+                        to="/jain-temples"
+                        onClick={onClose}
+                        className="block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-gray-700 hover:bg-gray-200 hover:text-[#8B7355] font-medium"
+                      >
+                        {category}
+                      </Link>
+                    )
+                  }
                   
                   return (
                     <button
@@ -86,6 +156,51 @@ const OurCreationsModal = ({ isOpen, onClose }) => {
                   if (item.id === 'murti') {
                     return (
                       <Link key={item.id} to="/murti" onClick={onClose}>
+                        {ItemContent}
+                      </Link>
+                    )
+                  }
+
+                  // Make Dream Temples image clickable
+                  if (item.id === 'dream-temples') {
+                    return (
+                      <Link key={item.id} to="/dream-temple" onClick={onClose}>
+                        {ItemContent}
+                      </Link>
+                    )
+                  }
+
+                  // Make Pooja Rooms image clickable
+                  if (item.id === 'pooja-rooms') {
+                    return (
+                      <Link key={item.id} to="/pooja-room" onClick={onClose}>
+                        {ItemContent}
+                      </Link>
+                    )
+                  }
+
+                  // Make Home Decor image clickable
+                  if (item.id === 'home-decor') {
+                    return (
+                      <Link key={item.id} to="/home-decor" onClick={onClose}>
+                        {ItemContent}
+                      </Link>
+                    )
+                  }
+
+                  // Make Communal Temples image clickable
+                  if (item.id === 'communal-temples') {
+                    return (
+                      <Link key={item.id} to="/communal-temples" onClick={onClose}>
+                        {ItemContent}
+                      </Link>
+                    )
+                  }
+
+                  // Make Jain Temples image clickable
+                  if (item.id === 'jain-temples') {
+                    return (
+                      <Link key={item.id} to="/jain-temples" onClick={onClose}>
                         {ItemContent}
                       </Link>
                     )

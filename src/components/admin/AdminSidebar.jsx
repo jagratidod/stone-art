@@ -67,7 +67,10 @@ const AdminSidebar = () => {
         { title: 'Testimonials', path: '/admin/content/testimonials' },
         { title: 'Projects', path: '/admin/content/projects' },
         { title: 'FAQs', path: '/admin/content/faqs' },
-        { title: 'Content Pages', path: '/admin/content/pages' }
+        { title: 'Content Pages', path: '/admin/content/pages' },
+        { title: 'Hero Section', path: '/admin/content/hero-section' },
+        { title: 'Our Creations', path: '/admin/content/our-creations' },
+        { title: 'Our Services', path: '/admin/content/our-services' }
       ]
     },
     {

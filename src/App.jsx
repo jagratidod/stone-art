@@ -26,6 +26,10 @@ import JainMurtiCategoryPage from './pages/JainMurtiCategoryPage'
 import NandiCategoryPage from './pages/NandiCategoryPage'
 import BalajiCategoryPage from './pages/BalajiCategoryPage'
 import DreamTemplePage from './pages/DreamTemplePage'
+import PoojaRoomPage from './pages/PoojaRoomPage'
+import HomeDecorPage from './pages/HomeDecorPage'
+import CommunalTemplesPage from './pages/CommunalTemplesPage'
+import JainTemplesPage from './pages/JainTemplesPage'
 import ArtisansOfTilakPage from './pages/ArtisansOfTilakPage'
 import TheTeamPage from './pages/TheTeamPage'
 import AboutUsPage from './pages/AboutUsPage'
@@ -59,6 +63,9 @@ import FAQsManagementPage from './pages/admin/FAQsManagementPage'
 import ContentPagesManagementPage from './pages/admin/ContentPagesManagementPage'
 import SettingsPage from './pages/admin/SettingsPage'
 import CategoryManagementPage from './pages/admin/CategoryManagementPage'
+import HeroSectionManagementPage from './pages/admin/HeroSectionManagementPage'
+import OurCreationsManagementPage from './pages/admin/OurCreationsManagementPage'
+import OurServicesManagementPage from './pages/admin/OurServicesManagementPage'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import ProjectsModal from './components/modals/ProjectsModal'
 import OurCreationsModal from './components/modals/OurCreationsModal'
@@ -300,6 +307,34 @@ function App() {
         
         <Route path="/dream-temple" element={
           <DreamTemplePage 
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
+          />
+        } />
+        
+        <Route path="/pooja-room" element={
+          <PoojaRoomPage 
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
+          />
+        } />
+        
+        <Route path="/home-decor" element={
+          <HomeDecorPage 
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
+          />
+        } />
+        
+        <Route path="/communal-temples" element={
+          <CommunalTemplesPage 
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
+          />
+        } />
+        
+        <Route path="/jain-temples" element={
+          <JainTemplesPage 
             onShowCart={() => setShowCart(true)}
             onShowLikes={() => setShowLikes(true)}
           />
@@ -1038,6 +1073,21 @@ function App() {
         <Route path="/admin/content/pages" element={
           <ProtectedRoute>
             <ContentPagesManagementPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/content/hero-section" element={
+          <ProtectedRoute>
+            <HeroSectionManagementPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/content/our-creations" element={
+          <ProtectedRoute>
+            <OurCreationsManagementPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/content/our-services" element={
+          <ProtectedRoute>
+            <OurServicesManagementPage />
           </ProtectedRoute>
         } />
         <Route path="/admin/settings" element={
