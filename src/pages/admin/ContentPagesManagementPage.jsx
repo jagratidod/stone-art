@@ -5,7 +5,7 @@ const ContentPagesManagementPage = () => {
   const [pages, setPages] = useState([
     { id: 1, name: 'About Us', slug: 'about-us', path: '/about-us' },
     { id: 2, name: 'Experience Centre', slug: 'experience-centre', path: '/experience-centre' },
-    { id: 3, name: 'TSA International Page', slug: 'tsa-international', path: '/services/tsa-international' },
+    { id: 3, name: 'AMS International Page', slug: 'tsa-international', path: '/services/tsa-international' },
     { id: 4, name: 'Why Choose Us', slug: 'why-choose-us', path: '/why-choose-us' },
     { id: 5, name: 'FAQ Page', slug: 'faq', path: '/faq' },
     { id: 6, name: 'Terms & Conditions', slug: 'terms', path: '/terms' },

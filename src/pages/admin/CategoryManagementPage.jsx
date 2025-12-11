@@ -14,7 +14,6 @@ const CategoryManagementPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categoryToDelete, setCategoryToDelete] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
-  const [showMainCategoryDropdown, setShowMainCategoryDropdown] = useState(false)
 
   // Main category options from image and stone products
   const mainCategoryOptions = [
@@ -87,7 +86,6 @@ const CategoryManagementPage = () => {
     const categoryWithId = { ...newMainCategory, id: newId }
     setMainCategories([...mainCategories, categoryWithId])
     setShowAddMainCategoryModal(false)
-    setShowMainCategoryDropdown(false)
   }
 
   const handleQuickAddMainCategory = (categoryName) => {
@@ -103,7 +101,6 @@ const CategoryManagementPage = () => {
       }
       setMainCategories([...mainCategories, newCategory])
     }
-    setShowMainCategoryDropdown(false)
   }
 
   const handleAddCategory = (newCategory) => {
@@ -150,89 +147,91 @@ const CategoryManagementPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-gray-800">{getPageTitle()}</h1>
-          <div className="flex gap-3">
-            {/* Add Main Category Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setShowMainCategoryDropdown(!showMainCategoryDropdown)}
-                className="px-4 py-2 border-2 border-[#8B7355] text-[#8B7355] rounded-lg font-medium transition-colors hover:bg-[#8B7355] hover:text-white flex items-center gap-2"
-              >
-                + Add Main Category
-                <svg
-                  className={`w-4 h-4 transition-transform ${showMainCategoryDropdown ? 'rotate-180' : ''}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              
-              {showMainCategoryDropdown && (
-                <>
-                  {/* Backdrop to close dropdown */}
-                  <div
-                    className="fixed inset-0 z-10"
-                    onClick={() => setShowMainCategoryDropdown(false)}
-                  ></div>
-                  
-                  {/* Dropdown Menu */}
-                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border-2 border-gray-200 z-20 max-h-96 overflow-y-auto">
-                    <div className="p-2">
-                      {/* Quick Add Options */}
-                      <div className="mb-2">
-                        <p className="text-xs font-semibold text-gray-500 uppercase px-2 py-1 mb-1">Quick Add</p>
-                        {mainCategoryOptions.map((option) => {
-                          const exists = mainCategories.some(cat => cat.name === option)
-                          return (
-                            <button
-                              key={option}
-                              onClick={() => handleQuickAddMainCategory(option)}
-                              disabled={exists}
-                              className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
-                                exists
-                                  ? 'text-gray-400 cursor-not-allowed bg-gray-50'
-                                  : 'text-gray-700 hover:bg-[#8B7355] hover:text-white'
-                              }`}
-                            >
-                              {option}
-                              {exists && <span className="ml-2 text-xs">(Added)</span>}
-                            </button>
-                          )
-                        })}
-                      </div>
-                      
-                      {/* Divider */}
-                      <div className="border-t border-gray-200 my-2"></div>
-                      
-                      {/* Add New Option */}
-                      <button
-                        onClick={() => {
-                          setShowMainCategoryDropdown(false)
-                          setShowAddMainCategoryModal(true)
-                        }}
-                        className="w-full text-left px-3 py-2 text-sm text-[#8B7355] hover:bg-[#8B7355] hover:text-white rounded-lg transition-colors font-medium"
-                      >
-                        + Add Custom Main Category
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-            
+        </div>
+
+        {/* Add Main Category Section */}
+        <div className="bg-white rounded-lg shadow-md p-4 lg:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+            <h2 className="text-lg lg:text-xl font-bold text-gray-800">Main Categories</h2>
             <button
-              onClick={() => setShowAddModal(true)}
-              className="px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
-              style={{ backgroundColor: '#8B7355' }}
+              onClick={() => setShowAddMainCategoryModal(true)}
+              className="w-full sm:w-auto px-3 lg:px-4 py-2 text-sm lg:text-base border-2 border-[#8B7355] text-[#8B7355] rounded-lg font-medium transition-colors hover:bg-[#8B7355] hover:text-white flex items-center justify-center gap-2"
             >
-              + Add Category
+              + Add Main Category
             </button>
+          </div>
+          
+          {/* Display All Main Categories */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mt-4">
+            {/* Show saved main categories */}
+            {mainCategories.map((mainCat) => (
+              <div
+                key={mainCat.id}
+                className="border-2 border-gray-200 rounded-lg p-4 hover:border-[#8B7355] transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-800">{mainCat.name}</h3>
+                    {mainCat.description && (
+                      <p className="text-sm text-gray-500 mt-1 line-clamp-2">{mainCat.description}</p>
+                    )}
+                  </div>
+                  {mainCat.image && (
+                    <img
+                      src={mainCat.image}
+                      alt={mainCat.name}
+                      className="w-16 h-16 object-cover rounded ml-3"
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+            
+            {/* Show default options that aren't saved yet */}
+            {mainCategoryOptions
+              .filter(opt => !mainCategories.some(mc => mc.name === opt))
+              .map((option, index) => (
+                <div
+                  key={`default_${index}`}
+                  className="border-2 border-gray-200 rounded-lg p-4 hover:border-[#8B7355] transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-800">{option}</h3>
+                      <p className="text-xs text-gray-400 mt-1">Default Option</p>
+                    </div>
+                    <button
+                      onClick={() => handleQuickAddMainCategory(option)}
+                      className="ml-3 px-3 py-1 text-sm border border-[#8B7355] text-[#8B7355] rounded hover:bg-[#8B7355] hover:text-white transition-colors"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              ))}
+            
+            {/* Show message if no categories */}
+            {mainCategories.length === 0 && mainCategoryOptions.length === 0 && (
+              <div className="col-span-full text-center py-8 text-gray-500">
+                No main categories found. Click "Add Main Category" to get started.
+              </div>
+            )}
           </div>
         </div>
 
+        {/* Add Category Button */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => setShowAddModal(true)}
+            className="w-full sm:w-auto px-4 py-2 text-sm lg:text-base text-white rounded-lg font-medium transition-colors hover:opacity-90"
+            style={{ backgroundColor: '#8B7355' }}
+          >
+            + Add Category
+          </button>
+        </div>
+
         {/* Search Bar */}
-        <div className="bg-white rounded-lg shadow-md p-4">
+        <div className="bg-white rounded-lg shadow-md p-3 lg:p-4">
           <div className="relative">
             <input
               type="text"
@@ -255,73 +254,73 @@ const CategoryManagementPage = () => {
         {/* Categories List */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {filteredCategories.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500">
+            <div className="text-center py-12 px-4">
+              <p className="text-sm lg:text-base text-gray-500">
                 {searchQuery ? 'No categories found matching your search.' : 'No categories found. Click "Add Category" to get started.'}
               </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[640px]">
                 <thead style={{ backgroundColor: '#8B7355' }}>
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Image</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Description</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Main Category</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase">Actions</th>
+                    <th className="px-3 lg:px-6 py-2 lg:py-3 text-left text-xs font-semibold text-white uppercase">Image</th>
+                    <th className="px-3 lg:px-6 py-2 lg:py-3 text-left text-xs font-semibold text-white uppercase">Name</th>
+                    <th className="px-3 lg:px-6 py-2 lg:py-3 text-left text-xs font-semibold text-white uppercase hidden md:table-cell">Description</th>
+                    <th className="px-3 lg:px-6 py-2 lg:py-3 text-left text-xs font-semibold text-white uppercase">Main Category</th>
+                    <th className="px-3 lg:px-6 py-2 lg:py-3 text-left text-xs font-semibold text-white uppercase hidden sm:table-cell">Price</th>
+                    <th className="px-3 lg:px-6 py-2 lg:py-3 text-left text-xs font-semibold text-white uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredCategories.map((category) => (
                     <tr key={category.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-3 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
                         {category.image ? (
                           <img
                             src={category.image}
                             alt={category.name}
-                            className="w-16 h-16 object-cover rounded"
+                            className="w-12 h-12 lg:w-16 lg:h-16 object-cover rounded"
                           />
                         ) : (
-                          <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+                          <div className="w-12 h-12 lg:w-16 lg:h-16 bg-gray-200 rounded flex items-center justify-center">
                             <span className="text-gray-400 text-xs">No Image</span>
                           </div>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{category.name}</div>
+                      <td className="px-3 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                        <div className="text-xs lg:text-sm font-medium text-gray-900">{category.name}</div>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-gray-500 max-w-md truncate">
+                      <td className="px-3 lg:px-6 py-3 lg:py-4 hidden md:table-cell">
+                        <div className="text-xs lg:text-sm text-gray-500 max-w-md truncate">
                           {category.description || 'N/A'}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-700">
+                      <td className="px-3 lg:px-6 py-3 lg:py-4 whitespace-nowrap">
+                        <div className="text-xs lg:text-sm font-medium text-gray-700">
                           {category.mainCategory || 'N/A'}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
+                      <td className="px-3 lg:px-6 py-3 lg:py-4 whitespace-nowrap hidden sm:table-cell">
+                        <div className="text-xs lg:text-sm font-medium text-gray-900">
                           {category.price ? `₹${category.price.toLocaleString('en-IN')}` : 'N/A'}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <div className="flex gap-2">
+                      <td className="px-3 lg:px-6 py-3 lg:py-4 whitespace-nowrap text-xs lg:text-sm">
+                        <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                           <button
                             onClick={() => {
                               setSelectedCategory(category)
                               setImagePreview(category.image)
                               setShowEditModal(true)
                             }}
-                            className="text-[#8B7355] hover:underline font-medium"
+                            className="text-[#8B7355] hover:underline font-medium text-left sm:text-center"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => handleDeleteCategory(category)}
-                            className="text-red-600 hover:underline font-medium"
+                            className="text-red-600 hover:underline font-medium text-left sm:text-center"
                           >
                             Delete
                           </button>
@@ -360,6 +359,19 @@ const CategoryManagementPage = () => {
               setImagePreview(null)
             }}
             mainCategories={getAllMainCategories()}
+            imagePreview={imagePreview}
+            setImagePreview={setImagePreview}
+          />
+        )}
+
+        {/* Add Main Category Modal */}
+        {showAddMainCategoryModal && (
+          <MainCategoryFormModal
+            onSave={handleAddMainCategory}
+            onClose={() => {
+              setShowAddMainCategoryModal(false)
+              setImagePreview(null)
+            }}
             imagePreview={imagePreview}
             setImagePreview={setImagePreview}
           />
@@ -433,21 +445,21 @@ const CategoryFormModal = ({ category, onSave, onClose, mainCategories = [], ima
   }
 
   return (
-    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg lg:text-2xl font-bold text-gray-800">
               {category ? 'Edit Category' : 'Add New Category'}
             </h2>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Category Name *</label>
               <input
@@ -529,10 +541,10 @@ const CategoryFormModal = ({ category, onSave, onClose, mainCategories = [], ima
               )}
             </div>
 
-            <div className="flex gap-3 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
                 type="submit"
-                className="flex-1 px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+                className="flex-1 px-4 py-2 text-sm lg:text-base text-white rounded-lg font-medium transition-colors hover:opacity-90"
                 style={{ backgroundColor: '#8B7355' }}
               >
                 {category ? 'Update Category' : 'Add Category'}
@@ -540,7 +552,7 @@ const CategoryFormModal = ({ category, onSave, onClose, mainCategories = [], ima
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 text-sm lg:text-base border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
@@ -579,21 +591,21 @@ const MainCategoryFormModal = ({ onSave, onClose, imagePreview, setImagePreview 
   }
 
   return (
-    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-4 lg:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg lg:text-2xl font-bold text-gray-800">
               Add New Main Category
             </h2>
             <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Main Category Name *</label>
               <input

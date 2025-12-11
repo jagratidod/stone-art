@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import logoImage from '../../assets/logo/download.png'
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ isOpen, onClose }) => {
   const location = useLocation()
   const [expandedMenus, setExpandedMenus] = useState({
     leads: location.pathname.startsWith('/admin/leads'),
@@ -108,16 +109,44 @@ const AdminSidebar = () => {
   }
 
   return (
-    <div className="w-64 h-screen flex flex-col" style={{ backgroundColor: '#8B7355', borderRight: '1px solid rgba(255, 255, 255, 0.1)' }}>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={onClose}
+        ></div>
+      )}
+      
+      {/* Sidebar */}
+      <div className={`
+        fixed lg:static inset-y-0 left-0 z-50
+        w-64 h-full flex flex-col
+        transform transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `} style={{ backgroundColor: '#8B7355', borderRight: '1px solid rgba(255, 255, 255, 0.1)' }}>
       {/* Header */}
-      <div className="p-6 border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
-        <h2 className="text-xl font-bold text-white">
-          Admin Panel
-        </h2>
+        <div className="p-2 lg:p-3 border-b flex-shrink-0 flex items-center justify-center relative" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <div className="flex items-center justify-center w-full">
+            <img 
+              src={logoImage} 
+              alt="Logo" 
+              className="h-24 lg:h-28 w-auto object-contain max-w-full"
+            />
+          </div>
+          {/* Close button for mobile */}
+          <button
+            onClick={onClose}
+            className="lg:hidden absolute top-2 right-2 text-white hover:opacity-80 z-10"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
       </div>
 
       {/* Menu Items */}
-      <nav className="flex-1 overflow-y-auto p-4">
+      <nav className="flex-1 p-2 lg:p-4 overflow-y-auto">
         <ul className="space-y-1">
           {menuItems.map((item, index) => (
             <li key={index}>
@@ -125,7 +154,7 @@ const AdminSidebar = () => {
                 <div>
                   <button
                     onClick={() => toggleMenu(item.key)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-white uppercase tracking-wider rounded-lg transition-colors"
+                    className="w-full flex items-center justify-between gap-2 lg:gap-3 px-3 lg:px-4 py-2 lg:py-3 text-xs lg:text-sm font-semibold text-white uppercase tracking-wider rounded-lg transition-colors"
                     style={{ 
                       backgroundColor: expandedMenus[item.key] ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
                       ':hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
@@ -157,12 +186,13 @@ const AdminSidebar = () => {
                     </svg>
                   </button>
                   {expandedMenus[item.key] && (
-                    <ul className="ml-4 mt-1 space-y-1">
+                    <ul className="ml-2 lg:ml-4 mt-1 space-y-1">
                       {item.submenu.map((subItem, subIndex) => (
                         <li key={subIndex}>
                           <Link
                             to={subItem.path}
-                            className={`flex items-center gap-3 px-4 py-2 text-sm rounded-lg transition-colors ${
+                            onClick={onClose}
+                            className={`flex items-center gap-2 lg:gap-3 px-3 lg:px-4 py-1.5 lg:py-2 text-xs lg:text-sm rounded-lg transition-colors ${
                               isActive(subItem.path)
                                 ? 'text-white font-medium'
                                 : 'text-white hover:bg-white/10'
@@ -189,7 +219,8 @@ const AdminSidebar = () => {
               ) : (
                 <Link
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                  onClick={onClose}
+                  className={`flex items-center gap-2 lg:gap-3 px-3 lg:px-4 py-2 lg:py-3 text-xs lg:text-sm font-medium rounded-lg transition-colors ${
                     isActive(item.path)
                       ? 'text-white'
                       : 'text-white hover:bg-white/10'
@@ -216,19 +247,22 @@ const AdminSidebar = () => {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+      <div className="p-3 lg:p-4 border-t flex-shrink-0" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
         <Link
           to="/"
-          className="flex items-center gap-2 text-sm text-white hover:opacity-80 transition-opacity"
+          onClick={onClose}
+          className="flex items-center gap-2 text-xs lg:text-sm text-white hover:opacity-80 transition-opacity"
           style={{ opacity: 0.9 }}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Back to Website
+          <span className="hidden sm:inline">Back to Website</span>
+          <span className="sm:hidden">Back</span>
         </Link>
       </div>
     </div>
+    </>
   )
 }
 

@@ -984,7 +984,7 @@ const HowItWorksPage = ({
                 <div className="flex items-center gap-3 flex-1">
                   <span className="text-base md:text-lg font-semibold text-gray-800 flex-shrink-0">2.</span>
                   <span className={`text-sm md:text-base font-medium flex-1 ${expandedFaq === 2 ? 'text-amber-600' : 'text-gray-800'}`}>
-                    How much time is required for designing a TSA pooja room?
+                    How much time is required for designing an AMS pooja room?
                   </span>
                 </div>
                 <div className="flex-shrink-0 ml-4">
@@ -1003,7 +1003,7 @@ const HowItWorksPage = ({
                 <div className="px-5 pb-4 pt-0">
                   <div className="pl-8 border-l-2 border-gray-300">
                     <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                      Designing a TSA Pooja Room typically takes 2 weeks, depending on the project scope and complexity. The production process takes an additional 3-4 months to ensure smooth operations and timely delivery.
+                      Designing an AMS Pooja Room typically takes 2 weeks, depending on the project scope and complexity. The production process takes an additional 3-4 months to ensure smooth operations and timely delivery.
                     </p>
                   </div>
                 </div>
@@ -1145,7 +1145,7 @@ const HowItWorksPage = ({
                 <div className="px-5 pb-4 pt-0">
                   <div className="pl-8 border-l-2 border-gray-300">
                     <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                      Please note that our design fee is non-refundable but adjustable. It serves as an advance payment for the design expertise TSA brings to your project and is later deducted from your total invoice upon order placement.
+                      Please note that our design fee is non-refundable but adjustable. It serves as an advance payment for the design expertise AMS brings to your project and is later deducted from your total invoice upon order placement.
                     </p>
                   </div>
                 </div>

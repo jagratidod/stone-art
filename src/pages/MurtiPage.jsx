@@ -4,6 +4,16 @@ import CreationsNavBar from '../components/layout/CreationsNavBar'
 import Footer from '../components/layout/Footer'
 import FloatingButtons from '../components/common/FloatingButtons'
 import { murtiCollections } from '../data/murtiCollections'
+import { ganeshaProducts } from '../data/ganeshaProducts'
+import { hanumanProducts } from '../data/hanumanProducts'
+import { radhaKrishnaProducts } from '../data/radhaKrishnaProducts'
+import { ramDarbarProducts } from '../data/ramDarbarProducts'
+import { saiBabaProducts } from '../data/saiBabaProducts'
+import { vishnuLaxmiProducts } from '../data/vishnuLaxmiProducts'
+import { durgaProducts } from '../data/durgaProducts'
+import { saraswatiProducts } from '../data/saraswatiProducts'
+import { shivParvatiProducts } from '../data/shivParvatiProducts'
+import headingImage from '../assets/ourcreation/murti/heading.png'
 
 const MurtiPage = ({
   onShowSidebar,
@@ -18,11 +28,26 @@ const MurtiPage = ({
 }) => {
   // Category state
   const [selectedCategory, setSelectedCategory] = useState('Ganesha')
+  const [selectedFurnitureCategory, setSelectedFurnitureCategory] = useState('Center Tables')
+  const [selectedHomeDecorCategory, setSelectedHomeDecorCategory] = useState('Lamps')
   const [expandedFaq, setExpandedFaq] = useState(null)
   const navigate = useNavigate()
 
   // All categories combined
   const allCategories = ['Ganesha', 'Hanuman Ji', 'Radha Krishna', 'Ram Darbar', 'Sai Baba', 'Vishnu Laxmi', 'Durga', 'Saraswati', 'Shiv Parivar']
+
+  // Category images mapping - get first product image from each category
+  const categoryImages = {
+    'Ganesha': ganeshaProducts[0]?.images[0] || '',
+    'Hanuman Ji': hanumanProducts[0]?.images[0] || '',
+    'Radha Krishna': radhaKrishnaProducts[0]?.images[0] || '',
+    'Ram Darbar': ramDarbarProducts[0]?.images[0] || '',
+    'Sai Baba': saiBabaProducts[0]?.images[0] || '',
+    'Vishnu Laxmi': vishnuLaxmiProducts[0]?.images[0] || '',
+    'Durga': durgaProducts[0]?.images[0] || '',
+    'Saraswati': saraswatiProducts[0]?.images[0] || '',
+    'Shiv Parivar': shivParvatiProducts[0]?.images[0] || ''
+  }
 
   const handleCollectionClick = (collectionId) => {
     if (collectionId === 'durga') {
@@ -59,8 +84,38 @@ const MurtiPage = ({
     <div className="w-full min-h-screen bg-white">
       <CreationsNavBar onShowCart={onShowCart} onShowLikes={onShowLikes} />
 
+      {/* Heading Image - Horizontal at Top */}
+      <div className="relative w-full overflow-hidden" style={{ height: '250px' }}>
+        <img 
+          src={headingImage} 
+          alt="Murtis Heading" 
+          className="w-full h-full object-cover"
+          style={{ objectPosition: 'center' }}
+        />
+        {/* Text and Button Overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-10 px-4">
+          {/* Welcome Caption */}
+          <h1 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white text-center mb-4 md:mb-6 lg:mb-8 leading-tight drop-shadow-2xl">
+            Welcome to Aslam Marble Suppliers — Your Trusted Source for Premium Marble Creations
+          </h1>
+          {/* Shop Now Button */}
+          <button
+            onClick={() => {
+              const shopSection = document.getElementById('shop-murtis-section')
+              if (shopSection) {
+                shopSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+            }}
+            className="px-6 md:px-8 lg:px-10 py-3 md:py-4 text-base md:text-lg lg:text-xl font-semibold text-white rounded-lg transition-all duration-300 hover:opacity-90 hover:scale-105 shadow-lg"
+            style={{ backgroundColor: '#8B7355' }}
+          >
+            Shop Now
+          </button>
+        </div>
+      </div>
+
       {/* Shop Murtis Section */}
-      <div className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8">
+      <div id="shop-murtis-section" className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Heading */}
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-black mb-6 md:mb-8">
@@ -73,7 +128,7 @@ const MurtiPage = ({
               <button
                 key={category}
                 onClick={() => handleCategoryClick(category)}
-                className={`relative text-base md:text-lg lg:text-xl font-bold transition-all duration-300 pb-2 ${
+                className={`relative text-base md:text-lg lg:text-xl font-bold transition-all duration-300 pb-2 hover:-translate-y-1 ${
                   selectedCategory === category
                     ? 'text-[#8B7355]'
                     : 'text-black hover:text-[#8B7355]'
@@ -90,28 +145,98 @@ const MurtiPage = ({
           {/* Divider Line */}
           <div className="w-full h-[1px] bg-gray-300 mb-8"></div>
 
-          {/* Circular Image Cards - Auto Scrolling */}
-          <div className="relative w-full overflow-hidden">
-            <div className="flex gap-6 md:gap-8 lg:gap-10 animate-scroll-right-to-left">
-              {/* Duplicate items for seamless loop */}
-              {[...murtiCollections, ...murtiCollections].map((collection, index) => (
+          {/* Category Images Line - Hover to see category image */}
+          <div className="w-full py-6 md:py-8">
+            <div className="flex gap-4 md:gap-6 lg:gap-8 overflow-x-auto pb-4 scrollbar-hide">
+              {allCategories.map((category) => (
                 <div
-                  key={`${collection.id}-${index}`}
-                  onClick={() => handleCollectionClick(collection.id)}
-                  className="flex-shrink-0 group cursor-pointer"
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  className="flex-shrink-0 group cursor-pointer relative"
                 >
-                  {/* Circular Image Card */}
-                  <div className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                  <div className="relative w-32 h-48 md:w-40 md:h-60 lg:w-48 lg:h-72 overflow-hidden border border-gray-300 hover:border-[#8B7355] transition-all duration-300">
                     <img
-                      src={collection.image}
-                      alt={collection.name}
-                      className="w-full h-full object-cover object-center"
+                      src={categoryImages[category] || murtiCollections[0]?.image}
+                      alt={category}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                     />
+                    {/* Category Name Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                      <p className="text-white text-xs md:text-sm font-semibold p-2 w-full text-center uppercase">
+                        {category}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Shop Furniture Section */}
+      <div className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Heading */}
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-black mb-6 md:mb-8">
+            Shop Furniture
+          </h1>
+
+          {/* Category Navigation Buttons */}
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 mb-0">
+            {['Center Tables', 'Fire Places', 'Pedestal Columns'].map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedFurnitureCategory(category)}
+                className={`relative text-base md:text-lg lg:text-xl font-semibold transition-all duration-300 pb-3 px-2 ${
+                  selectedFurnitureCategory === category
+                    ? 'text-[#8B7355]'
+                    : 'text-black hover:text-[#8B7355]'
+                }`}
+              >
+                {category}
+                {selectedFurnitureCategory === category && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#8B7355] z-10"></span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Divider Line */}
+          <div className="w-full h-[1px] bg-gray-300 mt-0 mb-8"></div>
+        </div>
+      </div>
+
+      {/* Shop Home Decor Section */}
+      <div className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Heading */}
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-black mb-6 md:mb-8">
+            Shop Home Decor
+          </h1>
+
+          {/* Category Navigation Buttons */}
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 mb-0">
+            {['Lamps', 'Pots & Vases', 'Tableware', 'Bowls', 'Bathroom Sets', 'Sculptures', 'Office & Desk'].map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedHomeDecorCategory(category)}
+                className={`relative text-base md:text-lg lg:text-xl font-semibold transition-all duration-300 pb-3 px-2 ${
+                  selectedHomeDecorCategory === category
+                    ? 'text-[#8B7355]'
+                    : 'text-black hover:text-[#8B7355]'
+                }`}
+              >
+                {category}
+                {selectedHomeDecorCategory === category && (
+                  <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#8B7355] z-10"></span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Divider Line */}
+          <div className="w-full h-[1px] bg-gray-300 mt-0 mb-8"></div>
         </div>
       </div>
 
@@ -309,6 +434,33 @@ const MurtiPage = ({
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Circular Image Cards - Auto Scrolling */}
+      <section className="w-full py-8 md:py-12 px-4 md:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative w-full overflow-hidden">
+            <div className="flex gap-6 md:gap-8 lg:gap-10 animate-scroll-right-to-left">
+              {/* Duplicate items for seamless loop */}
+              {[...murtiCollections, ...murtiCollections].map((collection, index) => (
+                <div
+                  key={`${collection.id}-${index}`}
+                  onClick={() => handleCollectionClick(collection.id)}
+                  className="flex-shrink-0 group cursor-pointer"
+                >
+                  {/* Circular Image Card */}
+                  <div className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img
+                      src={collection.image}
+                      alt={collection.name}
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

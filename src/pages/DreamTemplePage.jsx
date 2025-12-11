@@ -427,13 +427,13 @@ const DreamTemplePage = ({ onShowCart, onShowLikes }) => {
         </div>
       </section>
 
-      {/* THE TSA DIFFERENCE Comparison Table Section */}
+      {/* THE AMS DIFFERENCE Comparison Table Section */}
       <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-6xl mx-auto">
           {/* Title */}
           <div className="text-center mb-10 md:mb-14">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-5 uppercase tracking-wide">
-              THE TSA DIFFERENCE
+              THE AMS DIFFERENCE
             </h2>
             <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               Discover why thousands choose us for their sacred space design

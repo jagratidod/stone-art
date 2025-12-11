@@ -4,13 +4,13 @@ import tsaDesignHubImg from '../assets/services/Residential.jpeg'
 export const services = [
   {
     id: 'tsa-international',
-    name: 'TSA International',
+    name: 'AMS International',
     image: tsaInternationalImg,
     path: '/services/tsa-international'
   },
   {
     id: 'tsa-design-hub',
-    name: 'TSA Design Hub',
+    name: 'AMS Design Hub',
     image: tsaDesignHubImg,
     path: '/services/tsa-design-hub'
   }

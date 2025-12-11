@@ -11,27 +11,27 @@ export const COMPANY_INFO = {
 
 export const FOOTER_LINKS = {
   houseOfTilak: [
-    { label: 'About Us', href: '#' },
-    { label: 'Experience Centre', href: '#' },
-    { label: 'The Team', href: '#' },
-    { label: 'Our Clients', href: '#' },
-    { label: 'Careers', href: '#' },
-    { label: 'Shop', href: '#' }
+    { label: 'About Us', href: '/about-us' },
+    { label: 'Experience Centre', href: '/experience-centre' },
+    { label: 'The Team', href: '/the-team' },
+    { label: 'Collaborations', href: '/artisans-of-tilak' },
+    { label: 'Our Clients', href: '/our-clients' },
+    { label: 'Careers', href: '/careers' }
   ],
   quickLinks: [
-    { label: 'How it Works', href: '#' },
-    { label: 'Pooja Room', href: '#' },
-    { label: 'Dream Temples', href: '#' },
-    { label: 'Communal Temples', href: '#' },
-    { label: 'TSA International', href: '#' },
-    { label: 'Book appointment', href: '#' }
+    { label: 'How it Works', href: '/how-it-works' },
+    { label: 'Pooja Room', href: '/pooja-room' },
+    { label: 'Dream Temples', href: '/dream-temple' },
+    { label: 'Communal Temples', href: '/communal-temples' },
+    { label: 'AMS International', href: '/services/tsa-international' },
+    { label: 'Book appointment', href: '/book-appointment' }
   ],
   legal: [
-    { label: 'Corporate Info', href: '#' },
-    { label: 'Terms & Conditions', href: '#' },
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Cookies Policy', href: '#' },
-    { label: 'Disclaimer', href: '#' }
+    { label: 'Corporate Info', href: '/corporate-info' },
+    { label: 'Terms & Conditions', href: '/terms-and-conditions' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Cookies Policy', href: '/cookies-policy' },
+    { label: 'Disclaimer', href: '/disclaimer' }
   ],
   needHelp: [
     { label: 'FAQs', href: '#' },

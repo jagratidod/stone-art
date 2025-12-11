@@ -134,7 +134,7 @@ const TSAInternationalPage = ({
       {/* Hero Section with Form */}
       <HeroSectionWithForm
         heroImage={tsaInternationalHeroImage}
-        title="TSA INTERNATIONAL"
+        title="AMS INTERNATIONAL"
         subtitle="Global Excellence in Stone Art"
         description="Expanding our legacy of craftsmanship and design excellence across international markets, bringing premium stone art solutions to clients worldwide."
       />
@@ -211,7 +211,7 @@ const TSAInternationalPage = ({
               <div className="relative overflow-hidden rounded-xl shadow-2xl bg-white p-4">
                 <img 
                   src={internationalGif} 
-                  alt="TSA International" 
+                  alt="AMS International" 
                   className="w-full h-auto object-contain rounded-lg"
                 />
               </div>
@@ -220,7 +220,7 @@ const TSAInternationalPage = ({
             {/* Right Side - Caption */}
             <div className="order-2 md:order-2">
               <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 leading-tight">
-                What Sets TSA International Apart – Short Version
+                What Sets AMS International Apart – Short Version
               </h2>
               <div className="space-y-3 sm:space-y-4 md:space-y-5">
                 <div className="flex items-start gap-2 sm:gap-3">

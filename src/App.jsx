@@ -35,6 +35,11 @@ import TheTeamPage from './pages/TheTeamPage'
 import AboutUsPage from './pages/AboutUsPage'
 import OurClientsPage from './pages/OurClientsPage'
 import ExperienceCentrePage from './pages/ExperienceCentrePage'
+import CorporateInfoPage from './pages/CorporateInfoPage'
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import CookiesPolicyPage from './pages/CookiesPolicyPage'
+import DisclaimerPage from './pages/DisclaimerPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import CommunalProjectsPage from './pages/CommunalProjectsPage'
 import ResidentialProjectsPage from './pages/ResidentialProjectsPage'
@@ -271,6 +276,71 @@ function App() {
         
         <Route path="/experience-centre" element={
           <ExperienceCentrePage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/corporate-info" element={
+          <CorporateInfoPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/terms-and-conditions" element={
+          <TermsAndConditionsPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/privacy-policy" element={
+          <PrivacyPolicyPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/cookies-policy" element={
+          <CookiesPolicyPage 
+            onShowSidebar={() => setShowSidebar(true)}
+            onShowProjects={() => setShowProjectsModal(true)}
+            onShowCreations={() => setShowOurCreations(true)}
+            onShowProducts={() => setShowOurProducts(true)}
+            onShowServices={() => setShowOurServices(true)}
+            onShowHowItWorks={() => setShowModal(true)}
+            onShowLocation={() => {}}
+            onShowBooking={() => {}}
+          />
+        } />
+        
+        <Route path="/disclaimer" element={
+          <DisclaimerPage 
             onShowSidebar={() => setShowSidebar(true)}
             onShowProjects={() => setShowProjectsModal(true)}
             onShowCreations={() => setShowOurCreations(true)}

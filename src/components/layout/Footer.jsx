@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { COMPANY_INFO, FOOTER_LINKS, INDIAN_CITIES, INTERNATIONAL_CITIES } from '../../utils/constants'
 import Logo from './Logo'
 
@@ -49,10 +50,17 @@ const Footer = () => {
               <ul className="space-y-3">
                 {FOOTER_LINKS.houseOfTilak.map((link, index) => (
                   <li key={index}>
-                    <a href={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
-                      <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                      <span>{link.label}</span>
-                    </a>
+                    {link.href.startsWith('/') ? (
+                      <Link to={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
+                        <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span>{link.label}</span>
+                      </Link>
+                    ) : (
+                      <a href={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
+                        <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span>{link.label}</span>
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -64,10 +72,17 @@ const Footer = () => {
               <ul className="space-y-3">
                 {FOOTER_LINKS.quickLinks.map((link, index) => (
                   <li key={index}>
-                    <a href={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
-                      <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                      <span>{link.label}</span>
-                    </a>
+                    {link.href.startsWith('/') ? (
+                      <Link to={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
+                        <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span>{link.label}</span>
+                      </Link>
+                    ) : (
+                      <a href={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
+                        <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span>{link.label}</span>
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -79,10 +94,17 @@ const Footer = () => {
               <ul className="space-y-3">
                 {FOOTER_LINKS.legal.map((link, index) => (
                   <li key={index}>
-                    <a href={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
-                      <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                      <span>{link.label}</span>
-                    </a>
+                    {link.href.startsWith('/') ? (
+                      <Link to={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
+                        <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span>{link.label}</span>
+                      </Link>
+                    ) : (
+                      <a href={link.href} className="text-sm md:text-base text-gray-300 hover:text-[#8B7355] transition-all duration-300 flex items-center gap-2 group">
+                        <span className="w-1.5 h-1.5 bg-[#8B7355] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                        <span>{link.label}</span>
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

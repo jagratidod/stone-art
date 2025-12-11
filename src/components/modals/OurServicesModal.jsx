@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { services } from '../../data/services'
 
 const OurServicesModal = ({ isOpen, onClose }) => {
-  const [selectedService, setSelectedService] = useState('TSA International')
+  const [selectedService, setSelectedService] = useState('AMS International')
 
   if (!isOpen) return null
 

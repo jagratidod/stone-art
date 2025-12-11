@@ -54,7 +54,7 @@ const TSADesignHubPage = ({
       {/* Hero Section with Form */}
       <HeroSectionWithForm
         heroImage={tsaDesignHubHeroImage}
-        title="TSA DESIGN HUB"
+        title="AMS DESIGN HUB"
         subtitle="Innovative Design Solutions for Your Space"
         description="Transform your vision into reality with our expert design services, combining creativity with functionality to create stunning spaces."
       />
@@ -66,7 +66,7 @@ const TSADesignHubPage = ({
             {/* Left Side - Caption */}
             <div className="order-2 md:order-1">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6 leading-tight">
-                Join the TSA Design Hub — Where Businesses Build Better Together.
+                Join the AMS Design Hub — Where Businesses Build Better Together.
               </h2>
               <div className="w-24 h-1 rounded-full mt-6" style={{ backgroundColor: '#8B7355' }}></div>
             </div>
@@ -76,7 +76,7 @@ const TSADesignHubPage = ({
               <div className="relative overflow-hidden rounded-xl shadow-2xl">
                 <img 
                   src={tsaDesignHubImg2} 
-                  alt="TSA Design Hub" 
+                  alt="AMS Design Hub" 
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -254,7 +254,7 @@ const TSADesignHubPage = ({
                   Register with Us
                 </h3>
                 <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                  Join our TSA Soul Connect Platform and unlock access to 200+ curated concepts for pooja rooms, dream temples, artistic wall panels, and premium home décor pieces. Explore our global project portfolio, browse detailed price lists, and view exclusive client-specific pricing—all in one place.
+                  Join our AMS Soul Connect Platform and unlock access to 200+ curated concepts for pooja rooms, dream temples, artistic wall panels, and premium home décor pieces. Explore our global project portfolio, browse detailed price lists, and view exclusive client-specific pricing—all in one place.
                 </p>
                 <p className="text-xs md:text-sm font-semibold text-[#8B7355] mt-3 uppercase">
                   Version 1 – Premium & Professional
