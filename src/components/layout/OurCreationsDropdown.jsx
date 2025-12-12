@@ -34,7 +34,7 @@ const OurCreationsDropdown = () => {
                 </Link>
               )
             }
-
+            
             // Make "Pooja Rooms" clickable and navigate to /pooja-room
             if (category === 'Pooja Rooms') {
               return (
