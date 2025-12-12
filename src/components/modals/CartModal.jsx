@@ -1,22 +1,8 @@
-import { useState } from 'react'
+import { useCartAndLikes } from '../../contexts/CartAndLikesContext'
 
 const CartModal = ({ isOpen, onClose }) => {
-  const [cartItems] = useState([
-    {
-      id: 1,
-      name: 'Ganesha 12" | Premium Marble',
-      image: 'https://via.placeholder.com/100',
-      price: 45000,
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: 'Krishna Ji 12" | Swiss White',
-      image: 'https://via.placeholder.com/100',
-      price: 50000,
-      quantity: 1
-    }
-  ])
+  const { cart, removeFromCart, updateCartQuantity, getCartTotal } = useCartAndLikes()
+  const cartItems = cart
 
   return (
     <>
@@ -76,16 +62,25 @@ const CartModal = ({ isOpen, onClose }) => {
                       ₹ {item.price.toLocaleString('en-IN')}
                     </p>
                     <div className="flex items-center gap-2">
-                      <button className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100">
+                      <button 
+                        onClick={() => updateCartQuantity(item.id, item.quantity - 1)}
+                        className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100"
+                      >
                         <span className="text-sm">-</span>
                       </button>
                       <span className="text-sm font-medium">{item.quantity}</span>
-                      <button className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100">
+                      <button 
+                        onClick={() => updateCartQuantity(item.id, item.quantity + 1)}
+                        className="w-6 h-6 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100"
+                      >
                         <span className="text-sm">+</span>
                       </button>
                     </div>
                   </div>
-                  <button className="text-gray-400 hover:text-red-500 transition-colors self-start">
+                  <button 
+                    onClick={() => removeFromCart(item.id)}
+                    className="text-gray-400 hover:text-red-500 transition-colors self-start"
+                  >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -97,7 +92,7 @@ const CartModal = ({ isOpen, onClose }) => {
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-lg font-semibold text-gray-800">Total:</span>
                   <span className="text-xl font-bold text-[#8B7355]">
-                    ₹ {cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toLocaleString('en-IN')}
+                    ₹ {getCartTotal().toLocaleString('en-IN')}
                   </span>
                 </div>
                 <button

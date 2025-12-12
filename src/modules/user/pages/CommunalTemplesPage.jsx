@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import CreationsNavBar from '../../../components/layout/CreationsNavBar'
 import Footer from '../../../components/layout/Footer'
 import FloatingButtons from '../../../components/common/FloatingButtons'
@@ -8,9 +9,84 @@ import turnkeyIcon from '../../../assets/ourcreation/communal temple/lcons/Gemin
 import templesMadeIcon from '../../../assets/ourcreation/communal temple/lcons/Gemini_Generated_Image_gifll4gifll4gifl.png'
 import siteSupervisionIcon from '../../../assets/ourcreation/communal temple/lcons/Gemini_Generated_Image_s13ihos13ihos13i.png'
 import transparencyIcon from '../../../assets/ourcreation/communal temple/lcons/Gemini_Generated_Image_8wdizp8wdizp8wdi.png'
+// 5 Step Icons and GIFs
+import icon1 from '../../../assets/how it work/icons/icon1.png'
+import icon2 from '../../../assets/how it work/icons/icon2.png'
+import icon3 from '../../../assets/how it work/icons/icon3.png'
+import icon4 from '../../../assets/how it work/icons/icon4.png'
+import icon5 from '../../../assets/how it work/icons/icon5.png'
+import gif1 from '../../../assets/how it work/5stepvideo/image1.gif'
+import gif2 from '../../../assets/how it work/5stepvideo/image2.gif'
+import gif3 from '../../../assets/how it work/5stepvideo/image3.gif'
+import gif4 from '../../../assets/how it work/5stepvideo/image4.gif'
+import gif5 from '../../../assets/how it work/5stepvideo/image5.gif'
+// Service Icons
+import wallIcon from '../../../assets/ourcreation/pooja room/icons/1wall.png'
+import floorIcon from '../../../assets/ourcreation/pooja room/icons/2floor.png'
+import virtualIcon from '../../../assets/ourcreation/pooja room/icons/3virtual.png'
+import customDesignIcon from '../../../assets/ourcreation/pooja room/icons/4custom design.png'
+import visualisationIcon from '../../../assets/ourcreation/pooja room/icons/5visualisation.png'
+import projectTrackingIcon from '../../../assets/ourcreation/pooja room/icons/6project tracking.png'
 
 const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
+  const navigate = useNavigate()
   const [formStep, setFormStep] = useState(1)
+  const [visibleSections, setVisibleSections] = useState({
+    step1: false,
+    step2: false,
+    step3: false,
+    step4: false,
+    step5: false
+  })
+  
+  const step1Ref = useRef(null)
+  const step2Ref = useRef(null)
+  const step3Ref = useRef(null)
+  const step4Ref = useRef(null)
+  const step5Ref = useRef(null)
+
+  useEffect(() => {
+    const observers = []
+    const sections = [
+      { ref: step1Ref, key: 'step1' },
+      { ref: step2Ref, key: 'step2' },
+      { ref: step3Ref, key: 'step3' },
+      { ref: step4Ref, key: 'step4' },
+      { ref: step5Ref, key: 'step5' }
+    ]
+
+    sections.forEach(({ ref, key }) => {
+      if (ref.current) {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setVisibleSections(prev => ({ ...prev, [key]: true }))
+            }
+          },
+          { threshold: 0.3 }
+        )
+        observer.observe(ref.current)
+        observers.push(observer)
+      }
+    })
+
+    return () => {
+      observers.forEach(observer => observer.disconnect())
+    }
+  }, [])
+
+  const scrollToForm = () => {
+    const formContainer = document.getElementById('expert-form-container')
+    if (formContainer) {
+      const containerPosition = formContainer.getBoundingClientRect().top + window.pageYOffset
+      const offset = 100
+      window.scrollTo({
+        top: containerPosition - offset,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   const [formData, setFormData] = useState({
     type: 'DOMESTIC',
     fullName: '',
@@ -403,6 +479,479 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5 Steps Section */}
+      <div className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Heading */}
+          <div className="text-center mb-4">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-3">
+              Build Your Dream Temple in Just 5 Steps
+            </h2>
+            <p className="text-sm md:text-base lg:text-lg text-gray-600">
+              Ready to design your Dream Temple? Here's how you can get started.
+            </p>
+          </div>
+
+          {/* 5 Steps Icons */}
+          <div className="flex justify-center items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-5 mt-6 md:mt-8">
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center flex-shrink-0 w-[100px] sm:w-[130px] md:w-[160px] lg:w-[180px]">
+              <div className="relative mb-3 rounded-full">
+                <img 
+                  src={icon1} 
+                  alt="Step 1 - Let's Connect" 
+                  className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-full object-contain"
+                />
+              </div>
+              <p className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-medium leading-tight">
+                Let's Connect One on One
+              </p>
+            </div>
+
+            {/* Arrow 1 */}
+            <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
+              <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center flex-shrink-0 w-[100px] sm:w-[130px] md:w-[160px] lg:w-[180px]">
+              <div className="relative mb-3 rounded-full">
+                <img 
+                  src={icon2} 
+                  alt="Step 2 - Explore Catalog" 
+                  className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-full object-contain"
+                />
+              </div>
+              <p className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-medium leading-tight">
+                Explore our Catalog
+              </p>
+            </div>
+
+            {/* Arrow 2 */}
+            <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
+              <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center flex-shrink-0 w-[100px] sm:w-[130px] md:w-[160px] lg:w-[180px]">
+              <div className="relative mb-3 rounded-full">
+                <img 
+                  src={icon3} 
+                  alt="Step 3 - Place Order" 
+                  className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-full object-contain"
+                />
+              </div>
+              <p className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-medium leading-tight">
+                Place The Order
+              </p>
+            </div>
+
+            {/* Arrow 3 */}
+            <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
+              <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+
+            {/* Step 4 */}
+            <div className="flex flex-col items-center text-center flex-shrink-0 w-[100px] sm:w-[130px] md:w-[160px] lg:w-[180px]">
+              <div className="relative mb-3 rounded-full">
+                <img 
+                  src={icon4} 
+                  alt="Step 4 - Approval" 
+                  className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-full object-contain"
+                />
+              </div>
+              <p className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-medium leading-tight">
+                Approval
+              </p>
+            </div>
+
+            {/* Arrow 4 */}
+            <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
+              <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+
+            {/* Step 5 */}
+            <div className="flex flex-col items-center text-center flex-shrink-0 w-[100px] sm:w-[130px] md:w-[160px] lg:w-[180px]">
+              <div className="relative mb-3 rounded-full">
+                <img 
+                  src={icon5} 
+                  alt="Step 5 - Delivery and Installation" 
+                  className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-full object-contain"
+                />
+              </div>
+              <p className="text-[10px] sm:text-xs md:text-sm text-gray-700 font-medium leading-tight">
+                Delivery and Installation
+              </p>
+            </div>
+          </div>
+
+          {/* Start Your Project Button */}
+          <div className="flex justify-center mt-6 md:mt-8 mb-8 md:mb-10">
+            <button
+              onClick={scrollToForm}
+              className="px-6 py-3 md:px-8 md:py-4 text-white text-sm md:text-base font-bold uppercase tracking-wide transition-colors shadow-lg"
+              style={{ backgroundColor: '#8B7355' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
+            >
+              Start Your Project Now
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Step 1: Let's Connect One on One */}
+      <div ref={step1Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-6 md:mb-8">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+              GET STARTED WITH OUR 5 STEP EASY PROCESS
+            </h2>
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
+              LETS CONNECT ONE ON ONE
+            </h3>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif1} 
+                  alt="Let's Connect One on One" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
+            </div>
+
+            {/* Right - Info Box */}
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step1 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    It all Begins with a Form
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600 mb-3">
+                    Let's get acquainted. The more we learn about you, the better we can design your home.
+                  </p>
+                  <button
+                    onClick={() => navigate('/book-appointment')}
+                    className="px-4 py-2 text-white text-xs md:text-sm font-medium transition-colors"
+                    style={{ backgroundColor: '#8B7355' }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
+                  >
+                    Fill Form Link
+                  </button>
+                </div>
+
+                {/* Step 2 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Connect over a Meet
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Let's get acquainted. The more we learn about you, the better we can design your home.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Step 2: Start with Your Design */}
+      <div ref={step2Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#F5E6D3' }}>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif2} 
+                  alt="Start with Your Design" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
+            </div>
+
+            {/* Right - Info Box */}
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step2 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                START WITH YOUR DESIGN
+              </h2>
+              
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Pay the Design Fee
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600 mb-1.5">
+                    Once we understand your requirements and we feel we can help you, and you are happy with the session, start with your design by choosing one of the design plans,
+                  </p>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Don't Worry if you have wrong measurements we also take our own site measurements in one of the plans.
+                  </p>
+                </div>
+
+                {/* Step 2 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Finalise your Design
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Once we agree on a Design we will finalise it to start the production.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Step 3: Place The Order */}
+      <div ref={step3Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif3} 
+                  alt="Place The Order" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
+            </div>
+
+            {/* Right - Info Box */}
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step3 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                PLACE THE ORDER
+              </h2>
+              
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Start the Order Process
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Once you're happy with what we've proposed, pay 50% of the final quote.
+                  </p>
+                </div>
+
+                {/* Step 2 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    The Work Commences
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Keep a tab on your project status on the portal provided.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Status Banner */}
+          <div className="w-full py-4 md:py-6 px-6 md:px-8 rounded-lg flex items-center gap-4" style={{ backgroundColor: '#8B7355' }}>
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p className="text-white text-sm md:text-base lg:text-lg font-bold uppercase">
+              YOU ARE HALF WAY THERE ! YOUR ORDER IS IN PROCESS
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Step 4: Approval */}
+      <div ref={step4Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#B2E0E0' }}>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif4} 
+                  alt="Approval" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
+            </div>
+
+            {/* Right - Info Box */}
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step4 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                APPROVAL
+              </h2>
+              
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Give your Approval
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Once the Order reaches the approval stage, you will be asked to provide your feedback and approve
+                  </p>
+                </div>
+
+                {/* Step 2 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Pay 100% at Execution Milestone
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Once the Order is fully set according to your requirements pay the 100% and the next stage begins.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Payment Confirmation Banner */}
+          <div className="w-full py-4 md:py-6 px-6 md:px-8 rounded-lg flex items-center gap-4" style={{ backgroundColor: '#8B7355' }}>
+            <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p className="text-white text-sm md:text-base lg:text-lg font-bold uppercase">
+              HURRAH! COMPLETE PAYMENT HAS BEEN MADE!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Step 5: Delivery and Installation */}
+      <div ref={step5Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
+            {/* Left - GIF Image with Creative Frame */}
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                <img 
+                  src={gif5} 
+                  alt="Delivery and Installation" 
+                  className="w-full h-auto rounded-lg relative"
+                />
+              </div>
+            </div>
+
+            {/* Right - Info Box */}
+            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
+              visibleSections.step5 
+                ? 'opacity-100 lg:translate-x-0' 
+                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
+            }`}>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+                DELIVERY AND INSTALLATION
+              </h2>
+              
+              <div className="space-y-4">
+                {/* Step 1 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Prepare for Delivery
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Once the 100% of the order value is received we prepare for the Delivery and Installation of the Order
+                  </p>
+                </div>
+
+                {/* Step 2 */}
+                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
+                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
+                    Installation
+                  </h4>
+                  <p className="text-xs md:text-sm text-gray-600">
+                    Our Team reaches your Home and Install it at your space
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Services Section */}
+      <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-10 md:mb-14 lg:mb-16">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 md:mb-5 uppercase tracking-wide">
+              WE OFFER UNPARALLELED SERVICES
+            </h2>
+            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: '#8B7355' }}></div>
+          </div>
+
+          {/* Services Grid - 2x3 Layout */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+            {[
+              { id: 1, name: 'Wall Cladding', icon: wallIcon },
+              { id: 2, name: 'Floor Inlay', icon: floorIcon },
+              { id: 3, name: 'Virtual Tour', icon: virtualIcon },
+              { id: 4, name: 'Custom Design', icon: customDesignIcon },
+              { id: 5, name: '3D visualisation', icon: visualisationIcon },
+              { id: 6, name: 'Project Tracking', icon: projectTrackingIcon }
+            ].map((service) => (
+              <div
+                key={service.id}
+                className="group cursor-pointer bg-white border-2 border-gray-200 rounded-xl p-6 md:p-8 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="mb-4 w-20 h-20 md:w-24 md:h-24 flex items-center justify-center">
+                    <img 
+                      src={service.icon} 
+                      alt={service.name}
+                      className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </div>
+                  <h3 className="text-sm md:text-base font-semibold text-gray-800 group-hover:text-[#8B7355] transition-colors duration-300">
+                    {service.name}
+                  </h3>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

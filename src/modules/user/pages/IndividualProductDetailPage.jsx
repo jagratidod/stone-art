@@ -4,6 +4,7 @@ import CreationsNavBar from '../../../components/layout/CreationsNavBar'
 import Footer from '../../../components/layout/Footer'
 import FloatingButtons from '../../../components/common/FloatingButtons'
 import { products } from '../../../data/products'
+import { useCartAndLikes } from '../../../contexts/CartAndLikesContext'
 
 const IndividualProductDetailPage = ({
   onShowSidebar,
@@ -68,14 +69,38 @@ const IndividualProductDetailPage = ({
     )
   }
 
+  const { addToCart, toggleLike, isLiked } = useCartAndLikes()
+  const productIsLiked = product ? isLiked(product.id) : false
+
   const handleAddToCart = () => {
-    // Add to cart logic here
-    console.log('Added to cart:', { product, quantity, selectedSize })
+    if (!product) return
+    addToCart(product, quantity, selectedSize)
+    alert('Product added to cart!')
   }
 
   const handleAddToLikes = () => {
-    // Add to likes logic here
-    console.log('Added to likes:', product)
+    if (!product) return
+    toggleLike(product)
+  }
+
+  const handleBuyNow = () => {
+    if (!product) return
+    
+    // Navigate to checkout page with product data
+    navigate('/checkout', {
+      state: {
+        items: [{
+          id: product.id,
+          productId: product.id,
+          name: product.name,
+          image: product.images?.[0] || product.image,
+          price: product.price,
+          quantity: quantity,
+          size: selectedSize,
+          sku: product.sku
+        }]
+      }
+    })
   }
 
   return (
@@ -187,8 +212,18 @@ const IndividualProductDetailPage = ({
                 Add to Cart
               </button>
               <button
+                onClick={handleBuyNow}
+                className="flex-1 py-3 px-6 bg-[#8B7355] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
+              >
+                Buy Now
+              </button>
+              <button
                 onClick={handleAddToLikes}
-                className="px-6 py-3 border-2 border-[#8B7355] text-[#8B7355] rounded-lg font-semibold hover:bg-[#8B7355] hover:text-white transition-colors"
+                className={`px-6 py-3 border-2 rounded-lg font-semibold transition-colors ${
+                  productIsLiked
+                    ? 'bg-[#8B7355] text-white border-[#8B7355]'
+                    : 'border-[#8B7355] text-[#8B7355] hover:bg-[#8B7355] hover:text-white'
+                }`}
               >
                 ♥
               </button>

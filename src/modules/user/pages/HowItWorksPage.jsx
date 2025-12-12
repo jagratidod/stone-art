@@ -538,8 +538,8 @@ const HowItWorksPage = ({
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
             {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 <img 
                   src={gif1} 
@@ -595,8 +595,8 @@ const HowItWorksPage = ({
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
             {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#F5E6D3' }}>
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#F5E6D3' }}>
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 <img 
                   src={gif2} 
@@ -650,8 +650,8 @@ const HowItWorksPage = ({
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
             {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 <img 
                   src={gif3} 
@@ -714,8 +714,8 @@ const HowItWorksPage = ({
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
             {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#B2E0E0' }}>
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#B2E0E0' }}>
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 <img 
                   src={gif4} 
@@ -778,8 +778,8 @@ const HowItWorksPage = ({
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
             {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
+            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
+              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
                 <img 
                   src={gif5} 

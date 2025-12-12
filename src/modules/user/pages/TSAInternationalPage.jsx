@@ -145,58 +145,46 @@ const TSAInternationalPage = ({
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 lg:gap-12">
             {/* Design */}
             <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 mb-3 sm:mb-4 md:mb-6 flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 flex items-center justify-center">
                 <img 
                   src={designIcon} 
                   alt="Design" 
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800 uppercase">
-                Design
-              </h3>
             </div>
 
             {/* Production */}
             <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 mb-3 sm:mb-4 md:mb-6 flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 flex items-center justify-center">
                 <img 
                   src={productionIcon} 
                   alt="Production" 
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800 uppercase">
-                Production
-              </h3>
             </div>
 
             {/* Shipping */}
             <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 mb-3 sm:mb-4 md:mb-6 flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 flex items-center justify-center">
                 <img 
                   src={shippingIcon} 
                   alt="Shipping" 
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800 uppercase">
-                Shipping
-              </h3>
             </div>
 
             {/* DIY Assembly */}
             <div className="flex flex-col items-center text-center">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 mb-3 sm:mb-4 md:mb-6 flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 flex items-center justify-center">
                 <img 
                   src={diyAssemblyIcon} 
                   alt="DIY Assembly" 
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-gray-800 uppercase">
-                DIY Assembly
-              </h3>
             </div>
           </div>
         </div>

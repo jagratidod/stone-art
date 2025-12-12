@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import CreationsNavBar from '../../../components/layout/CreationsNavBar'
 import Footer from '../../../components/layout/Footer'
 import FloatingButtons from '../../../components/common/FloatingButtons'
+import { useCartAndLikes } from '../../../contexts/CartAndLikesContext'
 import { durgaProducts } from '../../../data/durgaProducts'
 import { saraswatiProducts } from '../../../data/saraswatiProducts'
 import { shivParvatiProducts } from '../../../data/shivParvatiProducts'
@@ -114,16 +115,38 @@ const ProductDetailPage = ({
     }
   }
 
+  const { addToCart, toggleLike, isLiked } = useCartAndLikes()
+  const productIsLiked = product ? isLiked(product.id) : false
+
   const handleAddToCart = () => {
-    // Add to cart functionality
-    console.log('Added to cart:', { product, quantity, size: selectedSize })
+    if (!product) return
+    addToCart(product, quantity, selectedSize)
     alert('Product added to cart!')
   }
 
   const handleBuyNow = () => {
-    // Buy now functionality
-    console.log('Buy now:', { product, quantity, size: selectedSize })
-    navigate('/book-appointment')
+    if (!product) return
+    
+    // Navigate to checkout page with product data
+    navigate('/checkout', {
+      state: {
+        items: [{
+          id: product.id,
+          productId: product.id,
+          name: product.name,
+          image: product.images?.[0] || product.image,
+          price: product.price,
+          quantity: quantity,
+          size: selectedSize,
+          sku: product.sku
+        }]
+      }
+    })
+  }
+
+  const handleLike = () => {
+    if (!product) return
+    toggleLike(product)
   }
 
   // Get current page URL and share text
@@ -329,18 +352,25 @@ const ProductDetailPage = ({
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 bg-black text-white font-semibold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors"
+                  className="flex-1 bg-[#8B7355] text-white font-semibold py-4 px-6 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Add to Cart
                 </button>
                 <button
                   onClick={handleBuyNow}
-                  className="flex-1 bg-black text-white font-semibold py-4 px-6 rounded-lg hover:bg-gray-800 transition-colors"
+                  className="flex-1 bg-[#8B7355] text-white font-semibold py-4 px-6 rounded-lg hover:opacity-90 transition-opacity"
                 >
                   Buy Now
                 </button>
-                <button className="w-12 h-12 flex items-center justify-center border-2 border-gray-300 rounded-lg hover:border-[#8B7355] transition-colors">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button 
+                  onClick={handleLike}
+                  className={`w-12 h-12 flex items-center justify-center border-2 rounded-lg transition-colors ${
+                    productIsLiked 
+                      ? 'border-[#8B7355] bg-[#8B7355] text-white' 
+                      : 'border-gray-300 hover:border-[#8B7355]'
+                  }`}
+                >
+                  <svg className="w-6 h-6" fill={productIsLiked ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </button>

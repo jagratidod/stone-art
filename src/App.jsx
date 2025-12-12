@@ -60,6 +60,7 @@ import TSADesignHubPage from './modules/user/pages/TSADesignHubPage'
 import TSAInternationalPage from './modules/user/pages/TSAInternationalPage'
 import IndividualProductDetailPage from './modules/user/pages/IndividualProductDetailPage'
 import LimitedEditionPage from './modules/user/pages/LimitedEditionPage'
+import CheckoutPage from './modules/user/pages/CheckoutPage'
 // Admin Pages
 import AdminLoginPage from './modules/admin/pages/AdminLoginPage'
 import AdminDashboard from './modules/admin/pages/AdminDashboard'
@@ -86,6 +87,7 @@ import CartModal from './components/modals/CartModal'
 import LikesModal from './components/modals/LikesModal'
 import TalkToExpertModal from './components/modals/TalkToExpertModal'
 import BookingModal from './components/modals/BookingModal'
+import { CartAndLikesProvider } from './contexts/CartAndLikesContext'
 
 function App() {
   // Modal states (shared across all routes)
@@ -128,8 +130,9 @@ function App() {
   }, [showModal, showSidebar, showProjectsModal, showOurCreations, showOurProducts, showOurServices, showBookingModal, showCart, showLikes])
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Routes>
+    <CartAndLikesProvider>
+      <div className="min-h-screen flex flex-col">
+        <Routes>
         <Route path="/" element={
           <HomePage 
             onShowSidebar={() => setShowSidebar(true)}
@@ -215,6 +218,13 @@ function App() {
             onShowServices={() => setShowOurServices(true)}
             onShowHowItWorks={() => setShowModal(true)}
             onShowLocation={() => {}}
+          />
+        } />
+        
+        <Route path="/checkout" element={
+          <CheckoutPage 
+            onShowCart={() => setShowCart(true)}
+            onShowLikes={() => setShowLikes(true)}
           />
         } />
         
@@ -1209,7 +1219,8 @@ function App() {
         isOpen={showOurProducts} 
         onClose={() => setShowOurProducts(false)} 
       />
-    </div>
+      </div>
+    </CartAndLikesProvider>
   )
 }
 
