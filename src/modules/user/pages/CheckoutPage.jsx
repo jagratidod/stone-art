@@ -25,18 +25,6 @@ const CheckoutPage = ({ onShowCart, onShowLikes }) => {
     saveInfo: false
   })
 
-  // Indian states list
-  const indianStates = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
-    'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
-    'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
-    'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
-    'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
-    'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Delhi', 'Jammu and Kashmir',
-    'Ladakh', 'Puducherry', 'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu',
-    'Lakshadweep'
-  ]
-
   // Get items from cart or location state (for direct buy now)
   const [checkoutItems, setCheckoutItems] = useState([])
 
@@ -232,18 +220,15 @@ const CheckoutPage = ({ onShowCart, onShowLikes }) => {
                     />
                   </div>
                   <div>
-                    <select
+                    <input
+                      type="text"
                       name="state"
                       value={formData.state}
                       onChange={handleInputChange}
+                      placeholder="State/Province/Region"
                       required
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-[#8B7355] transition-all"
-                    >
-                      <option value="">State</option>
-                      {indianStates.map(state => (
-                        <option key={state} value={state}>{state}</option>
-                      ))}
-                    </select>
+                    />
                   </div>
                   <div>
                     <input
@@ -251,10 +236,8 @@ const CheckoutPage = ({ onShowCart, onShowLikes }) => {
                       name="pinCode"
                       value={formData.pinCode}
                       onChange={handleInputChange}
-                      placeholder="PIN code"
+                      placeholder="PIN code/Zip/Postal Code"
                       required
-                      pattern="[0-9]{6}"
-                      maxLength="6"
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-[#8B7355] transition-all"
                     />
                   </div>

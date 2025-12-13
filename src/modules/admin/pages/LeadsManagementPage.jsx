@@ -4,14 +4,19 @@ import { useParams } from 'react-router-dom'
 
 const LeadsManagementPage = () => {
   const { type } = useParams()
+  const [activeTab, setActiveTab] = useState(type === 'users' ? 'users' : 'leads')
   const [leads, setLeads] = useState([])
+  const [users, setUsers] = useState([])
   const [filter, setFilter] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLead, setSelectedLead] = useState(null)
+  const [selectedUser, setSelectedUser] = useState(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
+  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [leadToDelete, setLeadToDelete] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   // Dummy data - in production, fetch from API
   const dummyLeads = [
@@ -86,12 +91,54 @@ const LeadsManagementPage = () => {
     }
   ]
 
+  // Fetch users from API
   useEffect(() => {
-    // Initialize with dummy data
-    setLeads(dummyLeads)
-  }, [type])
+    const fetchUsers = async () => {
+      if (activeTab === 'users') {
+        setLoading(true)
+        try {
+          // Try admin token first, then user token
+          const adminToken = localStorage.getItem('adminToken')
+          const userToken = localStorage.getItem('authToken')
+          const token = adminToken || userToken
+          
+          if (!token) {
+            console.error('No authentication token found')
+            return
+          }
+
+          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+          const response = await fetch(`${API_URL}/users`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          })
+
+          const data = await response.json()
+          if (data.success) {
+            setUsers(data.users || [])
+          }
+        } catch (error) {
+          console.error('Failed to fetch users:', error)
+        } finally {
+          setLoading(false)
+        }
+      }
+    }
+
+    fetchUsers()
+  }, [activeTab])
+
+  useEffect(() => {
+    // Initialize with dummy data for leads
+    if (activeTab === 'leads') {
+      setLeads(dummyLeads)
+    }
+  }, [type, activeTab])
 
   const getPageTitle = () => {
+    if (activeTab === 'users') return 'Registered Users'
     switch(type) {
       case 'home-form': return 'Home Form Leads'
       case 'pooja-enquiry': return 'Pooja Room Enquiries'
@@ -100,6 +147,14 @@ const LeadsManagementPage = () => {
       default: return 'Leads Management'
     }
   }
+
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = searchTerm === '' || 
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.phone?.includes(searchTerm)
+    return matchesSearch
+  })
 
   const statusOptions = [
     { value: 'all', label: 'All' },
@@ -216,6 +271,32 @@ const LeadsManagementPage = () => {
           </button>
         </div>
 
+        {/* Tabs */}
+        <div className="bg-white rounded-lg shadow-md p-1 flex gap-2">
+          <button
+            onClick={() => setActiveTab('leads')}
+            className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'leads'
+                ? 'text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+            style={activeTab === 'leads' ? { backgroundColor: '#8B7355' } : {}}
+          >
+            Leads
+          </button>
+          <button
+            onClick={() => setActiveTab('users')}
+            className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
+              activeTab === 'users'
+                ? 'text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+            style={activeTab === 'users' ? { backgroundColor: '#8B7355' } : {}}
+          >
+            Users ({users.length})
+          </button>
+        </div>
+
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-md p-4">
           <div className="flex flex-col md:flex-row gap-4">
@@ -248,67 +329,142 @@ const LeadsManagementPage = () => {
         </div>
 
         {/* Leads Table */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead style={{ backgroundColor: '#8B7355' }}>
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Phone</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">City</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredLeads.length === 0 ? (
+        {activeTab === 'leads' && (
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead style={{ backgroundColor: '#8B7355' }}>
                   <tr>
-                    <td colSpan="8" className="px-6 py-8 text-center text-gray-500">
-                      No leads found
-                    </td>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Phone</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">City</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Actions</th>
                   </tr>
-                ) : (
-                  filteredLeads.map((lead) => (
-                    <tr key={lead.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{lead.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{lead.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.phone}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.city}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(lead.status)}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.date}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <div className="flex gap-3">
-                          <button
-                            onClick={() => handleViewDetails(lead)}
-                            className="text-[#8B7355] hover:underline font-medium"
-                          >
-                            View
-                          </button>
-                          <button
-                            onClick={() => handleEdit(lead)}
-                            className="text-blue-600 hover:underline font-medium"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDelete(lead)}
-                            className="text-red-600 hover:underline font-medium"
-                          >
-                            Delete
-                          </button>
-                        </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {filteredLeads.length === 0 ? (
+                    <tr>
+                      <td colSpan="8" className="px-6 py-8 text-center text-gray-500">
+                        No leads found
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    filteredLeads.map((lead) => (
+                      <tr key={lead.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{lead.id}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{lead.name}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.email}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.phone}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.city}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(lead.status)}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{lead.date}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <div className="flex gap-3">
+                            <button
+                              onClick={() => handleViewDetails(lead)}
+                              className="text-[#8B7355] hover:underline font-medium"
+                            >
+                              View
+                            </button>
+                            <button
+                              onClick={() => handleEdit(lead)}
+                              className="text-blue-600 hover:underline font-medium"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(lead)}
+                              className="text-red-600 hover:underline font-medium"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Users Table */}
+        {activeTab === 'users' && (
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            {loading ? (
+              <div className="p-8 text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B7355] mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading users...</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead style={{ backgroundColor: '#8B7355' }}>
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Email</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Phone</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Registered</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {filteredUsers.length === 0 ? (
+                      <tr>
+                        <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
+                          {users.length === 0 ? 'No users registered yet' : 'No users found matching search'}
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredUsers.map((user) => (
+                        <tr key={user._id || user.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            #{user._id?.toString().slice(-6) || user.id}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.phone}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {user.isActive ? (
+                              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                Active
+                              </span>
+                            ) : (
+                              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                                Inactive
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN') : 'N/A'}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm">
+                            <button
+                              onClick={() => {
+                                setSelectedUser(user)
+                                setShowUserDetailsModal(true)
+                              }}
+                              className="text-[#8B7355] hover:underline font-medium"
+                            >
+                              View
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* View Details Modal */}
@@ -450,6 +606,112 @@ const LeadsManagementPage = () => {
             setSelectedLead(null)
           }}
         />
+      )}
+
+      {/* User Details Modal */}
+      {showUserDetailsModal && selectedUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">User Details</h2>
+                <button
+                  onClick={() => {
+                    setShowUserDetailsModal(false)
+                    setSelectedUser(null)
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">User ID</label>
+                    <p className="text-gray-800">#{selectedUser._id?.toString().slice(-6) || selectedUser.id}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Status</label>
+                    <div className="mt-1">
+                      {selectedUser.isActive ? (
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                          Active
+                        </span>
+                      ) : (
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                          Inactive
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Name</label>
+                    <p className="text-gray-800">{selectedUser.name}</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Email</label>
+                    <p className="text-gray-800">{selectedUser.email}</p>
+                    {selectedUser.isEmailVerified && (
+                      <span className="inline-block mt-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded">Verified</span>
+                    )}
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Phone</label>
+                    <p className="text-gray-800">{selectedUser.phone}</p>
+                    {selectedUser.isPhoneVerified && (
+                      <span className="inline-block mt-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded">Verified</span>
+                    )}
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-600">Registered On</label>
+                    <p className="text-gray-800">
+                      {selectedUser.createdAt 
+                        ? new Date(selectedUser.createdAt).toLocaleString('en-IN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })
+                        : 'N/A'}
+                    </p>
+                  </div>
+                  {selectedUser.lastLogin && (
+                    <div>
+                      <label className="text-sm font-semibold text-gray-600">Last Login</label>
+                      <p className="text-gray-800">
+                        {new Date(selectedUser.lastLogin).toLocaleString('en-IN', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex gap-3 pt-4 border-t border-gray-200">
+                  <button
+                    onClick={() => {
+                      setShowUserDetailsModal(false)
+                      setSelectedUser(null)
+                    }}
+                    className="flex-1 px-4 py-2 text-white rounded-lg font-medium transition-colors hover:opacity-90"
+                    style={{ backgroundColor: '#8B7355' }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Delete Confirmation Modal */}

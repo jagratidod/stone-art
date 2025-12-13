@@ -1,8 +1,12 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useCallback, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CreationsNavBar from '../../../components/layout/CreationsNavBar'
 import Footer from '../../../components/layout/Footer'
 import FloatingButtons from '../../../components/common/FloatingButtons'
+import StepSection from '../../../components/common/StepSection'
+import StepInfoItem from '../../../components/common/StepInfoItem'
+import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver'
+import { THEME_COLORS } from '../../../utils/theme'
 import headingImage from '../../../assets/ourcreation/communal temple/heading/8d836775-b2f6-4c0a-8ab4-5b7c27a36e55.png'
 import { BUDGET_OPTIONS, TIMELINE_OPTIONS } from '../../../utils/constants'
 import turnkeyIcon from '../../../assets/ourcreation/communal temple/lcons/Gemini_Generated_Image_br9ai2br9ai2br9a.png'
@@ -31,61 +35,18 @@ import projectTrackingIcon from '../../../assets/ourcreation/pooja room/icons/6p
 const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
   const navigate = useNavigate()
   const [formStep, setFormStep] = useState(1)
-  const [visibleSections, setVisibleSections] = useState({
-    step1: false,
-    step2: false,
-    step3: false,
-    step4: false,
-    step5: false
-  })
-  
-  const step1Ref = useRef(null)
-  const step2Ref = useRef(null)
-  const step3Ref = useRef(null)
-  const step4Ref = useRef(null)
-  const step5Ref = useRef(null)
+  const { refs, visibleSections } = useIntersectionObserver(0.3)
 
-  useEffect(() => {
-    const observers = []
-    const sections = [
-      { ref: step1Ref, key: 'step1' },
-      { ref: step2Ref, key: 'step2' },
-      { ref: step3Ref, key: 'step3' },
-      { ref: step4Ref, key: 'step4' },
-      { ref: step5Ref, key: 'step5' }
-    ]
-
-    sections.forEach(({ ref, key }) => {
-      if (ref.current) {
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              setVisibleSections(prev => ({ ...prev, [key]: true }))
-            }
-          },
-          { threshold: 0.3 }
-        )
-        observer.observe(ref.current)
-        observers.push(observer)
-      }
-    })
-
-    return () => {
-      observers.forEach(observer => observer.disconnect())
-    }
-  }, [])
-
-  const scrollToForm = () => {
+  const scrollToForm = useCallback(() => {
     const formContainer = document.getElementById('expert-form-container')
     if (formContainer) {
       const containerPosition = formContainer.getBoundingClientRect().top + window.pageYOffset
-      const offset = 100
       window.scrollTo({
-        top: containerPosition - offset,
+        top: containerPosition - 100,
         behavior: 'smooth'
       })
     }
-  }
+  }, [])
 
   const [formData, setFormData] = useState({
     type: 'DOMESTIC',
@@ -138,9 +99,9 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
         {/* Form Container - Overlay on Right Side, Fits Image Height */}
         <div id="expert-form-container" className="absolute right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 w-[85%] sm:w-[320px] md:w-[340px] max-w-[calc(100%-32px)] bg-white rounded-xl md:rounded-2xl shadow-2xl z-20 flex flex-col backdrop-blur-sm bg-white/95">
           {/* Header */}
-          <div className="flex items-center justify-between p-3 md:p-4 border-b-2 border-gray-200 bg-gradient-to-r from-[#8B7355]/10 to-transparent flex-shrink-0 rounded-t-xl md:rounded-t-2xl">
-            <h3 className="text-base md:text-lg font-bold uppercase tracking-wide" style={{ color: '#8B7355' }}>Talk to Our Expert</h3>
-            <span className="text-xs font-semibold px-2 py-1 rounded-full bg-[#8B7355]/10" style={{ color: '#8B7355' }}>{formStep}/2</span>
+          <div className="flex items-center justify-between p-3 md:p-4 border-b-2 border-gray-200 bg-gradient-to-r flex-shrink-0 rounded-t-xl md:rounded-t-2xl" style={{ background: `linear-gradient(to right, ${THEME_COLORS.primary}1A, transparent)` }}>
+            <h3 className="text-base md:text-lg font-bold uppercase tracking-wide" style={{ color: THEME_COLORS.primary }}>Talk to Our Expert</h3>
+            <span className="text-xs font-semibold px-2 py-1 rounded-full" style={{ backgroundColor: `${THEME_COLORS.primary}1A`, color: THEME_COLORS.primary }}>{formStep}/2</span>
           </div>
 
           <div className="px-3 pt-3 pb-4 md:px-4 md:pt-4 md:pb-4 bg-white overflow-y-auto flex-1 rounded-b-xl md:rounded-b-2xl">
@@ -156,7 +117,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                         onChange={(e) => setFormData({...formData, type: e.target.value})}
                         className="w-3 h-3 accent-amber-600"
                       />
-                      <span className="text-xs font-medium" style={{ color: formData.type === 'DOMESTIC' ? '#8B7355' : '#333' }}>DOMESTIC</span>
+                      <span className="text-xs font-medium" style={{ color: formData.type === 'DOMESTIC' ? THEME_COLORS.primary : '#333' }}>DOMESTIC</span>
                     </label>
                     <label className="flex items-center gap-1.5 cursor-pointer">
                       <input
@@ -167,7 +128,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                         onChange={(e) => setFormData({...formData, type: e.target.value})}
                         className="w-3 h-3 accent-amber-600"
                       />
-                      <span className="text-xs font-medium" style={{ color: formData.type === 'INTERNATIONAL' ? '#8B7355' : '#333' }}>INTERNATIONAL</span>
+                      <span className="text-xs font-medium" style={{ color: formData.type === 'INTERNATIONAL' ? THEME_COLORS.primary : '#333' }}>INTERNATIONAL</span>
                     </label>
                   </div>
 
@@ -247,10 +208,8 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
 
                   <button
                     type="submit"
-                    className="w-full text-white py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                    style={{ backgroundColor: '#8B7355' }}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
+                    className="w-full text-white py-2.5 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] hover:opacity-90"
+                    style={{ backgroundColor: THEME_COLORS.primary }}
                   >
                     NEXT →
                   </button>
@@ -370,10 +329,8 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                     />
                     <label
                       htmlFor="designReferences"
-                      className="block w-full text-white py-2 rounded-lg text-xs text-center font-medium cursor-pointer transition-colors shadow-md"
-                      style={{ backgroundColor: '#8B7355' }}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
+                      className="block w-full text-white py-2 rounded-lg text-xs text-center font-medium cursor-pointer transition-colors shadow-md hover:opacity-90"
+                      style={{ backgroundColor: THEME_COLORS.primary }}
                     >
                       UPLOAD DESIGN REFERENCES
                     </label>
@@ -389,22 +346,14 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                       type="button"
                       onClick={() => setFormStep(1)}
                       className="flex-1 bg-white py-2 rounded-lg text-xs font-medium hover:bg-gray-50 transition-colors shadow-md border-2"
-                      style={{ color: '#8B7355', borderColor: '#8B7355' }}
-                      onMouseEnter={(e) => {
-                        e.target.style.backgroundColor = '#f9f9f9'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.backgroundColor = 'white'
-                      }}
+                      style={{ color: THEME_COLORS.primary, borderColor: THEME_COLORS.primary }}
                     >
                       BACK
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 text-white py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                      style={{ backgroundColor: '#8B7355' }}
-                      onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
-                      onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
+                      className="flex-1 text-white py-2 rounded-lg text-xs font-bold uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] hover:opacity-90"
+                      style={{ backgroundColor: THEME_COLORS.primary }}
                     >
                       SUBMIT
                     </button>
@@ -423,7 +372,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 md:mb-5 uppercase tracking-wide">
               WHY CHOOSE US
             </h2>
-            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: '#8B7355' }}></div>
+            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: THEME_COLORS.primary }}></div>
           </div>
 
           {/* Features Grid - 4 Cards */}
@@ -515,7 +464,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             {/* Arrow 1 */}
             <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
               <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke={THEME_COLORS.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
 
@@ -536,7 +485,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             {/* Arrow 2 */}
             <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
               <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke={THEME_COLORS.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
 
@@ -557,7 +506,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             {/* Arrow 3 */}
             <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
               <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke={THEME_COLORS.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
 
@@ -578,7 +527,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             {/* Arrow 4 */}
             <div className="hidden sm:flex items-center justify-center mx-0.5 md:mx-1 flex-shrink-0">
               <svg className="w-6 h-4 md:w-7 md:h-5 lg:w-8 lg:h-5 xl:w-10 xl:h-6" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M0 12L35 12M35 12L26 3M35 12L26 21" stroke={THEME_COLORS.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
 
@@ -601,10 +550,8 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
           <div className="flex justify-center mt-6 md:mt-8 mb-8 md:mb-10">
             <button
               onClick={scrollToForm}
-              className="px-6 py-3 md:px-8 md:py-4 text-white text-sm md:text-base font-bold uppercase tracking-wide transition-colors shadow-lg"
-              style={{ backgroundColor: '#8B7355' }}
-              onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
-              onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
+              className="px-6 py-3 md:px-8 md:py-4 text-white text-sm md:text-base font-bold uppercase tracking-wide transition-colors shadow-lg hover:opacity-90"
+              style={{ backgroundColor: THEME_COLORS.primary }}
             >
               Start Your Project Now
             </button>
@@ -613,178 +560,77 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
       </div>
 
       {/* Step 1: Let's Connect One on One */}
-      <div ref={step1Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
-              GET STARTED WITH OUR 5 STEP EASY PROCESS
-            </h2>
-            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
-              LETS CONNECT ONE ON ONE
-            </h3>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
-            {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
-              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img 
-                  src={gif1} 
-                  alt="Let's Connect One on One" 
-                  className="w-full h-auto rounded-lg relative"
-                />
-              </div>
-            </div>
-
-            {/* Right - Info Box */}
-            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
-              visibleSections.step1 
-                ? 'opacity-100 lg:translate-x-0' 
-                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
-            }`}>
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    It all Begins with a Form
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600 mb-3">
-                    Let's get acquainted. The more we learn about you, the better we can design your home.
-                  </p>
-                  <button
-                    onClick={() => navigate('/book-appointment')}
-                    className="px-4 py-2 text-white text-xs md:text-sm font-medium transition-colors"
-                    style={{ backgroundColor: '#8B7355' }}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = '#7a6349'}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = '#8B7355'}
-                  >
-                    Fill Form Link
-                  </button>
-                </div>
-
-                {/* Step 2 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Connect over a Meet
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Let's get acquainted. The more we learn about you, the better we can design your home.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <StepSection
+        stepRef={refs.step1}
+        isVisible={visibleSections.step1}
+        gifSrc={gif1}
+        gifAlt="Let's Connect One on One"
+        subtitle="GET STARTED WITH OUR 5 STEP EASY PROCESS"
+        title="LETS CONNECT ONE ON ONE"
+      >
+        <div className="space-y-4">
+          <StepInfoItem
+            title="It all Begins with a Form"
+            description="Let's get acquainted. The more we learn about you, the better we can design your home."
+            buttonText="Fill Form Link"
+            onButtonClick={() => navigate('/book-appointment')}
+          />
+          <StepInfoItem
+            title="Connect over a Meet"
+            description="Let's get acquainted. The more we learn about you, the better we can design your home."
+          />
         </div>
-      </div>
+      </StepSection>
 
       {/* Step 2: Start with Your Design */}
-      <div ref={step2Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
-            {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
-              <div className="relative w-full max-w-md rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#F5E6D3' }}>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img 
-                  src={gif2} 
-                  alt="Start with Your Design" 
-                  className="w-full h-auto rounded-lg relative"
-                />
-              </div>
-            </div>
-
-            {/* Right - Info Box */}
-            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
-              visibleSections.step2 
-                ? 'opacity-100 lg:translate-x-0' 
-                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
-            }`}>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                START WITH YOUR DESIGN
-              </h2>
-              
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Pay the Design Fee
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600 mb-1.5">
-                    Once we understand your requirements and we feel we can help you, and you are happy with the session, start with your design by choosing one of the design plans,
-                  </p>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Don't Worry if you have wrong measurements we also take our own site measurements in one of the plans.
-                  </p>
-                </div>
-
-                {/* Step 2 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Finalise your Design
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Once we agree on a Design we will finalise it to start the production.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <StepSection
+        stepRef={refs.step2}
+        isVisible={visibleSections.step2}
+        gifSrc={gif2}
+        gifAlt="Start with Your Design"
+        bgColor={THEME_COLORS.secondary}
+      >
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+          START WITH YOUR DESIGN
+        </h2>
+        <div className="space-y-4">
+          <StepInfoItem
+            title="Pay the Design Fee"
+            description="Once we understand your requirements and we feel we can help you, and you are happy with the session, start with your design by choosing one of the design plans. Don't Worry if you have wrong measurements we also take our own site measurements in one of the plans."
+          />
+          <StepInfoItem
+            title="Finalise your Design"
+            description="Once we agree on a Design we will finalise it to start the production."
+          />
         </div>
-      </div>
+      </StepSection>
 
       {/* Step 3: Place The Order */}
-      <div ref={step3Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+      <div className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
-            {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
-              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img 
-                  src={gif3} 
-                  alt="Place The Order" 
-                  className="w-full h-auto rounded-lg relative"
-                />
-              </div>
+          <StepSection
+            stepRef={refs.step3}
+            isVisible={visibleSections.step3}
+            gifSrc={gif3}
+            gifAlt="Place The Order"
+          >
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+              PLACE THE ORDER
+            </h2>
+            <div className="space-y-4">
+              <StepInfoItem
+                title="Start the Order Process"
+                description="Once you're happy with what we've proposed, pay 50% of the final quote."
+              />
+              <StepInfoItem
+                title="The Work Commences"
+                description="Keep a tab on your project status on the portal provided."
+              />
             </div>
-
-            {/* Right - Info Box */}
-            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
-              visibleSections.step3 
-                ? 'opacity-100 lg:translate-x-0' 
-                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
-            }`}>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                PLACE THE ORDER
-              </h2>
-              
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Start the Order Process
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Once you're happy with what we've proposed, pay 50% of the final quote.
-                  </p>
-                </div>
-
-                {/* Step 2 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    The Work Commences
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Keep a tab on your project status on the portal provided.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          </StepSection>
 
           {/* Status Banner */}
-          <div className="w-full py-4 md:py-6 px-6 md:px-8 rounded-lg flex items-center gap-4" style={{ backgroundColor: '#8B7355' }}>
+          <div className="w-full py-4 md:py-6 px-6 md:px-8 rounded-lg flex items-center gap-4 mt-8" style={{ backgroundColor: THEME_COLORS.primary }}>
             <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
               <svg className="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -798,57 +644,32 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
       </div>
 
       {/* Step 4: Approval */}
-      <div ref={step4Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
+      <div className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center mb-8">
-            {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
-              <div className="relative w-full max-w-md rounded-2xl shadow-md border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-lg overflow-hidden" style={{ backgroundColor: '#B2E0E0' }}>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img 
-                  src={gif4} 
-                  alt="Approval" 
-                  className="w-full h-auto rounded-lg relative"
-                />
-              </div>
+          <StepSection
+            stepRef={refs.step4}
+            isVisible={visibleSections.step4}
+            gifSrc={gif4}
+            gifAlt="Approval"
+            bgColor={THEME_COLORS.accent}
+          >
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+              APPROVAL
+            </h2>
+            <div className="space-y-4">
+              <StepInfoItem
+                title="Give your Approval"
+                description="Once the Order reaches the approval stage, you will be asked to provide your feedback and approve"
+              />
+              <StepInfoItem
+                title="Pay 100% at Execution Milestone"
+                description="Once the Order is fully set according to your requirements pay the 100% and the next stage begins."
+              />
             </div>
-
-            {/* Right - Info Box */}
-            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
-              visibleSections.step4 
-                ? 'opacity-100 lg:translate-x-0' 
-                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
-            }`}>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                APPROVAL
-              </h2>
-              
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Give your Approval
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Once the Order reaches the approval stage, you will be asked to provide your feedback and approve
-                  </p>
-                </div>
-
-                {/* Step 2 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Pay 100% at Execution Milestone
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Once the Order is fully set according to your requirements pay the 100% and the next stage begins.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          </StepSection>
 
           {/* Payment Confirmation Banner */}
-          <div className="w-full py-4 md:py-6 px-6 md:px-8 rounded-lg flex items-center gap-4" style={{ backgroundColor: '#8B7355' }}>
+          <div className="w-full py-4 md:py-6 px-6 md:px-8 rounded-lg flex items-center gap-4 mt-8" style={{ backgroundColor: THEME_COLORS.primary }}>
             <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center flex-shrink-0">
               <svg className="w-5 h-5 md:w-6 md:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -862,56 +683,26 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
       </div>
 
       {/* Step 5: Delivery and Installation */}
-      <div ref={step5Ref} className="w-full bg-white py-8 md:py-10 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center">
-            {/* Left - GIF Image with Creative Frame */}
-            <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
-              <div className="relative w-full max-w-md rounded-2xl shadow-lg border-2 border-gray-200 hover:border-[#8B7355] transition-all duration-300 hover:shadow-xl overflow-hidden">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#8B7355]/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 z-10"></div>
-                <img 
-                  src={gif5} 
-                  alt="Delivery and Installation" 
-                  className="w-full h-auto rounded-lg relative"
-                />
-              </div>
-            </div>
-
-            {/* Right - Info Box */}
-            <div className={`order-1 lg:order-2 bg-white p-5 md:p-6 rounded-xl md:rounded-2xl shadow-xl border border-gray-100 lg:sticky lg:top-24 lg:self-start transition-all duration-700 ease-out ${
-              visibleSections.step5 
-                ? 'opacity-100 lg:translate-x-0' 
-                : 'opacity-100 lg:opacity-0 lg:translate-x-full'
-            }`}>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                DELIVERY AND INSTALLATION
-              </h2>
-              
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Prepare for Delivery
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Once the 100% of the order value is received we prepare for the Delivery and Installation of the Order
-                  </p>
-                </div>
-
-                {/* Step 2 */}
-                <div className="relative pl-5 border-l-2 border-dashed border-gray-300">
-                  <h4 className="text-base md:text-lg font-bold text-gray-800 mb-1.5">
-                    Installation
-                  </h4>
-                  <p className="text-xs md:text-sm text-gray-600">
-                    Our Team reaches your Home and Install it at your space
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <StepSection
+        stepRef={refs.step5}
+        isVisible={visibleSections.step5}
+        gifSrc={gif5}
+        gifAlt="Delivery and Installation"
+      >
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+          DELIVERY AND INSTALLATION
+        </h2>
+        <div className="space-y-4">
+          <StepInfoItem
+            title="Prepare for Delivery"
+            description="Once the 100% of the order value is received we prepare for the Delivery and Installation of the Order"
+          />
+          <StepInfoItem
+            title="Installation"
+            description="Our Team reaches your Home and Install it at your space"
+          />
         </div>
-      </div>
+      </StepSection>
 
       {/* Services Section */}
       <section className="w-full py-12 md:py-16 lg:py-20 px-4 md:px-6 lg:px-8 bg-white">
@@ -921,7 +712,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 md:mb-5 uppercase tracking-wide">
               WE OFFER UNPARALLELED SERVICES
             </h2>
-            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: '#8B7355' }}></div>
+            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: THEME_COLORS.primary }}></div>
           </div>
 
           {/* Services Grid - 2x3 Layout */}
@@ -967,7 +758,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
             <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               Discover why thousands choose us for their sacred space design
             </p>
-            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: '#8B7355' }}></div>
+            <div className="w-24 h-1 mx-auto mt-6 rounded-full" style={{ backgroundColor: THEME_COLORS.primary }}></div>
           </div>
 
           {/* Comparison Table */}
@@ -985,7 +776,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </th>
                   <th 
                     className="px-2 py-3 md:px-3 md:py-3 text-center text-xs md:text-sm font-bold text-white uppercase border border-gray-200"
-                    style={{ backgroundColor: '#8B7355' }}
+                    style={{ backgroundColor: THEME_COLORS.primary }}
                   >
                     Aslam Marble Suppliers
                   </th>
@@ -1002,7 +793,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>25+ Years Experience</span>
@@ -1025,7 +816,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>Tradition & Modernity</span>
@@ -1048,7 +839,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>Assured</span>
@@ -1071,7 +862,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>Proven Reliability</span>
@@ -1094,7 +885,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>From Design to Installation</span>
@@ -1117,7 +908,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>Specialized Knowledge</span>
@@ -1140,7 +931,7 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
                   </td>
                   <td className="px-2 py-3 md:px-3 md:py-3 text-xs md:text-sm text-gray-700 border border-gray-200">
                     <div className="flex items-center justify-center gap-1.5">
-                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#8B7355' }} fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 flex-shrink-0" style={{ color: THEME_COLORS.primary }} fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
                       <span>International Quality</span>
@@ -1167,4 +958,4 @@ const CommunalTemplesPage = ({ onShowCart, onShowLikes }) => {
   )
 }
 
-export default CommunalTemplesPage
+export default memo(CommunalTemplesPage)
